@@ -30,27 +30,37 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
             scrollDirection: Axis.horizontal,
             itemCount: widget.navItems.length,
             itemBuilder: ((context, index) {
+              final key = widget.navItems[index].key;
+              final value = widget.navItems[index].value;
+              final color = selectedNavItem == key
+                  ? const Color(0xFF1D1E2C)
+                  : const Color(0xFFF7EBEC);
               return Padding(
-                padding: const EdgeInsets.all(16),
+                padding: const EdgeInsets.all(8),
                 child: GestureDetector(
                   onTap: () {
                     setState(() {
-                      selectedNavItem = widget.navItems[index].key;
-                      selectedNavWidget = widget.navItems[index].value;
+                      selectedNavItem = key;
+                      selectedNavWidget = value;
                       //print(selectedNavItem);
                     });
                   },
                   child: Chip(
-                    backgroundColor:
-                        selectedNavItem == widget.navItems[index].key
-                            ? Colors.amber
-                            : Colors.white,
+                    backgroundColor: color,
                     label: Text(
-                      widget.navItems[index].key,
+                      key,
+                    ),
+                    labelStyle: TextStyle(
+                      color: selectedNavItem == key
+                          ? const Color(0xFFF7EBEC)
+                          : const Color(0xFF1D1E2C),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        vertical: 15, horizontal: 20),
+                        vertical: 10, horizontal: 20),
+                    elevation: 16,
+                    shadowColor: const Color.fromRGBO(0, 0, 0, 1),
                     shape: RoundedRectangleBorder(
+                      side: BorderSide(color: color),
                       borderRadius: BorderRadius.circular(30),
                     ),
                   ),
