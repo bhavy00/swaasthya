@@ -20,7 +20,9 @@ class PatientProfilePage extends StatelessWidget {
         const Text('Information about Patient'),
         const SizedBox(height: 8),
         Card(
-          elevation: 8.0, // Set the elevation to add a shadow effect
+          elevation: 25.0,
+          shadowColor: const Color.fromRGBO(
+              0, 0, 0, 1), // Set the elevation to add a shadow effect
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12.0), // Set rounded borders
           ),
@@ -65,10 +67,6 @@ class PatientProfilePage extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
-        Container(
-          height: 500,
-          color: Colors.blueAccent,
-        )
         // vitals
       ],
     );

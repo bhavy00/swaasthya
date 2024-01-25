@@ -5,9 +5,20 @@ class ReportsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
-        Text('Reports Page'),
+        const Text('Reports Page'),
+        Positioned(
+          bottom: 16.0,
+          right: 16.0,
+          child: ElevatedButton(
+            onPressed: () {
+              // Your button action goes here
+              print('Button Pressed');
+            },
+            child: Text('My Button'),
+          ),
+        ),
       ],
     );
   }

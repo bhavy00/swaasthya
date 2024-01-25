@@ -9,6 +9,7 @@ class PatientInfoCard extends StatelessWidget {
     return SizedBox(
       height: 150,
       child: Card(
+        elevation: 16,
         margin: const EdgeInsets.all(16.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
