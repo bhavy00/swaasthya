@@ -3,7 +3,8 @@ import 'package:swaasthya/utils/patient_class.dart';
 import 'package:swaasthya/utils/patient_data_holder.dart';
 
 class BasicInfoForm extends StatefulWidget {
-  const BasicInfoForm({super.key});
+  final GlobalKey<FormState> formKey;
+  const BasicInfoForm({super.key, required this.formKey});
 
   @override
   State<BasicInfoForm> createState() => _BasicInfoFormState();
@@ -12,10 +13,9 @@ class BasicInfoForm extends StatefulWidget {
 class _BasicInfoFormState extends State<BasicInfoForm> {
   @override
   Widget build(BuildContext context) {
-    final formKey = GlobalKey<FormState>();
     final Patient patient = PatientDataHolder.of(context).patient;
     return Form(
-      key: formKey,
+      key: widget.formKey,
       child: Column(
         children: [
           TextFormField(

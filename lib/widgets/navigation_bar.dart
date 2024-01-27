@@ -69,7 +69,7 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
             }),
           ),
         ),
-        selectedNavWidget,
+        selectedNavWidget
       ],
     );
   }

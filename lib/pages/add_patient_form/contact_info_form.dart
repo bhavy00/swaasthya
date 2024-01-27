@@ -1,23 +1,16 @@
 import 'package:flutter/material.dart';
-
-class ContactInfo {
-  String email = '';
-  String phoneNumber = '';
-  String address = '';
-  String state = '';
-  String city = '';
-  String pincode = '';
-}
+import 'package:swaasthya/utils/patient_class.dart';
+import 'package:swaasthya/utils/patient_data_holder.dart';
 
 class ContactInfoForm extends StatelessWidget {
-  const ContactInfoForm({super.key});
+  final GlobalKey<FormState> formKey;
+  const ContactInfoForm({super.key, required this.formKey});
 
   @override
   Widget build(BuildContext context) {
-    final ContactInfo patient = ContactInfo();
-    final formkey = GlobalKey<FormState>();
+    final Patient patient = PatientDataHolder.of(context).patient;
     return Form(
-      key: formkey,
+      key: formKey,
       child: Column(
         children: [
           TextFormField(

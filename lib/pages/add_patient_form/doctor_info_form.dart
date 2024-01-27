@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-
-class DoctorInfo {
-  String doctorName = '';
-  String referredBy = '';
-}
+import 'package:swaasthya/utils/patient_class.dart';
+import 'package:swaasthya/utils/patient_data_holder.dart';
 
 class DoctorInfoForm extends StatelessWidget {
-  const DoctorInfoForm({super.key});
+  final GlobalKey<FormState> formKey;
+  const DoctorInfoForm({super.key, required this.formKey});
 
   @override
   Widget build(BuildContext context) {
-    final formkey = GlobalKey<FormState>();
-    final DoctorInfo patient = DoctorInfo();
+    final Patient patient = PatientDataHolder.of(context).patient;
     return Form(
-      key: formkey,
+      key: formKey,
       child: Column(
         children: [
           TextFormField(

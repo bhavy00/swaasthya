@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
-// import 'package:swaasthya/widgets/patient_info_card.dart';
+import 'package:swaasthya/pages/patient_info_page.dart';
+import 'package:swaasthya/widgets/patient_info_card.dart';
 
 class InPatientListPage extends StatelessWidget {
   final List<Map<String, dynamic>> patientList;
@@ -12,27 +13,34 @@ class InPatientListPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('InPatient'),
         centerTitle: true,
-      ),
-      body: Column(
-        children: [
-          AddPatientForm(),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                return const AddPatientForm();
+              }));
+            },
+            icon: const Icon(Icons.add),
+          )
         ],
       ),
-      // body: ListView.builder(
-      //   scrollDirection: Axis.vertical,
-      //   itemCount: patientList.length,
-      //   itemBuilder: (context, index) {
-      //     final patient = patientList[index];
-      //     return GestureDetector(
-      //       onTap: () {
-      //         print(index);
-      //       },
-      //       child: PatientInfoCard(
-      //         patient: patient,
-      //       ),
-      //     );
-      //   },
-      // ),
+      body: ListView.builder(
+        scrollDirection: Axis.vertical,
+        itemCount: patientList.length,
+        itemBuilder: (context, index) {
+          final patient = patientList[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
+                return const PatientInfo();
+              })));
+            },
+            child: PatientInfoCard(
+              patient: patient,
+            ),
+          );
+        },
+      ),
     );
   }
 }

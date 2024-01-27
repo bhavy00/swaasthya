@@ -67,7 +67,39 @@ class PatientProfilePage extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
+        SizedBox(
+          height: 50,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: symptoms.length,
+            itemBuilder: (context, index) {
+              final symptom = symptoms[index];
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Chip(
+                  backgroundColor: const Color(0xFF1876F3),
+                  label: Text(symptom),
+                  labelStyle: const TextStyle(color: Colors.white),
+                  shape: RoundedRectangleBorder(
+                      side: const BorderSide(color: Color(0xFF1876F3)),
+                      borderRadius: BorderRadius.circular(5)),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 5,
+                    horizontal: 10,
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
         // vitals
+        const SizedBox(
+          height: 10,
+        ),
+        Container(
+          height: 700,
+          color: Colors.amber,
+        ),
       ],
     );
   }
