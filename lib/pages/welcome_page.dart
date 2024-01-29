@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/pages/emergency_page.dart';
 import 'package:swaasthya/pages/home_page.dart';
 import 'package:swaasthya/pages/in_patient_list_page.dart';
+import 'package:swaasthya/pages/out_patient_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -15,7 +17,9 @@ class _WelcomePageState extends State<WelcomePage> {
 
   List<Widget> pages = [
     const HomePage(),
-    InPatientListPage(patientList: patientList)
+    InPatientListPage(patientList: patientList),
+    const OutPatientPage(),
+    const EmergencyPage(),
   ];
   @override
   Widget build(BuildContext context) {
@@ -25,6 +29,7 @@ class _WelcomePageState extends State<WelcomePage> {
         children: pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
         iconSize: 25,
         currentIndex: _currentPage,
         onTap: (value) {
@@ -41,6 +46,14 @@ class _WelcomePageState extends State<WelcomePage> {
             icon: Icon(Icons.local_hospital),
             label: 'InPatient',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.outbond),
+            label: 'OutPatient',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.emergency),
+            label: 'Emergency',
+          )
         ],
       ),
     );

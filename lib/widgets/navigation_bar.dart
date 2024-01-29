@@ -25,7 +25,7 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
     return Column(
       children: [
         SizedBox(
-          height: 120,
+          height: 80,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: widget.navItems.length,
@@ -57,7 +57,7 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
                     ),
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 20),
-                    elevation: 16,
+                    elevation: 8,
                     shadowColor: const Color.fromRGBO(0, 0, 0, 1),
                     shape: RoundedRectangleBorder(
                       side: BorderSide(color: color),
