@@ -56,12 +56,12 @@ class TreatmentPage extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        Expanded(
+        SizedBox(
+          height: 800,
           child: ListView.builder(
             itemCount: treat.length,
             itemBuilder: ((context, index) {
               final treatment = treat[index];
-              print(treatment);
               return MedicineCard(
                 medicineName: treatment['medicineName'],
                 medicationTime: treatment['medicationTime'],
