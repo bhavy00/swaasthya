@@ -27,6 +27,13 @@ class _MiscInfoPatientState extends State<MiscInfoPatient> {
               });
             },
           ),
+          if (history.geneticDiseases) ...[
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Disease Name'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.geneticDiseasesList = value!,
+            )
+          ],
           CheckboxListTile(
             title: const Text('Pregnant/been pregnant'),
             value: history.pregnant,

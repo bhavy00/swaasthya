@@ -31,6 +31,13 @@ class _PatientMedicationFormState extends State<PatientMedicationForm> {
               });
             },
           ),
+          if (history.prescribedMedicine) ...[
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Medicine'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.prescribedMedicineList = value!,
+            )
+          ],
           CheckboxListTile(
             title: const Text('Self-Prescribed Medicine'),
             value: history.selfPrescribedMedicine,
@@ -40,6 +47,13 @@ class _PatientMedicationFormState extends State<PatientMedicationForm> {
               });
             },
           ),
+          if (history.selfPrescribedMedicine) ...[
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Medicine'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.selfMedicineList = value!,
+            )
+          ],
         ],
       ),
     );

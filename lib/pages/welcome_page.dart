@@ -48,7 +48,7 @@ class _WelcomePageState extends State<WelcomePage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.outbond),
-            label: 'OutPatient',
+            label: 'OPD',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.emergency),

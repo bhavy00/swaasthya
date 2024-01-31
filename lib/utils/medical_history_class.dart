@@ -28,6 +28,11 @@ class MedicalHistory {
   bool pregnant;
   bool lumps;
   bool cancer;
+  String medicineAllergyList;
+  String foodAllergyList;
+  String geneticDiseasesList;
+  String selfMedicineList;
+  String prescribedMedicineList;
 
   MedicalHistory({
     this.name = '',
@@ -59,6 +64,11 @@ class MedicalHistory {
     this.pregnant = false,
     this.lumps = false,
     this.cancer = false,
+    this.medicineAllergyList = '',
+    this.foodAllergyList = '',
+    this.geneticDiseasesList = '',
+    this.selfMedicineList = '',
+    this.prescribedMedicineList = '',
   });
 
   void printAllValues() {
@@ -91,5 +101,10 @@ class MedicalHistory {
     print('Pregnant: $pregnant');
     print('Lumps: $lumps');
     print('Cancer: $cancer');
+    print('medicine allergy list: $medicineAllergyList');
+    print('food allergy list: $foodAllergyList');
+    print('genetic diseases list: $geneticDiseasesList');
+    print('self medicine list: $selfMedicineList');
+    print('prescribed medicine list: $prescribedMedicineList');
   }
 }

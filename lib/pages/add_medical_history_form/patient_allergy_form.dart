@@ -31,6 +31,13 @@ class _PatientAllergyFormState extends State<PatientAllergyForm> {
               });
             },
           ),
+          if (history.foodAllergy) ...[
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Food Items'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.foodAllergyList = value!,
+            )
+          ],
           CheckboxListTile(
             title: const Text('Medicine Allergy'),
             value: history.medicineAllergy,
@@ -40,6 +47,13 @@ class _PatientAllergyFormState extends State<PatientAllergyForm> {
               });
             },
           ),
+          if (history.medicineAllergy) ...[
+            TextFormField(
+              decoration: const InputDecoration(labelText: 'Medicines'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.foodAllergyList = value!,
+            )
+          ],
           CheckboxListTile(
             title: const Text('Anesthesia Allergy'),
             value: history.anesthesiaAllergy,

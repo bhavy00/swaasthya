@@ -33,30 +33,33 @@ class PatientProfilePage extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: const Column(
               children: [
-                Text('Patient ID: P123456'),
-                Text('Patient UHI: UHI7890'),
-                SizedBox(height: 8.0),
-
-                // Doctor and Department Section
-                Text('Doctor: Dr. Smith'),
-                Text('Department: Cardiology'),
-                SizedBox(height: 8.0),
-
-                // Referred By Section
-                Text('Referred By: Dr. Johnson'),
-                SizedBox(height: 8.0),
-
-                // Device Status Section
-                Text('Device Status: Active'),
-                SizedBox(height: 8.0),
-
-                // Personal Information Section
-                Text('Personal Info: Male, 35 years old'),
-                SizedBox(height: 8.0),
-
-                // Contact Information Section
-                Text('Contact Info: john.doe@example.com'),
-                Text('Phone: +123 456 7890'),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    CircleAvatar(),
+                    Column(
+                      children: [
+                        Text(
+                          'name',
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'Age',
+                          style: const TextStyle(fontSize: 16.0),
+                        ),
+                        const SizedBox(height: 8.0),
+                        Text(
+                          'someinfo',
+                          style: const TextStyle(fontSize: 14.0),
+                        ),
+                      ],
+                    )
+                  ],
+                )
               ],
             ),
           ),
