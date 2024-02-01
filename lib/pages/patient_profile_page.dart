@@ -1,69 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/vitals_info_page.dart';
 import 'package:swaasthya/widgets/add_symptom_dialog.dart';
+import 'package:swaasthya/widgets/patient_page_view.dart';
 
-final List<String> symptoms = [
-  'Headache',
-  'Cold',
-  'Sour Throat',
-  'Body Pain',
-  'Cold'
+List<Map<String, String>> symptoms = [
+  {'name': 'Headache', 'duration': '2 days'},
+  {'name': 'Fever', 'duration': '3 days'},
+  // Add more symptoms as needed
 ];
 
-class PatientProfilePage extends StatelessWidget {
+class PatientProfilePage extends StatefulWidget {
   const PatientProfilePage({super.key});
 
+  @override
+  State<PatientProfilePage> createState() => _PatientProfilePageState();
+}
+
+class _PatientProfilePageState extends State<PatientProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         // rest of the information abour the patient
-        const Text('Information about Patient'),
-        const SizedBox(height: 8),
-        Card(
-          elevation: 25.0,
-          shadowColor: const Color.fromRGBO(
-              0, 0, 0, 1), // Set the elevation to add a shadow effect
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // Set rounded borders
-          ),
-          child: Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16.0),
-            child: const Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    CircleAvatar(),
-                    Column(
-                      children: [
-                        Text(
-                          'name',
-                          style: const TextStyle(
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'Age',
-                          style: const TextStyle(fontSize: 16.0),
-                        ),
-                        const SizedBox(height: 8.0),
-                        Text(
-                          'someinfo',
-                          style: const TextStyle(fontSize: 14.0),
-                        ),
-                      ],
-                    )
-                  ],
-                )
-              ],
-            ),
-          ),
+        const Text('Information about patient'),
+        const SizedBox(
+          height: 4,
         ),
+        const PatientProfileCard(),
         const SizedBox(
           height: 10,
         ),
@@ -87,29 +51,29 @@ class PatientProfilePage extends StatelessWidget {
         const SizedBox(
           height: 4,
         ),
-        SizedBox(
-          height: 50,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: symptoms.length,
-            itemBuilder: (context, index) {
-              final symptom = symptoms[index];
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Chip(
-                  backgroundColor: const Color(0xFF1876F3),
-                  label: Text(symptom),
-                  labelStyle: const TextStyle(color: Colors.white),
-                  shape: RoundedRectangleBorder(
-                      side: const BorderSide(color: Color(0xFF1876F3)),
-                      borderRadius: BorderRadius.circular(5)),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 5,
-                    horizontal: 10,
+        Center(
+          child: DataTable(
+            columns: const [
+              DataColumn(label: Text('Symptom Name')),
+              DataColumn(label: Text('Duration')),
+              DataColumn(label: Text('Action')),
+            ],
+            rows: List.generate(symptoms.length, (index) {
+              return DataRow(cells: [
+                DataCell(Text(symptoms[index]['name']!)),
+                DataCell(Text(symptoms[index]['duration']!)),
+                DataCell(
+                  IconButton(
+                    icon: const Icon(Icons.delete),
+                    onPressed: () {
+                      setState(() {
+                        symptoms.removeAt(index);
+                      });
+                    },
                   ),
                 ),
-              );
-            },
+              ]);
+            }),
           ),
         ),
         // vitals

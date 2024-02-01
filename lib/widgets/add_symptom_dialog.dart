@@ -11,11 +11,13 @@ class AddSymptomDialog extends StatefulWidget {
 class _AddSymptomDialogState extends State<AddSymptomDialog> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TextEditingController _symptomNameController;
+  late TextEditingController _symptomDurationController;
 
   @override
   void initState() {
     super.initState();
     _symptomNameController = TextEditingController();
+    _symptomDurationController = TextEditingController();
   }
 
   @override
@@ -36,8 +38,17 @@ class _AddSymptomDialogState extends State<AddSymptomDialog> {
                 }
                 return null;
               },
-              onSaved: (newValue) => symptoms.add(newValue!),
-            )
+            ),
+            TextFormField(
+              controller: _symptomDurationController,
+              decoration: const InputDecoration(labelText: 'Symptom Duration'),
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter symptom duration';
+                }
+                return null;
+              },
+            ),
           ],
         ),
       ),
@@ -46,7 +57,9 @@ class _AddSymptomDialogState extends State<AddSymptomDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               // You can process the form data here
-              _formKey.currentState!.save();
+              symptoms.add({
+                _symptomNameController.text: _symptomDurationController.text
+              });
               Navigator.of(context).pop();
             }
           },
