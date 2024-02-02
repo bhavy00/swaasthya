@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/vitals_info_page.dart';
+import 'package:swaasthya/pages/vitals_info_dialog.dart';
 import 'package:swaasthya/widgets/add_symptom_dialog.dart';
+import 'package:swaasthya/widgets/add_vitals_dialog.dart';
 import 'package:swaasthya/widgets/patient_page_view.dart';
 
 List<Map<String, String>> symptoms = [
@@ -85,7 +86,13 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
           children: [
             const Text('Vitals'),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const AddVitalsDialog();
+                    });
+              },
               icon: const Icon(Icons.add),
             )
           ],
@@ -95,11 +102,11 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
         ),
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) {
-                return const VitalsInfoPage();
-              }),
-            );
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return const VitalsInfoDialog();
+                });
           },
           child: Card(
             elevation: 25,

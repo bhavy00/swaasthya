@@ -8,7 +8,7 @@ class AddReportForm extends StatefulWidget {
 }
 
 class _AddReportFormState extends State<AddReportForm> {
-  String _selectedDepartment = '';
+  String _selectedDepartment = 'Pathology';
   String _filePath = '';
 
   final List<String> _departments = [
@@ -21,6 +21,7 @@ class _AddReportFormState extends State<AddReportForm> {
   Widget build(BuildContext context) {
     return Form(
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           DropdownButtonFormField<String>(
