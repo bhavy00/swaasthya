@@ -1,28 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_info_page.dart';
-import 'package:swaasthya/widgets/patient_info_card.dart';
+import 'package:swaasthya/widgets/discharge_patient_list_card.dart';
 
-class InPatientListPage extends StatelessWidget {
+class DischargePatientPage extends StatelessWidget {
   final List<Map<String, dynamic>> patientList;
-  const InPatientListPage({super.key, required this.patientList});
+  const DischargePatientPage({super.key, required this.patientList});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('InPatient'),
+        title: const Text('Discharge Patient'),
         centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const AddPatientForm();
-              }));
-            },
-            icon: const Icon(Icons.add),
-          )
-        ],
       ),
       body: ListView.builder(
         scrollDirection: Axis.vertical,
@@ -33,12 +22,12 @@ class InPatientListPage extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
                 return const PatientInfo(
-                  isInPatient: true,
+                  isInPatient: false,
                   isOPD: false,
                 );
               })));
             },
-            child: PatientInfoCard(
+            child: DischargePatientListCard(
               patient: patient,
             ),
           );

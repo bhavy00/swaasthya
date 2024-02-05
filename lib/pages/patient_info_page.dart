@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/discharge_patient_form.dart';
 import 'package:swaasthya/pages/medical_history_page.dart';
 import 'package:swaasthya/pages/patient_profile_page.dart';
+import 'package:swaasthya/pages/prescription_page.dart';
 import 'package:swaasthya/pages/reports_page.dart';
 import 'package:swaasthya/pages/transfer_patient_form.dart';
 import 'package:swaasthya/pages/treatment_page.dart';
@@ -12,12 +13,13 @@ Pair<String, Widget> t1 = Pair('Basic Info', const PatientProfilePage());
 Pair<String, Widget> t2 = Pair('Reports', const ReportsPage());
 Pair<String, Widget> t3 = Pair('Medical History', const MedicalHistoryPage());
 Pair<String, Widget> t4 = Pair('Treatment', const TreatmentPage());
-
-List<Pair<String, Widget>> navItems = [t1, t2, t3, t4];
+Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
 
 class PatientInfo extends StatefulWidget {
-  const PatientInfo({super.key});
-
+  final bool isInPatient;
+  final bool isOPD;
+  const PatientInfo(
+      {super.key, required this.isInPatient, required this.isOPD});
   @override
   State<PatientInfo> createState() => _PatientInfoState();
 }
@@ -49,12 +51,14 @@ class _PatientInfoState extends State<PatientInfo> {
           PopupMenuButton<String>(
             onSelected: _handleOptionSelected,
             itemBuilder: ((context) {
-              return const <PopupMenuEntry<String>>[
-                PopupMenuItem<String>(
-                  value: 'discharge',
-                  child: Text('Discharge Patient'),
-                ),
-                PopupMenuItem<String>(
+              return <PopupMenuEntry<String>>[
+                if (widget.isInPatient) ...[
+                  const PopupMenuItem<String>(
+                    value: 'discharge',
+                    child: Text('Discharge Patient'),
+                  ),
+                ],
+                const PopupMenuItem<String>(
                   value: 'transfer',
                   child: Text('Transfer Patient'),
                 )
@@ -68,7 +72,17 @@ class _PatientInfoState extends State<PatientInfo> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: [
-              CustomTopNavigationBar(navItems: navItems),
+              CustomTopNavigationBar(navItems: [
+                t1,
+                t2,
+                t3,
+                if (!widget.isOPD) ...[
+                  t4,
+                ],
+                if (widget.isOPD) ...[
+                  t5,
+                ],
+              ]),
             ],
           ),
         ),

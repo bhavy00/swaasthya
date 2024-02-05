@@ -3,15 +3,15 @@ import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_info_page.dart';
 import 'package:swaasthya/widgets/patient_info_card.dart';
 
-class InPatientListPage extends StatelessWidget {
+class OPDPage extends StatelessWidget {
   final List<Map<String, dynamic>> patientList;
-  const InPatientListPage({super.key, required this.patientList});
+  const OPDPage({super.key, required this.patientList});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('InPatient'),
+        title: const Text('OPD'),
         centerTitle: true,
         actions: [
           IconButton(
@@ -33,8 +33,8 @@ class InPatientListPage extends StatelessWidget {
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
                 return const PatientInfo(
-                  isInPatient: true,
-                  isOPD: false,
+                  isInPatient: false,
+                  isOPD: true,
                 );
               })));
             },

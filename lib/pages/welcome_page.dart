@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/emergency_page.dart';
 import 'package:swaasthya/pages/home_page.dart';
 import 'package:swaasthya/pages/in_patient_list_page.dart';
-import 'package:swaasthya/pages/out_patient_page.dart';
+import 'package:swaasthya/pages/discharge_patient_page.dart';
+import 'package:swaasthya/pages/opd_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -18,7 +19,10 @@ class _WelcomePageState extends State<WelcomePage> {
   List<Widget> pages = [
     const HomePage(),
     InPatientListPage(patientList: patientList),
-    const OutPatientPage(),
+    DischargePatientPage(
+      patientList: outPatientList,
+    ),
+    OPDPage(patientList: patientList),
     const EmergencyPage(),
   ];
   @override
@@ -45,6 +49,10 @@ class _WelcomePageState extends State<WelcomePage> {
           BottomNavigationBarItem(
             icon: Icon(Icons.local_hospital),
             label: 'InPatient',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.outbox),
+            label: 'Discharged',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.outbond),
