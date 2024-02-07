@@ -23,7 +23,9 @@ class _WelcomePageState extends State<WelcomePage> {
       patientList: outPatientList,
     ),
     OPDPage(patientList: patientList),
-    const EmergencyPage(),
+    EmergencyPage(
+      patientList: patientList,
+    ),
   ];
   @override
   Widget build(BuildContext context) {

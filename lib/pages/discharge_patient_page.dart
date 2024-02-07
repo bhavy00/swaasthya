@@ -12,8 +12,12 @@ class DischargePatientPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Discharge Patient'),
         centerTitle: true,
+        elevation: 0,
       ),
-      body: ListView.builder(
+      body: ListView.separated(
+        separatorBuilder: ((context, index) {
+          return Divider();
+        }),
         scrollDirection: Axis.vertical,
         itemCount: patientList.length,
         itemBuilder: (context, index) {

@@ -24,8 +24,11 @@ class InPatientListPage extends StatelessWidget {
           )
         ],
       ),
-      body: ListView.builder(
+      body: ListView.separated(
         scrollDirection: Axis.vertical,
+        separatorBuilder: (context, index) {
+          return const Divider();
+        },
         itemCount: patientList.length,
         itemBuilder: (context, index) {
           final patient = patientList[index];

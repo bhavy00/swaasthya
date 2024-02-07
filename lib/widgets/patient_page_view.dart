@@ -1,18 +1,63 @@
 import 'package:flutter/material.dart';
 
-class PatientProfileCard extends StatelessWidget {
+class PatientProfileCard extends StatefulWidget {
   const PatientProfileCard({super.key});
 
+  @override
+  State<PatientProfileCard> createState() => _PatientProfileCardState();
+}
+
+class _PatientProfileCardState extends State<PatientProfileCard> {
+  final PageController _pageController = PageController(initialPage: 0);
+  int _activePage = 0;
+  final List<Widget> _pages = const [CardOne(), CardTwo(), CardThree()];
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16),
-      height: 200,
-      child: PageView(
-        children: const [
-          CardOne(),
-          CardTwo(),
-          CardThree(),
+      height: 220,
+      child: Column(
+        children: [
+          Expanded(
+            child: PageView.builder(
+              controller: _pageController,
+              onPageChanged: (int page) {
+                setState(() {
+                  _activePage = page % _pages.length;
+                });
+              },
+              itemBuilder: ((context, index) {
+                return _pages[index % _pages.length];
+              }),
+            ),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          SizedBox(
+            height: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List<Widget>.generate(
+                _pages.length,
+                (index) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: InkWell(
+                    onTap: () {
+                      _pageController.animateToPage(index,
+                          duration: const Duration(milliseconds: 300),
+                          curve: Curves.easeIn);
+                    },
+                    child: CircleAvatar(
+                      radius: 3,
+                      backgroundColor:
+                          _activePage == index ? Colors.blue : Colors.grey,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

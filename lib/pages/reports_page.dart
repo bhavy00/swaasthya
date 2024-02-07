@@ -40,7 +40,6 @@ class _ReportsPageState extends State<ReportsPage> {
                       child: Text(value),
                     );
                   }).toList(),
-                  
                 )
               ],
             ),
@@ -53,12 +52,23 @@ class _ReportsPageState extends State<ReportsPage> {
           child: DataTable(
             columns: const [
               DataColumn(label: Text('Report Name')),
-              DataColumn(label: Text('Download Report')),
+              DataColumn(
+                  label: Expanded(
+                      child: Text(
+                'Download Report',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ))),
               DataColumn(label: Text('Delete')),
             ],
             rows: List.generate(reports.length, (index) {
               return DataRow(cells: [
-                DataCell(Text(reports[index])),
+                DataCell(Expanded(
+                    child: Text(
+                  reports[index],
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                ))),
                 DataCell(
                   IconButton(
                     icon: const Icon(Icons.download),

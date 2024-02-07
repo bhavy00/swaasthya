@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/pages/treatment_page.dart';
 import 'package:swaasthya/widgets/add_prescription_dialog.dart';
 import 'package:swaasthya/widgets/prescription_card.dart';
 
@@ -27,7 +28,11 @@ class PrescriptionPage extends StatelessWidget {
               ),
             ],
           ),
-          const PrescriptionCard()
+          const PrescriptionCard(),
+          const SizedBox(
+            height: 20,
+          ),
+          const TreatmentPage(),
         ],
       ),
     );

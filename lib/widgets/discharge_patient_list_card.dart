@@ -6,32 +6,31 @@ class DischargePatientListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 150,
-      child: Card(
-        elevation: 16,
-        margin: const EdgeInsets.all(16.0),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              // Circular Image on the left
-              Container(
-                width: 80.0,
-                height: 80.0,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: NetworkImage(
-                      'https://placekitten.com/80/80', // Replace with your image URL
-                    ),
+    return Card(
+      elevation: 0,
+      // margin: const EdgeInsets.all(16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            // Circular Image on the left
+            Container(
+              width: 80.0,
+              height: 80.0,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: NetworkImage(
+                    'https://placekitten.com/80/80', // Replace with your image URL
                   ),
                 ),
               ),
-              const SizedBox(width: 16.0), // Add spacing between image and text
-              // Other information on the right
-              Column(
+            ),
+            const SizedBox(width: 16.0), // Add spacing between image and text
+            // Other information on the right
+            Expanded(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -51,6 +50,7 @@ class DischargePatientListCard extends StatelessWidget {
                         child: Text(
                           patient['dischargeReason'] as String,
                           maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                     ],
@@ -62,8 +62,8 @@ class DischargePatientListCard extends StatelessWidget {
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
