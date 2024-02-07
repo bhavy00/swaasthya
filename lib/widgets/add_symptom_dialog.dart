@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/patient_profile_page.dart';
+import 'package:swaasthya/pages/patient_profile_pages/patient_profile_page.dart';
 
 class AddSymptomDialog extends StatefulWidget {
   const AddSymptomDialog({super.key});

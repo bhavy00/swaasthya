@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/emergency_page.dart';
+import 'package:swaasthya/pages/emergency_pages/emergency_page.dart';
 import 'package:swaasthya/pages/home_page.dart';
-import 'package:swaasthya/pages/in_patient_list_page.dart';
-import 'package:swaasthya/pages/discharge_patient_page.dart';
-import 'package:swaasthya/pages/opd_page.dart';
+import 'package:swaasthya/pages/inpatient_pages/in_patient_list_page.dart';
+import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
+import 'package:swaasthya/pages/outpatient_pages/opd_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
 class WelcomePage extends StatefulWidget {

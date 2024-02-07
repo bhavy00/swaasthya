@@ -19,26 +19,31 @@ class PatientProfilePage extends StatefulWidget {
 class _PatientProfilePageState extends State<PatientProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // rest of the information abour the patient
-        Text('Information about patient'),
-        SizedBox(
-          height: 4,
+    return const SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // rest of the information abour the patient
+            Text('Information about patient'),
+            SizedBox(
+              height: 4,
+            ),
+            PatientProfileCard(),
+            SizedBox(
+              height: 10,
+            ),
+            // symptoms
+            SymptomsWidget(),
+            // vitals
+            SizedBox(
+              height: 10,
+            ),
+            VitalsWidget(),
+          ],
         ),
-        PatientProfileCard(),
-        SizedBox(
-          height: 10,
-        ),
-        // symptoms
-        SymptomsWidget(),
-        // vitals
-        SizedBox(
-          height: 10,
-        ),
-        VitalsWidget(),
-      ],
+      ),
     );
   }
 }

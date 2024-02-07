@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/treatment_page.dart';
+import 'package:swaasthya/pages/patient_profile_pages/treatment_page.dart';
 import 'package:swaasthya/widgets/add_prescription_dialog.dart';
 import 'package:swaasthya/widgets/prescription_card.dart';
 

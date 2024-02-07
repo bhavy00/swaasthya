@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/utils/navigation_data_holder.dart';
 import 'package:swaasthya/utils/pair.dart';
 
 class CustomTopNavigationBar extends StatefulWidget {
@@ -24,7 +25,8 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        Container(
+          margin: const EdgeInsets.only(top: 40),
           height: 80,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -43,6 +45,7 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
                       selectedNavItem = key;
                       selectedNavWidget = value;
                       //print(selectedNavItem);
+                      NavigationDataHolder.of(context).onChange(value);
                     });
                   },
                   child: Chip(
@@ -69,7 +72,6 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
             }),
           ),
         ),
-        selectedNavWidget
       ],
     );
   }
