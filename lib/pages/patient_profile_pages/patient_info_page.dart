@@ -5,6 +5,7 @@ import 'package:swaasthya/pages/patient_profile_pages/patient_profile_page.dart'
 import 'package:swaasthya/pages/outpatient_pages/prescription_page.dart';
 import 'package:swaasthya/pages/patient_profile_pages/reports_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/transfer_patient_form.dart';
+import 'package:swaasthya/pages/patient_profile_pages/test_page.dart';
 import 'package:swaasthya/pages/patient_profile_pages/treatment_page.dart';
 import 'package:swaasthya/utils/navigation_data_holder.dart';
 import 'package:swaasthya/widgets/navigation_bar.dart';
@@ -15,6 +16,7 @@ Pair<String, Widget> t2 = Pair('Reports', const ReportsPage());
 Pair<String, Widget> t3 = Pair('Medical History', const MedicalHistoryPage());
 Pair<String, Widget> t4 = Pair('Treatment', const TreatmentPage());
 Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
+Pair<String, Widget> t6 = Pair('Tests', const TestPage());
 
 class PatientInfo extends StatefulWidget {
   final bool isInPatient;
@@ -89,6 +91,7 @@ class _PatientInfoState extends State<PatientInfo> {
               if (widget.isOPD) ...[
                 t5,
               ],
+              t6,
             ]),
           ),
         ),

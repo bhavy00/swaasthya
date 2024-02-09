@@ -27,25 +27,60 @@ class ContactInfoForm extends StatelessWidget {
           ),
           TextFormField(
             decoration: const InputDecoration(labelText: 'Phone Number'),
-            keyboardType: TextInputType.phone,
-            onSaved: (value) => patient.phoneNumber = value!,
+            keyboardType: TextInputType.number,
+            onSaved: (value) => patient.phoneNumber = int.parse(value!),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Phone Number is required';
+              }
+              // Add additional email validation if needed
+              return null;
+            },
           ),
           TextFormField(
             decoration: const InputDecoration(labelText: 'Address'),
             onSaved: (value) => patient.address = value!,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Address is required';
+              }
+              // Add additional email validation if needed
+              return null;
+            },
           ),
           TextFormField(
             decoration: const InputDecoration(labelText: 'State'),
             onSaved: (value) => patient.state = value!,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'State is required';
+              }
+              // Add additional email validation if needed
+              return null;
+            },
           ),
           TextFormField(
             decoration: const InputDecoration(labelText: 'City'),
             onSaved: (value) => patient.city = value!,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'City is required';
+              }
+              // Add additional email validation if needed
+              return null;
+            },
           ),
           TextFormField(
             decoration: const InputDecoration(labelText: 'Pincode'),
             keyboardType: TextInputType.number,
-            onSaved: (value) => patient.pincode = value!,
+            onSaved: (value) => patient.pincode = int.parse(value!),
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Pincode is required';
+              }
+              // Add additional email validation if needed
+              return null;
+            },
           ),
         ],
       ),

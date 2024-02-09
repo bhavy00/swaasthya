@@ -21,6 +21,21 @@ class EmergencyPage extends StatelessWidget {
               }));
             },
             icon: const Icon(Icons.add),
+          ),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return const AlertDialog(
+                      title: Text('Search'),
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                      ),
+                    );
+                  });
+            },
+            icon: const Icon(Icons.search),
           )
         ],
         elevation: 0,

@@ -8,13 +8,15 @@ class Patient {
   DateTime dob = DateTime.now();
   String photo = '';
   String email = '';
-  String phoneNumber = '';
+  int phoneNumber = 0;
   String address = '';
   String state = '';
   String city = '';
-  String pincode = '';
+  int pincode = 0;
   String doctorName = '';
   String referredBy = '';
+  String ward = 'General Ward';
+  String category = 'Adult';
 }
 
 void printPatient(Patient data) {

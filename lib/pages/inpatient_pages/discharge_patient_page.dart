@@ -16,7 +16,7 @@ class DischargePatientPage extends StatelessWidget {
       ),
       body: ListView.separated(
         separatorBuilder: ((context, index) {
-          return Divider();
+          return const Divider();
         }),
         scrollDirection: Axis.vertical,
         itemCount: patientList.length,

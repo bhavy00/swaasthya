@@ -41,7 +41,6 @@ class AppTheme {
     ),
     inputDecorationTheme: const InputDecorationTheme(
       labelStyle: TextStyle(color: PalleteDark.activeTextColor),
-      
     ),
     textTheme: TextTheme(
       displayLarge: const TextStyle(
@@ -72,7 +71,7 @@ class AppTheme {
     ),
   );
 
-  static ThemeData lightTheme = ThemeData.dark(useMaterial3: true).copyWith(
+  static ThemeData lightTheme = ThemeData.light(useMaterial3: true).copyWith(
     colorScheme: const ColorScheme(
       brightness: Brightness.light,
       primary: PalleteLight.primaryColor,
@@ -90,6 +89,11 @@ class AppTheme {
     appBarTheme: const AppBarTheme(
       backgroundColor: PalleteLight.primaryColor,
       elevation: 0,
+      titleTextStyle: TextStyle(
+        color: PalleteLight.activeTextColor,
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
       backgroundColor: PalleteLight.primaryColor,
@@ -134,6 +138,9 @@ class AppTheme {
         color: PalleteLight.inactiveTextColor,
         fontSize: 12,
       ),
+    ),
+    inputDecorationTheme: const InputDecorationTheme(
+      border: OutlineInputBorder(),
     ),
   );
 }

@@ -14,7 +14,7 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
   late TextEditingController _numberOfDosesController;
   late TextEditingController _medicationTimeController;
   late TextEditingController _notesController;
-
+  String type = 'Capsules';
   @override
   void initState() {
     super.initState();
@@ -45,6 +45,30 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
+              DropdownButtonFormField<String>(
+                items: <String>[
+                  'Capsules',
+                  'Syrups',
+                  'Tablets',
+                  'Injections',
+                  'IV Line'
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    type = value!;
+                  });
+                },
+                decoration: const InputDecoration(
+                  label: Text('Type'),
+                  border: OutlineInputBorder(),
+                ),
+                value: type,
+              ),
               TextFormField(
                 controller: _medicineNameController,
                 decoration: const InputDecoration(labelText: 'Medicine Name'),
@@ -58,7 +82,7 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               TextFormField(
                 controller: _durationController,
                 decoration: const InputDecoration(
-                    labelText: 'Duration', hintText: 'number of days'),
+                    labelText: 'Duration', hintText: 'number of days', suffixText: 'Days'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter duration';

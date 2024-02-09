@@ -53,15 +53,71 @@ List<Map<String, dynamic>> treat = [
   },
 ];
 
-class TreatmentPage extends StatelessWidget {
+enum Types { capsules, syrups, tablets, injections, ivline }
+
+class TreatmentPage extends StatefulWidget {
   const TreatmentPage({super.key});
 
+  @override
+  State<TreatmentPage> createState() => _TreatmentPageState();
+}
+
+class _TreatmentPageState extends State<TreatmentPage> {
+  Types typeView = Types.capsules;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
+          SegmentedButton<Types>(
+            segments: const <ButtonSegment<Types>>[
+              ButtonSegment<Types>(
+                value: Types.capsules,
+                label: Text(
+                  'Capsules',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              ButtonSegment<Types>(
+                value: Types.syrups,
+                label: Text(
+                  'Syrups',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              ButtonSegment<Types>(
+                value: Types.tablets,
+                label: Text(
+                  'Tablets',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              ButtonSegment<Types>(
+                value: Types.injections,
+                label: Text(
+                  'Injections',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              ButtonSegment<Types>(
+                value: Types.ivline,
+                label: Text(
+                  'IV Line',
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+            selected: <Types>{typeView},
+            onSelectionChanged: (Set<Types> newSelection) {
+              setState(() {
+                typeView = newSelection.first;
+              });
+            },
+          ),
+          const SizedBox(
+            height: 8,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -103,19 +159,23 @@ class TreatmentPage extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: FloatingActionButton(
+                    child: FloatingActionButton.extended(
                       onPressed: () {
                         showDialog(
                             context: context,
                             builder: (context) {
                               return const AlertDialog(
-                                title: Text('Upload report'),
-                                content: Column(),
+                                title: Text('Add Notification for Medicine'),
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [],
+                                ),
                               );
                             });
                       },
                       tooltip: 'Add Notification for medicine',
-                      child: const Icon(Icons.notification_add),
+                      label: const Text('Add Notification'),
+                      icon: const Icon(Icons.notification_add),
                     ),
                   ),
                 ),
