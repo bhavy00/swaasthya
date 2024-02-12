@@ -107,6 +107,7 @@ class _VitalsTableState extends State<VitalsTable> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         DataTable(
+          columnSpacing: 5.0,
           columns: const [
             DataColumn(label: Text('Reading')),
             DataColumn(label: Text('Time')),
@@ -117,11 +118,10 @@ class _VitalsTableState extends State<VitalsTable> {
               DataCell(Text(data['reading'])),
               DataCell(Text(data['time'])),
               DataCell(
-                Expanded(
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
                   child: Text(
                     data['date'],
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
               ),

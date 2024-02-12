@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/widgets/search_patient.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -16,6 +17,7 @@ class HomePage extends StatelessWidget {
             child:
                 Text('Home page for user of Yantram Medtech\'s swaasthya app'),
           ),
+          SearchPatient()
         ],
       ),
     );

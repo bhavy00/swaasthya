@@ -41,6 +41,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
         ),
         Center(
           child: DataTable(
+            columnSpacing: 5.0,
             columns: const [
               DataColumn(
                   label: Expanded(
@@ -63,7 +64,12 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
             ],
             rows: List.generate(symptoms.length, (index) {
               return DataRow(cells: [
-                DataCell(Text(symptoms[index]['name']!)),
+                DataCell(
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(symptoms[index]['name']!),
+                  ),
+                ),
                 DataCell(Text(symptoms[index]['duration']!)),
                 DataCell(
                   IconButton(

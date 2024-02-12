@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
 import 'package:swaasthya/widgets/patient_info_card.dart';
+import 'package:swaasthya/widgets/search_patient.dart';
 
 class InPatientListPage extends StatelessWidget {
   final List<Map<String, dynamic>> patientList;
@@ -29,14 +30,13 @@ class InPatientListPage extends StatelessWidget {
                   builder: (context) {
                     return const AlertDialog(
                       title: Text('Search'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                      ),
+                      content: SearchPatient()
                     );
                   });
             },
             icon: const Icon(Icons.search),
-          )
+          ),
+          
         ],
       ),
       body: ListView.separated(

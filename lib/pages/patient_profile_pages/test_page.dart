@@ -23,41 +23,43 @@ class TestPage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Stack(
               children: [
-                DataTable(
-                  columns: const [
-                    DataColumn(
-                        label: Expanded(
-                      child: Text(
-                        'Test Name',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )),
-                    DataColumn(label: Text('Delete')),
-                  ],
-                  rows: List.generate(tests.length, (index) {
-                    return DataRow(cells: [
-                      DataCell(
-                        Expanded(
-                          child: Text(
-                            tests[index],
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
+                SingleChildScrollView(
+                  child: DataTable(
+                    columns: const [
+                      DataColumn(
+                          label: Expanded(
+                        child: Text(
+                          'Test Name',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      )),
+                      DataColumn(label: Text('Delete')),
+                    ],
+                    rows: List.generate(tests.length, (index) {
+                      return DataRow(cells: [
+                        DataCell(
+                          SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Text(
+                              tests[index],
+                            ),
                           ),
                         ),
-                      ),
-                      DataCell(
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {},
+                        DataCell(
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            onPressed: () {},
+                          ),
                         ),
-                      ),
-                    ]);
-                  }),
+                      ]);
+                    }),
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomRight,

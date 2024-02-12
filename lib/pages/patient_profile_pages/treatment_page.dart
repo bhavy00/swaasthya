@@ -53,8 +53,6 @@ List<Map<String, dynamic>> treat = [
   },
 ];
 
-enum Types { capsules, syrups, tablets, injections, ivline }
-
 class TreatmentPage extends StatefulWidget {
   const TreatmentPage({super.key});
 
@@ -63,78 +61,52 @@ class TreatmentPage extends StatefulWidget {
 }
 
 class _TreatmentPageState extends State<TreatmentPage> {
-  Types typeView = Types.capsules;
+  bool showFilter = false;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
-          SegmentedButton<Types>(
-            segments: const <ButtonSegment<Types>>[
-              ButtonSegment<Types>(
-                value: Types.capsules,
-                label: Text(
-                  'Capsules',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              ButtonSegment<Types>(
-                value: Types.syrups,
-                label: Text(
-                  'Syrups',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              ButtonSegment<Types>(
-                value: Types.tablets,
-                label: Text(
-                  'Tablets',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              ButtonSegment<Types>(
-                value: Types.injections,
-                label: Text(
-                  'Injections',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              ButtonSegment<Types>(
-                value: Types.ivline,
-                label: Text(
-                  'IV Line',
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-            selected: <Types>{typeView},
-            onSelectionChanged: (Set<Types> newSelection) {
-              setState(() {
-                typeView = newSelection.first;
-              });
-            },
-          ),
-          const SizedBox(
-            height: 8,
-          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text('Medicine'),
-              IconButton(
-                onPressed: () {
-                  showDialog(
-                      context: context,
-                      builder: (context) {
-                        return const AddMedicineDialog();
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      setState(() {
+                        showFilter = !showFilter;
                       });
-                },
-                icon: const Icon(Icons.add),
+                    },
+                    icon: const Icon(Icons.filter_alt),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return const AddMedicineDialog();
+                          });
+                    },
+                    icon: const Icon(Icons.add),
+                  ),
+                ],
               )
             ],
           ),
+          if (showFilter) ...[
+            const FilterChipClass(filters: [
+              'All',
+              'Capsules',
+              'Syrups',
+              'Tablets',
+              'Injections',
+              'IV Line'
+            ])
+          ],
           const SizedBox(
             height: 15,
           ),
@@ -181,6 +153,44 @@ class _TreatmentPageState extends State<TreatmentPage> {
                 ),
               ],
             ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class FilterChipClass extends StatefulWidget {
+  final List<String> filters;
+  const FilterChipClass({super.key, required this.filters});
+
+  @override
+  State<FilterChipClass> createState() => _FilterChipClassState();
+}
+
+class _FilterChipClassState extends State<FilterChipClass> {
+  String selectedFilter = 'All';
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Wrap(
+            spacing: 5.0,
+            alignment: WrapAlignment.start,
+            children: widget.filters.map((filter) {
+              return FilterChip(
+                label: Text(filter),
+                selected: selectedFilter == filter,
+                onSelected: (bool selected) {
+                  setState(() {
+                    selectedFilter = selected ? filter : '';
+                    // print(selectedFilter);
+                  });
+                },
+              );
+            }).toList(),
           ),
         ],
       ),

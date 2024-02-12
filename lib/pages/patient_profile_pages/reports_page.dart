@@ -7,7 +7,7 @@ List<String> reports = [
   'test_report_1',
   'test_report_2',
   'test_report_3',
-  'test_report_4',
+  'test report 4 ',
   'test_report_5',
   'test_report_6',
   'test_report_7',
@@ -61,59 +61,60 @@ class _ReportsPageState extends State<ReportsPage> {
             const SizedBox(
               height: 20,
             ),
+            DataTable(
+              columnSpacing: 5.0,
+              columns: const [
+                DataColumn(
+                  label: Text(
+                    'Report Name',
+                  ),
+                ),
+                DataColumn(
+                  label: Expanded(
+                      child: Text(
+                    'Download Report',
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  )),
+                ),
+                DataColumn(label: Text('Delete')),
+              ],
+              rows: List.generate(reports.length, (index) {
+                return DataRow(cells: [
+                  DataCell(
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(
+                        reports[index],
+                      ),
+                    ),
+                  ),
+                  DataCell(
+                    IconButton(
+                      icon: const Icon(Icons.download),
+                      onPressed: () {},
+                    ),
+                  ),
+                  DataCell(
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          reports.removeAt(index);
+                        });
+                      },
+                    ),
+                  ),
+                ]);
+              }),
+            ),
             Stack(
               children: [
-                DataTable(
-                  columns: const [
-                    DataColumn(
-                        label: Expanded(
-                      child: Text(
-                        'Report Name',
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    )),
-                    DataColumn(
-                        label: Expanded(
-                            child: Text(
-                      'Download Report',
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ))),
-                    DataColumn(label: Text('Delete')),
-                  ],
-                  rows: List.generate(reports.length, (index) {
-                    return DataRow(cells: [
-                      DataCell(Expanded(
-                          child: Text(
-                        reports[index],
-                        maxLines: 3,
-                        overflow: TextOverflow.ellipsis,
-                      ))),
-                      DataCell(
-                        IconButton(
-                          icon: const Icon(Icons.download),
-                          onPressed: () {},
-                        ),
-                      ),
-                      DataCell(
-                        IconButton(
-                          icon: const Icon(Icons.delete),
-                          onPressed: () {
-                            setState(() {
-                              reports.removeAt(index);
-                            });
-                          },
-                        ),
-                      ),
-                    ]);
-                  }),
-                ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
-                    child: FloatingActionButton(
+                    child: FloatingActionButton.extended(
                       onPressed: () {
                         showDialog(
                             context: context,
@@ -124,7 +125,8 @@ class _ReportsPageState extends State<ReportsPage> {
                               );
                             });
                       },
-                      child: const Icon(Icons.add),
+                      label: const Text('Add Report'),
+                      icon: const Icon(Icons.add),
                     ),
                   ),
                 ),
