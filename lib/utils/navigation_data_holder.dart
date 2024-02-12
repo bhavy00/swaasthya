@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NavigationDataHolder extends InheritedWidget {
-  Function(Widget) onChange;
+  final Function(Widget) onChange;
 
-  NavigationDataHolder({
+  const NavigationDataHolder({
     super.key,
     required this.onChange,
     required Widget child,

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/inpatient_pages/in_patient_list_page.dart';
-import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
+import 'package:swaasthya/pages/welcome_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
 void main() {
@@ -14,13 +13,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Swaasthya',
       debugShowCheckedModeBanner: false,
       // themeMode: ThemeMode.system,
       // theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,
-      home: PatientInfo(isInPatient: false, isOPD: true),
+      home: WelcomePage(),
     );
   }
 }
