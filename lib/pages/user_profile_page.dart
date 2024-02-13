@@ -18,29 +18,31 @@ class _UserProfilePageState extends State<UserProfilePage> {
         title: const Text('User\'s Profile'),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text('Information'),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    setState(() {
-                      disabled = !disabled;
-                    });
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            EditUserForm(disabled: disabled),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text('Information'),
+                  IconButton(
+                    icon: const Icon(Icons.edit),
+                    onPressed: () {
+                      setState(() {
+                        disabled = !disabled;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              EditUserForm(disabled: disabled),
+            ],
+          ),
         ),
       ),
     );

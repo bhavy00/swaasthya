@@ -46,133 +46,135 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Card(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Card(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ListTile(
+                      // leading: Icon(Icons.person),
+                      title: Row(
+                        children: [
+                          Icon(Icons.notifications_active),
+                          Text(' Upcoming'),
+                        ],
+                      ),
+                      subtitle: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Intra Department Meeting'),
+                          Text('3:00PM')
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text('Hi, User!'),
+              const SizedBox(
+                height: 8,
+              ),
+              Row(
                 children: [
-                  ListTile(
-                    // leading: Icon(Icons.person),
-                    title: Row(
-                      children: [
-                        Icon(Icons.notifications_active),
-                        Text(' Upcoming'),
-                      ],
-                    ),
-                    subtitle: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Intra Department Meeting'),
-                        Text('3:00PM')
-                      ],
-                    ),
-                  )
+                  const Text('Today: '),
+                  Text(formattedDate),
                 ],
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const Text('Hi, User!'),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                const Text('Today: '),
-                Text(formattedDate),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: 150,
-                  width: 200,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [Text('Total InPatients'), Text('45')],
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    width: 200,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [Text('Total InPatients'), Text('45')],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 150,
-                  width: 200,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('Total OutPatients'),
-                          Text('50'),
-                        ],
+                  SizedBox(
+                    height: 150,
+                    width: 200,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text('Total OutPatients'),
+                            Text('50'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                  height: 150,
-                  width: 200,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('Total Emergency Patinet'),
-                          Text('15'),
-                        ],
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    height: 150,
+                    width: 200,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text('Total Emergency Patinet'),
+                            Text('15'),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  height: 150,
-                  width: 200,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Text('Total Discharged Patient'),
-                          Text('65')
-                        ],
+                  SizedBox(
+                    height: 150,
+                    width: 200,
+                    child: Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Text('Total Discharged Patient'),
+                            Text('65')
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            // statistics
-            const Text('Stats'),
-            const StatsViewPages(),
-          ],
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              // statistics
+              const Text('Stats'),
+              const StatsViewPages(),
+            ],
+          ),
         ),
       ),
     );

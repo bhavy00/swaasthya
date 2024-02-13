@@ -22,22 +22,25 @@ class OPDPage extends StatelessWidget {
             },
             icon: const Icon(Icons.add),
           ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const AlertDialog(
-                      title: Text('Search'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                      ),
-                    );
-                  });
-            },
-            icon: const Icon(Icons.search),
-          )
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                label: Text('Search'),
+                hintText: 'Search...',
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                // Implement search functionality here
+              },
+            ),
+          ),
+        ),
       ),
       body: ListView.separated(
         scrollDirection: Axis.vertical,

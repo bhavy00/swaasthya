@@ -3,10 +3,15 @@ import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
 import 'package:swaasthya/widgets/patient_info_card.dart';
 
-class EmergencyPage extends StatelessWidget {
+class EmergencyPage extends StatefulWidget {
   final List<Map<String, dynamic>> patientList;
   const EmergencyPage({super.key, required this.patientList});
 
+  @override
+  State<EmergencyPage> createState() => _EmergencyPageState();
+}
+
+class _EmergencyPageState extends State<EmergencyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,32 +27,35 @@ class EmergencyPage extends StatelessWidget {
             },
             icon: const Icon(Icons.add),
           ),
-          IconButton(
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return const AlertDialog(
-                      title: Text('Search'),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                      ),
-                    );
-                  });
-            },
-            icon: const Icon(Icons.search),
-          )
         ],
         elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                label: Text('Search'),
+                hintText: 'Search...',
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                // Implement search functionality here
+              },
+            ),
+          ),
+        ),
       ),
       body: ListView.separated(
         scrollDirection: Axis.vertical,
-        itemCount: patientList.length,
+        itemCount: widget.patientList.length,
         separatorBuilder: ((context, index) {
           return const Divider();
         }),
         itemBuilder: (context, index) {
-          final patient = patientList[index];
+          final patient = widget.patientList[index];
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
@@ -66,3 +74,45 @@ class EmergencyPage extends StatelessWidget {
     );
   }
 }
+
+// class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
+//   const SearchAppBar({super.key});
+
+//   @override
+//   State<SearchAppBar> createState() => _SearchAppBarState();
+
+//   @override
+//   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 60.0);
+// }
+
+// class _SearchAppBarState extends State<SearchAppBar> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return AppBar(
+//       bottom: PreferredSize(
+//         preferredSize: const Size.fromHeight(60.0),
+//         child: Padding(
+//           padding: const EdgeInsets.all(8.0),
+//           child: TextField(
+//             decoration: InputDecoration(
+//                 label: const Text('Search'),
+//                 hintText: 'Search...',
+//                 border: const OutlineInputBorder(),
+//                 contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
+//                 prefixIcon: IconButton(
+//                   onPressed: () {
+//                     setState(() {
+//                       search = false;
+//                     });
+//                   },
+//                   icon: const Icon(Icons.arrow_back_rounded),
+//                 )),
+//             onChanged: (value) {
+//               // Implement search functionality here
+//             },
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }

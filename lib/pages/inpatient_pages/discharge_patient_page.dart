@@ -13,6 +13,24 @@ class DischargePatientPage extends StatelessWidget {
         title: const Text('Discharge Patient'),
         centerTitle: true,
         elevation: 0,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: const InputDecoration(
+                label: Text('Search'),
+                hintText: 'Search...',
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+                prefixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                // Implement search functionality here
+              },
+            ),
+          ),
+        ),
       ),
       body: ListView.separated(
         separatorBuilder: ((context, index) {
