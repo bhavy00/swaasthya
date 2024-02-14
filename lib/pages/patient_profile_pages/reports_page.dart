@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/widgets/add_report_form.dart';
+import 'package:swaasthya/widgets/forms/add_report_form.dart';
 
 List<String> types = ['Pathology', 'Radiology', 'Previous History'];
 
@@ -62,7 +62,7 @@ class _ReportsPageState extends State<ReportsPage> {
               height: 20,
             ),
             DataTable(
-              columnSpacing: 5.0,
+              columnSpacing: MediaQuery.of(context).size.width * 0.15,
               columns: const [
                 DataColumn(
                   label: Text(

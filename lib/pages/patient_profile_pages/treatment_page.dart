@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/widgets/add_medicine_dialog.dart';
-import 'package:swaasthya/widgets/medicine_card.dart';
+import 'package:swaasthya/widgets/forms/add_medicine_dialog.dart';
+import 'package:swaasthya/widgets/cards/medicine_card.dart';
 
 List<Map<String, dynamic>> treat = [
   {

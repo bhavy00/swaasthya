@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/widgets/add_test_form.dart';
+import 'package:swaasthya/widgets/forms/add_test_form.dart';
 
 List<String> tests = [
   'test_1',

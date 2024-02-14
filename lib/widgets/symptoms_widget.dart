@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/widgets/add_symptom_dialog.dart';
+import 'package:swaasthya/widgets/forms/add_symptom_dialog.dart';
 
 List<Map<String, String>> symptoms = [
   {'name': 'Headache', 'duration': '2 days'},

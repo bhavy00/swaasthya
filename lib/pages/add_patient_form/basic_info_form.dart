@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/services/image_picker_serivce.dart';
 import 'package:swaasthya/utils/patient_class.dart';
 import 'package:swaasthya/utils/patient_data_holder.dart';
 
@@ -119,9 +120,29 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
             },
             controller: TextEditingController(text: patient.dob.toString()),
           ),
-          TextFormField(
-            decoration: const InputDecoration(labelText: 'Photo URL'),
-            onSaved: (value) => patient.photo = value!,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Text('Upload Photo: '),
+              Column(
+                children: [
+                  TextButton.icon(
+                    onPressed: () {
+                      ImagePickerService.pickImage({'type':'gallery'});
+                    },
+                    icon: const Icon(Icons.folder),
+                    label: const Text('Gallery'),
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      ImagePickerService.pickImage({'type':'camera'});
+                    },
+                    icon: const Icon(Icons.photo_camera),
+                    label: const Text('Camera'),
+                  ),
+                ],
+              ),
+            ],
           ),
         ],
       ),

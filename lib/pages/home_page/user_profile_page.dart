@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/widgets/edit_user_form.dart';
+import 'package:swaasthya/widgets/forms/edit_user_form.dart';
+import 'package:swaasthya/widgets/forms/reset_password_form.dart';
 
 class UserProfilePage extends StatefulWidget {
   const UserProfilePage({super.key});
@@ -41,6 +42,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
                 height: 15,
               ),
               EditUserForm(disabled: disabled),
+              const SizedBox(
+                height: 15,
+              ),
+              const ResetPasswordPage()
             ],
           ),
         ),

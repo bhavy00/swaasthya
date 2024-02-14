@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
-import 'package:swaasthya/widgets/discharge_patient_list_card.dart';
+import 'package:swaasthya/widgets/cards/discharge_patient_list_card.dart';
 
 class DischargePatientPage extends StatelessWidget {
   final List<Map<String, dynamic>> patientList;
@@ -20,7 +20,6 @@ class DischargePatientPage extends StatelessWidget {
             child: TextField(
               decoration: const InputDecoration(
                 label: Text('Search'),
-                hintText: 'Search...',
                 border: OutlineInputBorder(),
                 contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
                 prefixIcon: Icon(Icons.search),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/widgets/add_vitals_dialog.dart';
+import 'package:swaasthya/widgets/forms/add_vitals_dialog.dart';
 import 'package:swaasthya/pages/patient_profile_pages/vitals_info_page.dart';
 
 class VitalsWidget extends StatelessWidget {

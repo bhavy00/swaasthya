@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/patient_profile_pages/treatment_page.dart';
-import 'package:swaasthya/widgets/add_prescription_dialog.dart';
-import 'package:swaasthya/widgets/prescription_card.dart';
+import 'package:swaasthya/widgets/forms/add_prescription_dialog.dart';
+import 'package:swaasthya/widgets/cards/prescription_card.dart';
 
 class PrescriptionPage extends StatelessWidget {
   const PrescriptionPage({super.key});

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:swaasthya/pages/notification_page.dart';
-import 'package:swaasthya/pages/user_profile_page.dart';
+import 'package:swaasthya/pages/home_page/notification_page.dart';
+import 'package:swaasthya/pages/home_page/user_profile_page.dart';
 import 'package:swaasthya/widgets/stats_view_pages.dart';
 
 class HomePage extends StatelessWidget {
@@ -89,11 +89,11 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    height: 150,
-                    width: 200,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -107,8 +107,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 150,
-                    width: 200,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -127,11 +127,11 @@ class HomePage extends StatelessWidget {
                 ],
               ),
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
-                    height: 150,
-                    width: 200,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -148,8 +148,8 @@ class HomePage extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 150,
-                    width: 200,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                    width: MediaQuery.of(context).size.width * 0.45,
                     child: Card(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
@@ -171,7 +171,6 @@ class HomePage extends StatelessWidget {
                 height: 20,
               ),
               // statistics
-              const Text('Stats'),
               const StatsViewPages(),
             ],
           ),
