@@ -26,10 +26,7 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // rest of the information abour the patient
-            Text('Information about patient'),
-            SizedBox(
-              height: 4,
-            ),
+
             PatientProfileCard(),
             SizedBox(
               height: 10,

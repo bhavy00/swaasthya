@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:file_picker/file_picker.dart';
 
 class AddReportForm extends StatefulWidget {
   const AddReportForm({super.key});
@@ -9,7 +10,19 @@ class AddReportForm extends StatefulWidget {
 
 class _AddReportFormState extends State<AddReportForm> {
   String _selectedDepartment = 'Pathology';
-  String _filePath = '';
+  String? _filePath;
+
+  void _openFilePicker() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      setState(() {
+        _filePath = result.files.single.path;
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
 
   final List<String> _departments = [
     'Pathology',
@@ -42,12 +55,25 @@ class _AddReportFormState extends State<AddReportForm> {
               border: OutlineInputBorder(),
             ),
           ),
-          SizedBox(height: 20.0),
+          const SizedBox(height: 20.0),
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
+            spacing: 5,
+            children: [
+              FilledButton(
+                onPressed: _openFilePicker,
+                child: const Text('Select File'),
+              ),
+              _filePath != null
+                  ? Text(_filePath!)
+                  : const Text('No file selected')
+            ],
+          ),
           TextButton(
             onPressed: () {
               // Open file picker to select file
             },
-            child: Text('Upload File'),
+            child: const Text('Upload File'),
           ),
         ],
       ),

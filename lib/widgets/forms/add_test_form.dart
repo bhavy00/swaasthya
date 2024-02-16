@@ -71,7 +71,9 @@ class _AddTestFormState extends State<AddTestForm> {
           child: const Text('Add'),
         ),
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
           child: const Text('Cancel'),
         ),
       ],

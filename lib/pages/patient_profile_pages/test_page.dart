@@ -30,6 +30,7 @@ class TestPage extends StatelessWidget {
               children: [
                 SingleChildScrollView(
                   child: DataTable(
+                    columnSpacing: MediaQuery.of(context).size.width * 0.5,
                     columns: const [
                       DataColumn(
                           label: Expanded(

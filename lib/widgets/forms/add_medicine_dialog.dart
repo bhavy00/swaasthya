@@ -12,16 +12,15 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
   late TextEditingController _medicineNameController;
   late TextEditingController _durationController;
   late TextEditingController _numberOfDosesController;
-  late TextEditingController _medicationTimeController;
   late TextEditingController _notesController;
   String type = 'Capsules';
+  String time = 'Before Meal';
   @override
   void initState() {
     super.initState();
     _medicineNameController = TextEditingController();
     _durationController = TextEditingController();
     _numberOfDosesController = TextEditingController();
-    _medicationTimeController = TextEditingController();
     _notesController = TextEditingController();
   }
 
@@ -30,7 +29,6 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
     _medicineNameController.dispose();
     _durationController.dispose();
     _numberOfDosesController.dispose();
-    _medicationTimeController.dispose();
     _notesController.dispose();
     super.dispose();
   }
@@ -82,7 +80,9 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
               TextFormField(
                 controller: _durationController,
                 decoration: const InputDecoration(
-                    labelText: 'Duration', hintText: 'number of days', suffixText: 'Days'),
+                    labelText: 'Duration',
+                    hintText: 'number of days',
+                    suffixText: 'Days'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Please enter duration';
@@ -101,21 +101,40 @@ class _AddMedicineDialogState extends State<AddMedicineDialog> {
                   return null;
                 },
               ),
-              TextFormField(
-                controller: _medicationTimeController,
-                keyboardType: TextInputType.datetime,
-                decoration: const InputDecoration(labelText: 'Medication Time'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter medication time';
-                  }
-                  return null;
+              const SizedBox(
+                height: 10,
+              ),
+              DropdownButtonFormField<String>(
+                items: <String>[
+                  'Before Meal',
+                  'After Meal',
+                ].map<DropdownMenuItem<String>>((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    time = value!;
+                  });
                 },
+                decoration: const InputDecoration(
+                  label: Text('Medication Time'),
+                  border: OutlineInputBorder(),
+                ),
+                value: time,
+              ),
+              const SizedBox(
+                height: 10,
               ),
               TextFormField(
                 keyboardType: TextInputType.multiline,
                 controller: _notesController,
                 decoration: const InputDecoration(labelText: 'Notes'),
+              ),
+              const SizedBox(
+                height: 10,
               ),
             ],
           ),

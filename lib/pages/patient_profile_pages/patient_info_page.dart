@@ -54,9 +54,7 @@ class _PatientInfoState extends State<PatientInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(56 + 80),
-        child: AppBar(
+      appBar: AppBar(
           elevation: 0,
           title: const Text('Patient\'s information'),
           centerTitle: true,
@@ -79,23 +77,24 @@ class _PatientInfoState extends State<PatientInfo> {
               }),
             ),
           ],
-          flexibleSpace: NavigationDataHolder(
-            onChange: onChange,
-            child: CustomTopNavigationBar(navItems: [
-              t1,
-              t2,
-              t3,
-              if (!widget.isOPD) ...[
-                t4,
-              ],
-              if (widget.isOPD) ...[
-                t5,
-              ],
-              t6,
-            ]),
-          ),
-        ),
-      ),
+          bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(80),
+            child: NavigationDataHolder(
+              onChange: onChange,
+              child: CustomTopNavigationBar(navItems: [
+                t1,
+                t2,
+                t3,
+                if (!widget.isOPD) ...[
+                  t4,
+                ],
+                if (widget.isOPD) ...[
+                  t5,
+                ],
+                t6,
+              ]),
+            ),
+          )),
       body: selectedWidget,
     );
   }

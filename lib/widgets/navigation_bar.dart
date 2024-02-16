@@ -12,21 +12,19 @@ class CustomTopNavigationBar extends StatefulWidget {
 
 class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
   late String selectedNavItem;
-  late Widget selectedNavWidget;
 
   @override
   void initState() {
     super.initState();
     selectedNavItem = widget.navItems[0].key;
-    selectedNavWidget = widget.navItems[0].value;
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Container(
-          margin: const EdgeInsets.only(top: 40),
+        SizedBox(
+          // margin: const EdgeInsets.only(top: 40),
           height: 80,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
@@ -43,8 +41,6 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
                   onTap: () {
                     setState(() {
                       selectedNavItem = key;
-                      selectedNavWidget = value;
-                      //print(selectedNavItem);
                       NavigationDataHolder.of(context).onChange(value);
                     });
                   },

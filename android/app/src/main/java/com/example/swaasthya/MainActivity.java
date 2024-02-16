@@ -18,24 +18,22 @@ import io.flutter.plugin.common.MethodChannel;
 public class MainActivity extends FlutterActivity {
     private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final int REQUEST_IMAGE_PICK = 2;
-
     private String currentImagePath;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.print("file called");
         super.onCreate(savedInstanceState);
         new MethodChannel(getFlutterEngine().getDartExecutor().getBinaryMessenger(), "image_picker_service")
                 .setMethodCallHandler(
                         (call, result) -> {
                             if (call.method.equals("pickImage")) {
                                 Map<String,String> argument = call.arguments();
-                                //String type = argument.type;
-                                System.out.print(argument);
-                                /** if (type.equals("gallery")){
+                                String type = argument.get("type");
+                                if (type.equals("gallery")){
                                     openGallery();
                                 } else {
                                     dispatchTakePictureIntent();
-                                }*/
+                                }
                                 result.success(currentImagePath);
                             } else {
                                 result.notImplemented();

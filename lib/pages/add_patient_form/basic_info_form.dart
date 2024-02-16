@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/services/image_picker_serivce.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 import 'package:swaasthya/utils/patient_class.dart';
 import 'package:swaasthya/utils/patient_data_holder.dart';
 
@@ -12,6 +13,21 @@ class BasicInfoForm extends StatefulWidget {
 }
 
 class _BasicInfoFormState extends State<BasicInfoForm> {
+  File? _image;
+
+  final picker = ImagePicker();
+  Future getImage(ImageSource source) async {
+    final pickedFile = await picker.pickImage(source: source);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
   String category = 'Adult';
   @override
   Widget build(BuildContext context) {
@@ -128,16 +144,16 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                 children: [
                   TextButton.icon(
                     onPressed: () {
-                      ImagePickerService.pickImage({'type':'gallery'});
+                      getImage(ImageSource.gallery);
                     },
-                    icon: const Icon(Icons.folder),
+                    icon: const Icon(Icons.photo_library),
                     label: const Text('Gallery'),
                   ),
                   TextButton.icon(
                     onPressed: () {
-                      ImagePickerService.pickImage({'type':'camera'});
+                      getImage(ImageSource.camera);
                     },
-                    icon: const Icon(Icons.photo_camera),
+                    icon: const Icon(Icons.camera_alt),
                     label: const Text('Camera'),
                   ),
                 ],

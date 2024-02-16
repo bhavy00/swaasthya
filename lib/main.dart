@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
+import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
@@ -20,7 +20,10 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.system,
       // theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,
-      home: AddPatientForm(),
+      home: PatientInfo(
+        isInPatient: true,
+        isOPD: false,
+      ),
     );
   }
 }

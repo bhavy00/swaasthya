@@ -41,7 +41,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
         ),
         Center(
           child: DataTable(
-            columnSpacing: 5.0,
+            columnSpacing: MediaQuery.of(context).size.width * 0.2,
             columns: const [
               DataColumn(
                   label: Expanded(
@@ -63,25 +63,27 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
               )),
             ],
             rows: List.generate(symptoms.length, (index) {
-              return DataRow(cells: [
-                DataCell(
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Text(symptoms[index]['name']!),
+              return DataRow(
+                cells: [
+                  DataCell(
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text(symptoms[index]['name']!),
+                    ),
                   ),
-                ),
-                DataCell(Text(symptoms[index]['duration']!)),
-                DataCell(
-                  IconButton(
-                    icon: const Icon(Icons.delete),
-                    onPressed: () {
-                      setState(() {
-                        symptoms.removeAt(index);
-                      });
-                    },
+                  DataCell(Text(symptoms[index]['duration']!)),
+                  DataCell(
+                    IconButton(
+                      icon: const Icon(Icons.delete),
+                      onPressed: () {
+                        setState(() {
+                          symptoms.removeAt(index);
+                        });
+                      },
+                    ),
                   ),
-                ),
-              ]);
+                ],
+              );
             }),
           ),
         ),
