@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
-import 'package:swaasthya/pages/welcome_page.dart';
+import 'package:swaasthya/pages/login_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
 void main() {
@@ -20,10 +19,7 @@ class MyApp extends StatelessWidget {
       // themeMode: ThemeMode.system,
       // theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,
-      home: PatientInfo(
-        isInPatient: true,
-        isOPD: false,
-      ),
+      home: LoginPage(),
     );
   }
 }

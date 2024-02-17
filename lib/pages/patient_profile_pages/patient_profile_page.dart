@@ -19,25 +19,33 @@ class PatientProfilePage extends StatefulWidget {
 class _PatientProfilePageState extends State<PatientProfilePage> {
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // rest of the information abour the patient
-
-            PatientProfileCard(),
-            SizedBox(
+            MediaQuery.of(context).size.width < 600
+                ? const PatientProfileCard()
+                : const Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      CardOne(),
+                      CardTwo(),
+                      CardThree(),
+                    ],
+                  ),
+            const SizedBox(
               height: 10,
             ),
             // symptoms
-            SymptomsWidget(),
+            const SymptomsWidget(),
             // vitals
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            VitalsWidget(),
+            const VitalsWidget(),
           ],
         ),
       ),

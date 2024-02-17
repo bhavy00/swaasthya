@@ -38,58 +38,64 @@ class VitalsWidget extends StatelessWidget {
               ),
             );
           },
-          child: Card(
-            elevation: 4,
-            shadowColor: const Color.fromRGBO(
-                0, 0, 0, 1), // Set the elevation to add a shadow effect
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12.0), // Set rounded borders
-            ),
+          child: Center(
             child: Container(
-              width: double.infinity,
-              height: 150,
-              padding: const EdgeInsets.all(16),
-              child: const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Column(
+              constraints: const BoxConstraints(maxWidth: 450),
+              child: Card(
+                elevation: 4,
+                shadowColor: const Color.fromRGBO(
+                    0, 0, 0, 1), // Set the elevation to add a shadow effect
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(12.0), // Set rounded borders
+                ),
+                child: Container(
+                  width: double.infinity,
+                  height: 150,
+                  padding: const EdgeInsets.all(16),
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('72 bt/min'),
-                          Text('Heart rate'),
+                          Column(
+                            children: [
+                              Text('72 bt/min'),
+                              Text('Heart rate'),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text('95'),
+                              Text('SpO2'),
+                            ],
+                          ),
                         ],
                       ),
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          Text('95'),
-                          Text('SpO2'),
+                          Column(
+                            children: [
+                              Text('120 mmHg'),
+                              Text('Blood Pressure'),
+                            ],
+                          ),
+                          Column(
+                            children: [
+                              Text('37'),
+                              Text('Temprature'),
+                            ],
+                          ),
                         ],
                       ),
                     ],
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Column(
-                        children: [
-                          Text('120 mmHg'),
-                          Text('Blood Pressure'),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text('37'),
-                          Text('Temprature'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
+                ),
               ),
             ),
           ),

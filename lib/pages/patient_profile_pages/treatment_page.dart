@@ -64,97 +64,77 @@ class _TreatmentPageState extends State<TreatmentPage> {
   bool showFilter = false;
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const Text('Medicine'),
-              Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      setState(() {
-                        showFilter = !showFilter;
-                      });
-                    },
-                    icon: const Icon(Icons.filter_alt),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      showDialog(
-                          context: context,
-                          builder: (context) {
-                            return const AddMedicineDialog();
-                          });
-                    },
-                    icon: const Icon(Icons.add),
-                  ),
-                ],
-              )
-            ],
-          ),
-          if (showFilter) ...[
-            const FilterChipClass(filters: [
-              'All',
-              'Capsules',
-              'Syrups',
-              'Tablets',
-              'Injections',
-              'IV Line'
-            ])
-          ],
-          const SizedBox(
-            height: 15,
-          ),
-          Expanded(
-            child: Stack(
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ListView.builder(
-                  itemCount: treat.length,
-                  itemBuilder: ((context, index) {
-                    final treatment = treat[index];
-                    return MedicineCard(
-                      medicineName: treatment['medicineName'],
-                      medicationTime: treatment['medicationTime'],
-                      numberOfDoses: treatment['numberOfDoses'],
-                      duration: treatment['duration'],
-                      notes: treatment['notes'],
-                      progress: treatment['progress'],
-                    );
-                  }),
-                ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: FloatingActionButton.extended(
+                const Text('Medicine'),
+                Row(
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        setState(() {
+                          showFilter = !showFilter;
+                        });
+                      },
+                      icon: const Icon(Icons.filter_alt),
+                    ),
+                    IconButton(
                       onPressed: () {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return const AlertDialog(
-                                title: Text('Add Notification for Medicine'),
-                                content: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [],
-                                ),
-                              );
+                              return const AddMedicineDialog();
                             });
                       },
-                      tooltip: 'Add Notification for medicine',
-                      label: const Text('Add Notification'),
-                      icon: const Icon(Icons.notification_add),
+                      icon: const Icon(Icons.add),
                     ),
+                  ],
+                )
+              ],
+            ),
+            if (showFilter) ...[
+              const FilterChipClass(filters: [
+                'All',
+                'Capsules',
+                'Syrups',
+                'Tablets',
+                'Injections',
+                'IV Line'
+              ])
+            ],
+            const SizedBox(
+              height: 15,
+            ),
+            Stack(
+              children: [
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: List.generate(
+                    treat.length,
+                    (index) {
+                      final treatment = treat[index];
+                      return MedicineCard(
+                        medicineName: treatment['medicineName'],
+                        medicationTime: treatment['medicationTime'],
+                        numberOfDoses: treatment['numberOfDoses'],
+                        duration: treatment['duration'],
+                        notes: treatment['notes'],
+                        progress: treatment['progress'],
+                      );
+                    },
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

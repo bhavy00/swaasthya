@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class PatientProfileCard extends StatefulWidget {
@@ -11,6 +13,7 @@ class _PatientProfileCardState extends State<PatientProfileCard> {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
   final List<Widget> _pages = const [CardOne(), CardTwo(), CardThree()];
+  // final double height = max(content, b);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -69,51 +72,58 @@ class CardOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Patient Information',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+    return Container(
+      constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width >= 600 ? 350 : 450),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Patient Information',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            const SizedBox(height: 8.0),
-            Center(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Container(
-                    width: 100.0,
-                    height: 100.0,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          'https://placekitten.com/80/80', // Replace with your image URL
+              const SizedBox(height: 8.0),
+              Center(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: 100.0,
+                        height: 100.0,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: NetworkImage(
+                              'https://placekitten.com/80/80', // Replace with your image URL
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Patient\'s Name: Anna Cruise'),
-                      Text('ID: 123456'),
-                      Text('Doctor Name: Dr. John Doe'),
-                      Text('Department: Cardiology'),
-                      Text('Referred By: Dr. Jane Smith'),
+                      const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Patient\'s Name: Anna Cruise'),
+                          Text('ID: 123456'),
+                          Text('Doctor Name: Dr. John Doe'),
+                          Text('Department: Cardiology'),
+                          Text('Referred By: Dr. Jane Smith'),
+                        ],
+                      ),
                     ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -125,26 +135,30 @@ class CardTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Health Information',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+    return Container(
+      constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width >= 600 ? 350 : 450),
+      child: const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Health Information',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 8.0),
-            Text('Height: 175 cm'),
-            Text('Weight: 70 kg'),
-            Text('UHID: 987654321'),
-            Text('Gender: Male'),
-            Text('DOB: January 1, 1990'),
-          ],
+              SizedBox(height: 8.0),
+              Text('Height: 175 cm'),
+              Text('Weight: 70 kg'),
+              Text('UHID: 987654321'),
+              Text('Gender: Male'),
+              Text('DOB: January 1, 1990'),
+            ],
+          ),
         ),
       ),
     );
@@ -155,27 +169,43 @@ class CardThree extends StatelessWidget {
   const CardThree({super.key});
   @override
   Widget build(BuildContext context) {
-    return const Card(
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'Contact Information',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+    return Container(
+      constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width >= 600 ? 350 : 450),
+      child: const Card(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Contact Information',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 8.0),
-            Text('Email: patient@example.com'),
-            Text('Phone Number: +1234567890'),
-            Text('Address: 123 Main St.'),
-            Text('State: California'),
-            Text('City: Los Angeles'),
-            Text('Pincode: 90001'),
-          ],
+              SizedBox(height: 8.0),
+              Text('Email: patient@example.com'),
+              Text('Phone Number: +1234567890'),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text(
+                  'Address: 123 Main St. ueirvnurefnori fri foirf irojf rwjfr jfqj fpw',
+                  // maxLines: 2,
+                ),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text('State: California'),
+              ),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Text('City: Los Angeles'),
+              ),
+              Text('Pincode: 90001'),
+            ],
+          ),
         ),
       ),
     );

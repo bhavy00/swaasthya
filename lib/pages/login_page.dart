@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/pages/welcome_page.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -64,7 +65,10 @@ class _LoginPageState extends State<LoginPage> {
       // For simplicity, just print the credentials for now
       print('Username: $username');
       print('Password: $password');
-
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (context) {
+        return const WelcomePage();
+      }));
       // You can navigate to the next screen or perform other actions after successful login
     } else {
       // Show an error message if the fields are empty
