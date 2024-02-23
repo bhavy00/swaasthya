@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/theme/pallete.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class PatientWardPieChart extends StatelessWidget {
@@ -7,10 +8,17 @@ class PatientWardPieChart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SfCircularChart(
-      title: const ChartTitle(text: 'Patients\' Ward Statistics'),
+      title: const ChartTitle(
+        text: 'Patients\' Ward Statistics',
+        textStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
       legend: const Legend(
         isVisible: true,
         position: LegendPosition.right,
+        textStyle: TextStyle(color: Colors.white),
       ),
       series: <CircularSeries>[
         // Renders a pie chart
@@ -23,6 +31,7 @@ class PatientWardPieChart extends StatelessWidget {
           ],
           xValueMapper: (PieChartData data, _) => data.category,
           yValueMapper: (PieChartData data, _) => data.value,
+          pointColorMapper: (PieChartData data, _) => chartPalette[_],
           dataLabelSettings: const DataLabelSettings(isVisible: true),
         )
       ],

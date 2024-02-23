@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 
 class PatientProfileCard extends StatefulWidget {
@@ -18,7 +16,7 @@ class _PatientProfileCardState extends State<PatientProfileCard> {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.all(16),
-      height: 220,
+      height: 250,
       child: Column(
         children: [
           Expanded(
@@ -77,52 +75,54 @@ class CardOne extends StatelessWidget {
           maxWidth: MediaQuery.of(context).size.width >= 600 ? 350 : 450),
       child: Card(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Patient Information',
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.bold,
+          padding: const EdgeInsets.all(8.0),
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Patient Information',
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 8.0),
-              Center(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Container(
-                        width: 100.0,
-                        height: 100.0,
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(
-                              'https://placekitten.com/80/80', // Replace with your image URL
+                const SizedBox(height: 8.0),
+                Center(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 100.0,
+                          height: 100.0,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                'https://placekitten.com/80/80', // Replace with your image URL
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Patient\'s Name: Anna Cruise'),
-                          Text('ID: 123456'),
-                          Text('Doctor Name: Dr. John Doe'),
-                          Text('Department: Cardiology'),
-                          Text('Referred By: Dr. Jane Smith'),
-                        ],
-                      ),
-                    ],
+                        const Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Patient\'s Name: Anna Cruise'),
+                            Text('ID: 123456'),
+                            Text('Doctor Name: Dr. John Doe'),
+                            Text('Department: Cardiology'),
+                            Text('Referred By: Dr. Jane Smith'),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

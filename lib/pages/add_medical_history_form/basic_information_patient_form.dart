@@ -58,6 +58,9 @@ class _BasicInformationPatientFormState
                 });
               },
             ),
+            const SizedBox(
+              height: 8,
+            ),
             CheckboxListTile(
               title: const Text('Low BP'),
               value: history.lowBp,
@@ -66,6 +69,9 @@ class _BasicInformationPatientFormState
                   history.lowBp = value!;
                 });
               },
+            ),
+            const SizedBox(
+              height: 8,
             ),
             CheckboxListTile(
               title: const Text('Diabetes'),
@@ -76,6 +82,9 @@ class _BasicInformationPatientFormState
                 });
               },
             ),
+            const SizedBox(
+              height: 8,
+            ),
             CheckboxListTile(
               title: const Text('Surgery'),
               value: history.surgery,
@@ -84,6 +93,9 @@ class _BasicInformationPatientFormState
                   history.surgery = value!;
                 });
               },
+            ),
+            const SizedBox(
+              height: 8,
             ),
             CheckboxListTile(
               title: const Text('Hyper Lipidameia/Dyslipidaemia'),

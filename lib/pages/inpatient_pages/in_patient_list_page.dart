@@ -31,7 +31,11 @@ class InPatientListPage extends StatelessWidget {
               decoration: const InputDecoration(
                 label: Text('Search'),
                 hintText: 'Search...',
-                border: OutlineInputBorder(),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(30),
+                  ),
+                ),
                 contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
                 prefixIcon: Icon(Icons.search),
               ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/theme/pallete.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class PatientVisitsChart extends StatelessWidget {
@@ -8,14 +9,28 @@ class PatientVisitsChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SfCartesianChart(
       // legend: const Legend(isVisible: true),
-      title: const ChartTitle(text: 'Patient Monthly Visit'),
+      title: const ChartTitle(
+        text: 'Patient Monthly Visit',
+        textStyle: TextStyle(
+          color: Colors.white,
+          fontSize: 24,
+        ),
+      ),
       primaryXAxis: const CategoryAxis(),
-      primaryYAxis: const NumericAxis(title: AxisTitle(text: 'No. of Patient')),
+      primaryYAxis: const NumericAxis(
+        title: AxisTitle(
+          text: 'No. of Patient',
+          textStyle: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
       series: <CartesianSeries>[
         BarSeries<PatientVisitData, String>(
           dataSource: getPatientVisitsData(),
           xValueMapper: (PatientVisitData data, _) => data.month,
           yValueMapper: (PatientVisitData data, _) => data.visits,
+          // pointColorMapper: (PatientVisitData data, _) => chartPalette[_],
           dataLabelSettings: const DataLabelSettings(isVisible: true),
         ),
       ],

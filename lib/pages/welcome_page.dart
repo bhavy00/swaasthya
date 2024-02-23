@@ -34,37 +34,40 @@ class _WelcomePageState extends State<WelcomePage> {
         index: _currentPage,
         children: pages,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        iconSize: 25,
-        currentIndex: _currentPage,
-        onTap: (value) {
-          setState(() {
-            _currentPage = value;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.local_hospital),
-            label: 'InPatient',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.outbox),
-            label: 'Discharged',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.outbond),
-            label: 'OPD',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.emergency),
-            label: 'Emergency',
-          )
-        ],
+      bottomNavigationBar: ClipRRect(
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+        child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          iconSize: 25,
+          currentIndex: _currentPage,
+          onTap: (value) {
+            setState(() {
+              _currentPage = value;
+            });
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.home),
+              label: 'Home',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_hospital),
+              label: 'InPatient',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.outbox),
+              label: 'Discharged',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.outbond),
+              label: 'OPD',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.emergency),
+              label: 'Emergency',
+            )
+          ],
+        ),
       ),
     );
   }

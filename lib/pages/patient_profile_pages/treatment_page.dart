@@ -158,9 +158,13 @@ class _FilterChipClassState extends State<FilterChipClass> {
         children: <Widget>[
           Wrap(
             spacing: 5.0,
+            runSpacing: 5.0,
             alignment: WrapAlignment.start,
             children: widget.filters.map((filter) {
               return FilterChip(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
                 label: Text(filter),
                 selected: selectedFilter == filter,
                 onSelected: (bool selected) {
