@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/login.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,9 +10,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  final LoginAPIClient apiClient = LoginAPIClient(
+      baseUrl: 'https://yantrammedtech.com/api/v1/user/emailLogin');
+  bool hide = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,19 +31,26 @@ class _LoginPageState extends State<LoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TextField(
-              controller: _usernameController,
+              controller: _emailController,
               decoration: const InputDecoration(
-                labelText: 'Username',
+                labelText: 'Email',
                 border: OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(
-                labelText: 'Password',
-              ),
+              obscureText: hide,
+              decoration: InputDecoration(
+                  labelText: 'Password',
+                  suffix: IconButton(
+                    icon: Icon(hide ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        hide = !hide;
+                      });
+                    },
+                  )),
             ),
             const SizedBox(height: 32.0),
             ElevatedButton(
@@ -55,29 +65,45 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login() {
-    String username = _usernameController.text.trim();
+  void _login() async {
+    String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
-
-    // Basic validation - Check if username and password are not empty
-    if (username.isNotEmpty && password.isNotEmpty) {
-      // Add your authentication logic here
-      // For simplicity, just print the credentials for now
-      print('Username: $username');
-      print('Password: $password');
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (context) {
-        return const WelcomePage();
-      }));
-      // You can navigate to the next screen or perform other actions after successful login
+    if (email.isNotEmpty && password.isNotEmpty) {
+      try {
+        final userData = await apiClient.login(email, password);
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) {
+              return WelcomePage(userData: userData);
+            },
+          ),
+        );
+      } catch (e) {
+        //print(e);
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: const Text('Error'),
+                content: const Text('Failed to login, please try again later'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('OK'),
+                  ),
+                ],
+              );
+            });
+      }
     } else {
-      // Show an error message if the fields are empty
       showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             title: const Text('Error'),
-            content: const Text('Please enter both username and password.'),
+            content: const Text('Please enter both email and password.'),
             actions: [
               TextButton(
                 onPressed: () {

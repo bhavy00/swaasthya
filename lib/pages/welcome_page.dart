@@ -7,7 +7,8 @@ import 'package:swaasthya/pages/outpatient_pages/opd_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({super.key});
+  final Map<String, dynamic> userData;
+  const WelcomePage({super.key, required this.userData});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();

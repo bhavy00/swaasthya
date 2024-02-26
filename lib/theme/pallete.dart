@@ -1,15 +1,72 @@
 import 'package:flutter/material.dart';
 
-class Palette {
-  static const Color primaryColor = Color(0xFF1557C0);
-  static const Color secondaryColor = Color(0xFF196BDE);
-  static const Color teritiaryColor = Color(0xFF4B9CF9);
-  static const Color backgroundColor = Color.fromARGB(255, 0, 20, 59);
-  // static const Color surfaceColor = Color(0xFFA4CEFC);
-  // static const Color textColor = Color(0xFF4B9CF9);
-  // static const Color iconColor = Color(0xFF13459C);
-}
+const lightColorScheme = ColorScheme(
+  brightness: Brightness.light,
+  primary: Color(0xFF0056D1),
+  onPrimary: Color(0xFFFFFFFF),
+  primaryContainer: Color(0xFFDAE2FF),
+  onPrimaryContainer: Color(0xFF001847),
+  secondary: Color(0xFF805600),
+  onSecondary: Color(0xFFFFFFFF),
+  secondaryContainer: Color(0xFFFFDDAF),
+  onSecondaryContainer: Color(0xFF281800),
+  tertiary: Color(0xFF626200),
+  onTertiary: Color(0xFFFFFFFF),
+  tertiaryContainer: Color(0xFFE9E86F),
+  onTertiaryContainer: Color(0xFF1D1D00),
+  error: Color(0xFFBA1A1A),
+  errorContainer: Color(0xFFFFDAD6),
+  onError: Color(0xFFFFFFFF),
+  onErrorContainer: Color(0xFF410002),
+  background: Color(0xFFFDFBFF),
+  onBackground: Color(0xFF001B3D),
+  surface: Color(0xFFFDFBFF),
+  onSurface: Color(0xFF001B3D),
+  surfaceVariant: Color(0xFFE1E2EC),
+  onSurfaceVariant: Color(0xFF45464F),
+  outline: Color(0xFF757780),
+  onInverseSurface: Color(0xFFECF0FF),
+  inverseSurface: Color(0xFF003062),
+  inversePrimary: Color(0xFFB2C5FF),
+  shadow: Color(0xFF000000),
+  surfaceTint: Color(0xFF0056D1),
+  outlineVariant: Color(0xFFC5C6D0),
+  scrim: Color(0xFF000000),
+);
 
+const darkColorScheme = ColorScheme(
+  brightness: Brightness.dark,
+  primary: Color(0xFFB2C5FF),
+  onPrimary: Color(0xFF002C72),
+  primaryContainer: Color(0xFF0040A0),
+  onPrimaryContainer: Color(0xFFDAE2FF),
+  secondary: Color(0xFFFFBA43),
+  onSecondary: Color(0xFF432C00),
+  secondaryContainer: Color(0xFF614000),
+  onSecondaryContainer: Color(0xFFFFDDAF),
+  tertiary: Color(0xFFCCCC57),
+  onTertiary: Color(0xFF323200),
+  tertiaryContainer: Color(0xFF494900),
+  onTertiaryContainer: Color(0xFFE9E86F),
+  error: Color(0xFFFFB4AB),
+  errorContainer: Color(0xFF93000A),
+  onError: Color(0xFF690005),
+  onErrorContainer: Color(0xFFFFDAD6),
+  background: Color(0xFF001B3D),
+  onBackground: Color(0xFFD6E3FF),
+  surface: Color(0xFF001B3D),
+  onSurface: Color(0xFFD6E3FF),
+  surfaceVariant: Color(0xFF45464F),
+  onSurfaceVariant: Color(0xFFC5C6D0),
+  outline: Color(0xFF8F909A),
+  onInverseSurface: Color(0xFF001B3D),
+  inverseSurface: Color(0xFFD6E3FF),
+  inversePrimary: Color(0xFF0056D1),
+  shadow: Color(0xFF000000),
+  surfaceTint: Color(0xFFB2C5FF),
+  outlineVariant: Color(0xFF45464F),
+  scrim: Color(0xFF000000),
+);
 const chartPalette = [
   Color(0xFF1557C0),
   Color(0xFF196BDE),

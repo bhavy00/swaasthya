@@ -33,8 +33,8 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
               final key = widget.navItems[index].key;
               final value = widget.navItems[index].value;
               final color = selectedNavItem == key
-                  ? const Color(0xFF1D1E2C)
-                  : const Color(0xFFF7EBEC);
+                  ? Theme.of(context).colorScheme.primaryContainer
+                  : Theme.of(context).colorScheme.onPrimaryContainer;
               return Padding(
                 padding: const EdgeInsets.all(8),
                 child: GestureDetector(
@@ -51,8 +51,8 @@ class _CustomTopNavigationBarState extends State<CustomTopNavigationBar> {
                     ),
                     labelStyle: TextStyle(
                       color: selectedNavItem == key
-                          ? const Color(0xFFF7EBEC)
-                          : const Color(0xFF1D1E2C),
+                          ? Theme.of(context).colorScheme.onPrimaryContainer
+                          : Theme.of(context).colorScheme.primaryContainer,
                     ),
                     padding: const EdgeInsets.symmetric(
                         vertical: 10, horizontal: 20),

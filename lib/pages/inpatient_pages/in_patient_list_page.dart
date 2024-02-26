@@ -3,10 +3,15 @@ import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
 import 'package:swaasthya/widgets/cards/patient_info_card.dart';
 
-class InPatientListPage extends StatelessWidget {
+class InPatientListPage extends StatefulWidget {
   final List<Map<String, dynamic>> patientList;
   const InPatientListPage({super.key, required this.patientList});
 
+  @override
+  State<InPatientListPage> createState() => _InPatientListPageState();
+}
+
+class _InPatientListPageState extends State<InPatientListPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,24 +29,29 @@ class InPatientListPage extends StatelessWidget {
           ),
         ],
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                label: Text('Search'),
-                hintText: 'Search...',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(30),
-                  ),
-                ),
-                contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
-                prefixIcon: Icon(Icons.search),
-              ),
-              onChanged: (value) {
-                // Implement search functionality here
-              },
+            // child: TextField(
+            //   decoration: const InputDecoration(
+            //     label: Text('Search'),
+            //     hintText: 'Search...',
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.all(
+            //         Radius.circular(30),
+            //       ),
+            //     ),
+            //     contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
+            //     prefixIcon: Icon(Icons.search),
+            //   ),
+            //   onChanged: (value) {
+            //     // Implement search functionality here
+            //   },
+            // ),
+            child: SearchBar(
+              leading: const Icon(Icons.search),
+              hintText: 'Search',
+              onSubmitted: (value) {},
             ),
           ),
         ),
@@ -51,9 +61,9 @@ class InPatientListPage extends StatelessWidget {
         separatorBuilder: (context, index) {
           return const Divider();
         },
-        itemCount: patientList.length,
+        itemCount: widget.patientList.length,
         itemBuilder: (context, index) {
-          final patient = patientList[index];
+          final patient = widget.patientList[index];
           return GestureDetector(
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
