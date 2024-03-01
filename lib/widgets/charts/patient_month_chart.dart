@@ -12,7 +12,7 @@ class PatientVisitsChart extends StatelessWidget {
       title: const ChartTitle(
         text: 'Patient Monthly Visit',
         textStyle: TextStyle(
-          color: Colors.white,
+          // color: Colors.white,
           fontSize: 24,
         ),
       ),
@@ -21,8 +21,8 @@ class PatientVisitsChart extends StatelessWidget {
         title: AxisTitle(
           text: 'No. of Patient',
           textStyle: TextStyle(
-            color: Colors.white,
-          ),
+              // color: Colors.white,
+              ),
         ),
       ),
       series: <CartesianSeries>[
@@ -30,7 +30,7 @@ class PatientVisitsChart extends StatelessWidget {
           dataSource: getPatientVisitsData(),
           xValueMapper: (PatientVisitData data, _) => data.month,
           yValueMapper: (PatientVisitData data, _) => data.visits,
-          // pointColorMapper: (PatientVisitData data, _) => chartPalette[_],
+          color: chartPalette[0],
           dataLabelSettings: const DataLabelSettings(isVisible: true),
         ),
       ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/add_medical_history_form/add_medical_history_form.dart';
-import 'package:swaasthya/utils/medical_history_class.dart';
+import 'package:swaasthya/utils/classes/medical_history_class.dart';
 
 bool hasData = false;
 MedicalHistory medicalHistory = MedicalHistory();

@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/apis/login.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
+import 'package:swaasthya/utils/pair.dart';
+import 'package:swaasthya/utils/providers/user_provider.dart';
+
+final fetchUserProvider =
+    FutureProvider.family((ref, Pair<String, String> input) {
+  final userData = ref.watch(userDataProvider);
+  return userData.fetchUserData(input);
+});
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -12,16 +20,13 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final LoginAPIClient apiClient = LoginAPIClient(
-      baseUrl: 'https://yantrammedtech.com/api/v1/user/emailLogin');
-  bool hide = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'Login Page',
-          style: Theme.of(context).textTheme.headlineLarge,
         ),
         centerTitle: true,
       ),
@@ -40,24 +45,20 @@ class _LoginPageState extends State<LoginPage> {
             const SizedBox(height: 16.0),
             TextField(
               controller: _passwordController,
-              obscureText: hide,
-              decoration: InputDecoration(
-                  labelText: 'Password',
-                  suffix: IconButton(
-                    icon: Icon(hide ? Icons.visibility : Icons.visibility_off),
-                    onPressed: () {
-                      setState(() {
-                        hide = !hide;
-                      });
-                    },
-                  )),
+              obscureText: true,
+              decoration: const InputDecoration(
+                labelText: 'Password',
+                border: OutlineInputBorder(),
+              ),
             ),
             const SizedBox(height: 32.0),
-            ElevatedButton(
-              onPressed: () {
-                _login();
-              },
-              child: const Text('Login'),
+            Consumer(
+              builder: ((context, ref, child) {
+                return ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Login'),
+                );
+              }),
             ),
           ],
         ),
@@ -65,56 +66,20 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  void _login() async {
-    String email = _emailController.text.trim();
-    String password = _passwordController.text.trim();
-    if (email.isNotEmpty && password.isNotEmpty) {
-      try {
-        final userData = await apiClient.login(email, password);
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) {
-              return WelcomePage(userData: userData);
-            },
-          ),
-        );
-      } catch (e) {
-        //print(e);
-        showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: const Text('Error'),
-                content: const Text('Failed to login, please try again later'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text('OK'),
-                  ),
-                ],
-              );
-            });
-      }
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Error'),
-            content: const Text('Please enter both email and password.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+//   void _login(BuildContext context, FutureProvider.family<User,Pair<String,String>> fetchUserProvider) {
+//     final String email = _emailController.text.trim();
+//     final String password = _passwordController.text.trim();
+
+//     if (email.isNotEmpty && password.isNotEmpty) {
+//       fetchUserProvider(email, password);
+//     } else {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(
+//           content: const Text('Please enter both email and password.'),
+//           backgroundColor: Theme.of(context).colorScheme.errorContainer,
+//         ),
+//       );
+//     }
+//   }
+// }
 }

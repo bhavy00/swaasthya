@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/add_patient_form/basic_info_form.dart';
 import 'package:swaasthya/pages/add_patient_form/contact_info_form.dart';
 import 'package:swaasthya/pages/add_patient_form/doctor_info_form.dart';
-import 'package:swaasthya/utils/patient_class.dart';
+import 'package:swaasthya/utils/classes/patient_class.dart';
 import 'package:swaasthya/utils/patient_data_holder.dart';
 
 class AddPatientForm extends StatefulWidget {

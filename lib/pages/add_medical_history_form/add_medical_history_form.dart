@@ -6,7 +6,7 @@ import 'package:swaasthya/pages/add_medical_history_form/patient_addictions_infe
 import 'package:swaasthya/pages/add_medical_history_form/patient_allergy_form.dart';
 import 'package:swaasthya/pages/add_medical_history_form/patient_health_condition_form.dart';
 import 'package:swaasthya/pages/add_medical_history_form/patient_medication_form.dart';
-import 'package:swaasthya/utils/medical_history_class.dart';
+import 'package:swaasthya/utils/classes/medical_history_class.dart';
 import 'package:swaasthya/utils/medical_history_data_holder.dart';
 
 class AddMedicalHistoryForm extends StatefulWidget {

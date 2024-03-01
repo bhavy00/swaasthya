@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/utils/medical_history_class.dart';
+import 'package:swaasthya/utils/classes/medical_history_class.dart';
 import 'package:swaasthya/utils/medical_history_data_holder.dart';
 
 class PatientAllergyForm extends StatefulWidget {

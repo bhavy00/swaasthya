@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:swaasthya/pages/home_page/notification_page.dart';
 import 'package:swaasthya/pages/home_page/user_profile_page.dart';
+import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
+import 'package:swaasthya/utils/patient_list.dart';
 import 'package:swaasthya/widgets/stats_view_pages.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,15 +15,8 @@ class HomePage extends StatelessWidget {
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.menu,
-            color: Colors.white,
-          ),
-        ),
         title: const Text('Swaasthya'),
-        centerTitle: true,
+        centerTitle: false,
         actions: [
           IconButton(
             onPressed: () {
@@ -35,7 +30,6 @@ class HomePage extends StatelessWidget {
               label: Text('5'),
               child: Icon(
                 Icons.notifications,
-                color: Colors.white,
               ),
             ),
           ),
@@ -51,9 +45,53 @@ class HomePage extends StatelessWidget {
             },
             icon: const Icon(
               Icons.person,
-              color: Colors.white,
             ),
-          )
+          ),
+          PopupMenuButton<String>(
+            itemBuilder: ((context) {
+              return <PopupMenuEntry<String>>[
+                PopupMenuItem<String>(
+                  value: 'Discharged',
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return DischargePatientPage(
+                            patientList: outPatientList);
+                      }));
+                    },
+                    child: const Text('Discharged Patients'),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'Discharged',
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return DischargePatientPage(
+                            patientList: outPatientList);
+                      }));
+                    },
+                    child: const Text('Discharged Patients'),
+                  ),
+                ),
+                PopupMenuItem<String>(
+                  value: 'logout',
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context)
+                          .push(MaterialPageRoute(builder: (context) {
+                        return DischargePatientPage(
+                            patientList: outPatientList);
+                      }));
+                    },
+                    child: const Text('Logout'),
+                  ),
+                ),
+              ];
+            }),
+          ),
         ],
       ),
       body: SingleChildScrollView(

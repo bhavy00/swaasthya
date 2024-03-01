@@ -11,14 +11,14 @@ class DepartmentPatientsChart extends StatelessWidget {
       title: const ChartTitle(
         text: 'Patients\' Department',
         textStyle: TextStyle(
-          color: Colors.white,
+          // color: Colors.white,
           fontSize: 24,
         ),
       ),
       legend: const Legend(
         isVisible: true,
         position: LegendPosition.right,
-        textStyle: TextStyle(color: Colors.white),
+        // textStyle: TextStyle(color: Colors.white),
       ),
       series: <CircularSeries>[
         // Renders a doughnut chart

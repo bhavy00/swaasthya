@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/utils/patient_class.dart';
+import 'package:swaasthya/utils/classes/patient_class.dart';
 import 'package:swaasthya/utils/patient_data_holder.dart';
 
 class DoctorInfoForm extends StatefulWidget {
