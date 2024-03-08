@@ -1,38 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swaasthya/pages/emergency_pages/emergency_page.dart';
 import 'package:swaasthya/pages/home_page/home_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/in_patient_list_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
 import 'package:swaasthya/pages/outpatient_pages/opd_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
+import 'package:swaasthya/utils/providers/user_provider.dart';
 
-class WelcomePage extends StatefulWidget {
-  // final Map<String, dynamic> userData;
-  const WelcomePage({
-    super.key,
-    /*required this.userData*/
-  });
+class WelcomePage extends ConsumerStatefulWidget {
+  const WelcomePage({super.key});
 
   @override
-  State<WelcomePage> createState() => _WelcomePageState();
+  ConsumerState<WelcomePage> createState() => _WelcomePageState();
 }
 
-class _WelcomePageState extends State<WelcomePage> {
+class _WelcomePageState extends ConsumerState<WelcomePage> {
   int _currentPage = 0;
-
-  List<Widget> pages = [
-    const HomePage(),
-    InPatientListPage(patientList: patientList),
-    DischargePatientPage(
-      patientList: outPatientList,
-    ),
-    OPDPage(patientList: patientList),
-    EmergencyPage(
-      patientList: patientList,
-    ),
-  ];
   @override
   Widget build(BuildContext context) {
+    final userData = ref.read(userProvider);
+    List<Widget> pages = [
+      HomePage(
+        user: userData,
+      ),
+      InPatientListPage(
+        userData: userData,
+      ),
+      DischargePatientPage(
+        patientList: outPatientList,
+      ),
+      OPDPage(patientList: patientList),
+      EmergencyPage(
+        patientList: patientList,
+      ),
+    ];
     return Scaffold(
       body: IndexedStack(
         index: _currentPage,

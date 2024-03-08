@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/utils/classes/user_data_class.dart';
 
 class EditUserForm extends StatefulWidget {
   final bool disabled;
-  const EditUserForm({super.key, required this.disabled});
+  final User? userData;
+  const EditUserForm({this.userData,super.key, required this.disabled});
 
   @override
   State<EditUserForm> createState() => _EditUserFormState();
@@ -10,20 +12,11 @@ class EditUserForm extends StatefulWidget {
 
 class _EditUserFormState extends State<EditUserForm> {
   final _formKey = GlobalKey<FormState>();
-
-  String _firstName = '';
-  String _lastName = '';
-  int _phoneNumber = 0;
-  String _gender = '';
-  DateTime _dob = DateTime.now();
-  String _state = '';
-  String _city = '';
-  int _pincode = 0;
-  String _email = '';
-  String _homeAddress = '';
-
   @override
   Widget build(BuildContext context) {
+    // print(userData);
+    int? _gender = widget.userData?.gender;
+    DateTime? dob = widget.userData?.dob;
     return Form(
       key: _formKey,
       child: SingleChildScrollView(
@@ -31,6 +24,8 @@ class _EditUserFormState extends State<EditUserForm> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             TextFormField(
+              controller:
+                  TextEditingController(text: widget.userData?.firstName),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'First Name'),
               validator: (value) {
@@ -39,7 +34,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _firstName = value!,
+              // onSaved: (value) => _firstName = value!,
             ),
             TextFormField(
               enabled: !widget.disabled,
@@ -50,7 +45,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _lastName = value!,
+              // onSaved: (value) => _lastName = value!,
             ),
             TextFormField(
               enabled: !widget.disabled,
@@ -62,7 +57,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _phoneNumber = int.parse(value!),
+              // onSaved: (value) => _phoneNumber = int.parse(value!),
             ),
             AbsorbPointer(
               absorbing: widget.disabled,
@@ -75,9 +70,7 @@ class _EditUserFormState extends State<EditUserForm> {
                         ))
                     .toList(),
                 onChanged: (value) {
-                  setState(() {
-                    _gender = value!;
-                  });
+                  setState(() {});
                 },
                 validator: (value) {
                   if (value == null) {
@@ -100,7 +93,7 @@ class _EditUserFormState extends State<EditUserForm> {
                   );
                   if (selectedDate != null) {
                     setState(() {
-                      _dob = selectedDate;
+                      dob = selectedDate;
                     });
                   }
                 },
@@ -108,7 +101,7 @@ class _EditUserFormState extends State<EditUserForm> {
                   decoration: const InputDecoration(
                     labelText: 'Date of Birth',
                   ),
-                  child: Text('${_dob.toLocal()}'.split(' ')[0]),
+                  child: Text('${dob?.toLocal()}'.split(' ')[0]),
                 ),
               ),
             ),
@@ -121,7 +114,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _state = value!,
+              // onSaved: (value) => _state = value!,
             ),
             TextFormField(
               enabled: !widget.disabled,
@@ -132,7 +125,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _city = value!,
+              // onSaved: (value) => _city = value!,
             ),
             TextFormField(
               enabled: !widget.disabled,
@@ -144,7 +137,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _pincode = int.parse(value!),
+              // onSaved: (value) => _pincode = int.parse(value!),
             ),
             TextFormField(
               enabled: !widget.disabled,
@@ -157,7 +150,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 // You can add more complex email validation logic here if needed
                 return null;
               },
-              onSaved: (value) => _email = value!,
+              // onSaved: (value) => _email = value!,
             ),
             TextFormField(
               enabled: !widget.disabled,
@@ -168,7 +161,7 @@ class _EditUserFormState extends State<EditUserForm> {
                 }
                 return null;
               },
-              onSaved: (value) => _homeAddress = value!,
+              // onSaved: (value) => _homeAddress = value!,
             ),
             const SizedBox(height: 20),
             Center(

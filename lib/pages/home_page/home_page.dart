@@ -3,11 +3,13 @@ import 'package:intl/intl.dart';
 import 'package:swaasthya/pages/home_page/notification_page.dart';
 import 'package:swaasthya/pages/home_page/user_profile_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
+import 'package:swaasthya/utils/classes/user_data_class.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 import 'package:swaasthya/widgets/stats_view_pages.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  final User? user;
+  const HomePage({super.key, required this.user});
   @override
   Widget build(BuildContext context) {
     bool tabView = MediaQuery.of(context).size.width >= 600;
@@ -38,56 +40,54 @@ class HomePage extends StatelessWidget {
               Navigator.of(context).push(
                 MaterialPageRoute(
                   builder: ((context) {
-                    return const UserProfilePage();
+                    return UserProfilePage(
+                      userData: user,
+                    );
                   }),
                 ),
               );
             },
-            icon: const Icon(
-              Icons.person,
-            ),
+            icon: user?.imageURL != null
+                ? ImageIcon(
+                    NetworkImage(user?.imageURL as String),
+                    size: 12,
+                  )
+                : const Icon(
+                    Icons.person,
+                  ),
           ),
           PopupMenuButton<String>(
             itemBuilder: ((context) {
               return <PopupMenuEntry<String>>[
                 PopupMenuItem<String>(
                   value: 'Discharged',
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return DischargePatientPage(
-                            patientList: outPatientList);
-                      }));
-                    },
-                    child: const Text('Discharged Patients'),
-                  ),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return DischargePatientPage(patientList: outPatientList);
+                    }));
+                  },
+                  child: const Text('Discharged Patient'),
                 ),
                 PopupMenuItem<String>(
-                  value: 'Discharged',
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return DischargePatientPage(
-                            patientList: outPatientList);
-                      }));
-                    },
-                    child: const Text('Discharged Patients'),
-                  ),
+                  value: 'billing',
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return DischargePatientPage(patientList: outPatientList);
+                    }));
+                  },
+                  child: const Text('Billing'),
                 ),
                 PopupMenuItem<String>(
                   value: 'logout',
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context)
-                          .push(MaterialPageRoute(builder: (context) {
-                        return DischargePatientPage(
-                            patientList: outPatientList);
-                      }));
-                    },
-                    child: const Text('Logout'),
-                  ),
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return DischargePatientPage(patientList: outPatientList);
+                    }));
+                  },
+                  child: const Text('Logout'),
                 ),
               ];
             }),
@@ -126,18 +126,26 @@ class HomePage extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              Text(
-                'Hi, User!',
-                style: Theme.of(context).textTheme.headlineLarge,
-              ),
-              const SizedBox(
-                height: 8,
-              ),
-              Row(
-                children: [
-                  const Text('Today: '),
-                  Text(formattedDate),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Hi, ${user?.firstName}',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Row(
+                      children: [
+                        const Text('Today: '),
+                        Text(formattedDate),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 20,

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/utils/classes/user_data_class.dart';
 import 'package:swaasthya/widgets/forms/edit_user_form.dart';
 import 'package:swaasthya/widgets/forms/reset_password_form.dart';
 
 class UserProfilePage extends StatefulWidget {
-  const UserProfilePage({super.key});
-
+  final User? userData;
+  const UserProfilePage({super.key, this.userData});
   @override
   State<UserProfilePage> createState() => _UserProfilePageState();
 }
@@ -41,7 +42,10 @@ class _UserProfilePageState extends State<UserProfilePage> {
               const SizedBox(
                 height: 15,
               ),
-              EditUserForm(disabled: disabled),
+              EditUserForm(
+                disabled: disabled,
+                userData: widget.userData,
+              ),
               const SizedBox(
                 height: 15,
               ),

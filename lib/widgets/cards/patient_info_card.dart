@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class PatientInfoCard extends StatelessWidget {
-  final Map<String, dynamic> patient;
+  final dynamic patient;
   const PatientInfoCard({super.key, required this.patient});
-
   @override
   Widget build(BuildContext context) {
+    print(patient);
     return Card(
       elevation: 0,
       child: Padding(
