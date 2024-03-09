@@ -5,7 +5,8 @@ class PatientInfoCard extends StatelessWidget {
   const PatientInfoCard({super.key, required this.patient});
   @override
   Widget build(BuildContext context) {
-    print(patient);
+    //print(patient);
+
     return Card(
       elevation: 0,
       child: Padding(
@@ -17,13 +18,15 @@ class PatientInfoCard extends StatelessWidget {
             Container(
               width: 80.0,
               height: 80.0,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'https://placekitten.com/80/80', // Replace with your image URL
-                  ),
+                  image: patient['photo'] == null
+                      ? const NetworkImage(
+                          'https://placekitten.com/80/80', // Replace with your image URL
+                        )
+                      : NetworkImage(patient['photo']),
                 ),
               ),
             ),
@@ -33,7 +36,7 @@ class PatientInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  patient['name'] as String,
+                  '${patient['firstName']} ${patient['lastName']}',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
@@ -41,12 +44,12 @@ class PatientInfoCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  patient['dr_name'] as String,
+                  patient['doctorName'] as String,
                   style: const TextStyle(fontSize: 16.0),
                 ),
                 const SizedBox(height: 8.0),
                 Text(
-                  patient['date'] as String,
+                  '${patient['startTime'].split('T')[0]}',
                   style: const TextStyle(fontSize: 14.0),
                 ),
               ],

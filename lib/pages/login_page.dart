@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swaasthya/apis/login.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
 import 'package:swaasthya/utils/classes/user_data_class.dart';
+import 'package:swaasthya/utils/providers/logged_in_provider.dart';
 import 'package:swaasthya/utils/providers/user_provider.dart';
 
 class LoginPage extends StatelessWidget {
@@ -11,33 +12,46 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Login Page',
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: const AssetImage(
+                'assets/images/reshot-illustration-medical-monitoring-BZPVAWSKTE.png'),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.3),
+              BlendMode.dstATop,
+            ),
+          ),
         ),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: LoginForm(),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Image.asset('assets/images/yantram_logo.png'),
+              const LoginForm(),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class LoginForm extends StatefulWidget {
+class LoginForm extends ConsumerStatefulWidget {
   const LoginForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  ConsumerState<LoginForm> createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+class _LoginFormState extends ConsumerState<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool isLoading = false;
   bool hide = true;
 
-  void _login(BuildContext context, WidgetRef ref) async {
+  void _login(BuildContext context) async {
     final String email = _emailController.text.trim();
     final String password = _passwordController.text.trim();
     if (email.isNotEmpty && password.isNotEmpty) {
@@ -50,6 +64,7 @@ class _LoginFormState extends State<LoginForm> {
             .login(email, password);
         // print(user);
         ref.read(userProvider.notifier).updateUser(User.fromMap(user));
+        ref.read(loggedInProvider.notifier).logIn(true);
         // user.forEach((key, value) {
         //   print('$key: ${value.runtimeType}');
         // });
@@ -113,20 +128,16 @@ class _LoginFormState extends State<LoginForm> {
             ),
           ),
           const SizedBox(height: 32.0),
-          Consumer(
-            builder: (context, ref, child) {
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    _login(context, ref);
-                  },
-                  child: isLoading
-                      ? const CircularProgressIndicator.adaptive()
-                      : const Text('Login'),
-                ),
-              );
-            },
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ElevatedButton(
+              onPressed: () {
+                _login(context);
+              },
+              child: isLoading
+                  ? const CircularProgressIndicator.adaptive()
+                  : const Text('Login'),
+            ),
           )
         ],
       ),

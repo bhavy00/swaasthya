@@ -30,9 +30,9 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       DischargePatientPage(
         patientList: outPatientList,
       ),
-      OPDPage(patientList: patientList),
+      OPDPage(userData: userData,),
       EmergencyPage(
-        patientList: patientList,
+        userData: userData,
       ),
     ];
     return Scaffold(

@@ -1,17 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/get_patient.dart';
 import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
+import 'package:swaasthya/utils/classes/user_data_class.dart';
 import 'package:swaasthya/widgets/cards/patient_info_card.dart';
 
 class EmergencyPage extends StatefulWidget {
-  final List<Map<String, dynamic>> patientList;
-  const EmergencyPage({super.key, required this.patientList});
+  final User? userData;
+  const EmergencyPage({super.key, required this.userData});
 
   @override
   State<EmergencyPage> createState() => _EmergencyPageState();
 }
 
 class _EmergencyPageState extends State<EmergencyPage> {
+  List<dynamic> patientList = [];
+  bool hasError = false;
+  void _fetchPatientList() async {
+    try {
+      final data = await GetPatient(
+              hospitalID: widget.userData?.hospitalID,
+              patientStatus:
+                  3, // in backend patientStatus has type of int (i don't know why but they thought it was a good idea, instead of sending string)
+              role: widget.userData?.role,
+              userID: widget.userData?.id,
+              token: widget.userData?.token)
+          .getPatient();
+      patientList = data['patients'];
+    } catch (e) {
+      setState(() {
+        hasError = true;
+      });
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchPatientList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,89 +59,49 @@ class _EmergencyPageState extends State<EmergencyPage> {
         ],
         elevation: 0,
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(60.0),
+          preferredSize: const Size.fromHeight(70.0),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: const InputDecoration(
-                label: Text('Search'),
-                hintText: 'Search...',
-                border: OutlineInputBorder(),
-                contentPadding: EdgeInsets.symmetric(horizontal: 20.0),
-                prefixIcon: Icon(Icons.search),
-              ),
-              onChanged: (value) {
-                // Implement search functionality here
-              },
+            child: SearchBar(
+              leading: const Icon(Icons.search),
+              hintText: 'Search',
+              onSubmitted: (value) {},
             ),
           ),
         ),
       ),
-      body: ListView.separated(
-        scrollDirection: Axis.vertical,
-        itemCount: widget.patientList.length,
-        separatorBuilder: ((context, index) {
-          return const Divider();
-        }),
-        itemBuilder: (context, index) {
-          final patient = widget.patientList[index];
-          return GestureDetector(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: ((context) {
-                return const PatientInfo(
-                  isInPatient: false,
-                  isOPD: false,
-                );
-              })));
-            },
-            child: PatientInfoCard(
-              patient: patient,
-            ),
-          );
-        },
-      ),
+      body: hasError
+          ? const Center(
+              child: Text('An Error Occured!'),
+            )
+          : patientList.isEmpty
+              ? const Center(
+                  child: Text('No Patient Found'),
+                )
+              : ListView.separated(
+                  scrollDirection: Axis.vertical,
+                  separatorBuilder: (context, index) {
+                    return const Divider();
+                  },
+                  itemCount: patientList.length,
+                  itemBuilder: (context, index) {
+                    final patient = patientList[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context)
+                            .push(MaterialPageRoute(builder: ((context) {
+                          return const PatientInfo(
+                            isInPatient: true,
+                            isOPD: false,
+                          );
+                        })));
+                      },
+                      child: PatientInfoCard(
+                        patient: patient,
+                      ),
+                    );
+                  },
+                ),
     );
   }
 }
-
-// class SearchAppBar extends StatefulWidget implements PreferredSizeWidget {
-//   const SearchAppBar({super.key});
-
-//   @override
-//   State<SearchAppBar> createState() => _SearchAppBarState();
-
-//   @override
-//   Size get preferredSize => const Size.fromHeight(kToolbarHeight + 60.0);
-// }
-
-// class _SearchAppBarState extends State<SearchAppBar> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return AppBar(
-//       bottom: PreferredSize(
-//         preferredSize: const Size.fromHeight(60.0),
-//         child: Padding(
-//           padding: const EdgeInsets.all(8.0),
-//           child: TextField(
-//             decoration: InputDecoration(
-//                 label: const Text('Search'),
-//                 hintText: 'Search...',
-//                 border: const OutlineInputBorder(),
-//                 contentPadding: const EdgeInsets.symmetric(horizontal: 20.0),
-//                 prefixIcon: IconButton(
-//                   onPressed: () {
-//                     setState(() {
-//                       search = false;
-//                     });
-//                   },
-//                   icon: const Icon(Icons.arrow_back_rounded),
-//                 )),
-//             onChanged: (value) {
-//               // Implement search functionality here
-//             },
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

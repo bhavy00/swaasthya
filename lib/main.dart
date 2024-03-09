@@ -4,6 +4,7 @@ import 'package:swaasthya/pages/welcome_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';
 import 'package:swaasthya/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swaasthya/utils/providers/logged_in_provider.dart';
 
 void main() {
   fillPatient();
@@ -15,18 +16,18 @@ void main() {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final loggedIn = ref.read(loggedInProvider);
     return MaterialApp(
       title: 'Swaasthya',
       debugShowCheckedModeBanner: false,
       // themeMode: ThemeMode.system,
       theme: AppTheme.lightTheme,
       // darkTheme: AppTheme.darkTheme,
-      home: const LoginPage(),
+      home: loggedIn ? const WelcomePage() : const LoginPage(),
     );
   }
 }
