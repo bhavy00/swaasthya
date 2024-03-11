@@ -1,14 +1,14 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class LoginAPIClient {
-  final String baseUrl;
+import 'package:swaasthya/apis/urls.dart';
 
-  LoginAPIClient({required this.baseUrl});
+class LoginAPIClient {
+  LoginAPIClient();
 
   Future<Map<String,dynamic>> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse(baseUrl),
+      Uri.parse('$apiUrl/user/emailLogin'),
       body: jsonEncode({
         'email': email,
         'password': password,

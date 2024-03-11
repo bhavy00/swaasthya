@@ -59,9 +59,7 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         isLoading = true;
       });
       try {
-        final user = await LoginAPIClient(
-                baseUrl: 'https://yantrammedtech.com/api/v1/user/emailLogin')
-            .login(email, password);
+        final user = await LoginAPIClient().login(email, password);
         // print(user);
         ref.read(userProvider.notifier).updateUser(User.fromMap(user));
         ref.read(loggedInProvider.notifier).logIn(true);

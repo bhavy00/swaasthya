@@ -11,24 +11,30 @@ import 'package:swaasthya/utils/navigation_data_holder.dart';
 import 'package:swaasthya/widgets/navigation_bar.dart';
 import 'package:swaasthya/utils/pair.dart';
 
-Pair<String, Widget> t1 = Pair('Basic Info', const PatientProfilePage());
-Pair<String, Widget> t2 = Pair('Reports', const ReportsPage());
-Pair<String, Widget> t3 = Pair('Medical History', const MedicalHistoryPage());
-Pair<String, Widget> t4 = Pair('Treatment', const TreatmentPage());
-Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
-Pair<String, Widget> t6 = Pair('Tests', const TestPage());
-
 class PatientInfo extends StatefulWidget {
   final bool isInPatient;
   final bool isOPD;
-  const PatientInfo(
-      {super.key, required this.isInPatient, required this.isOPD});
+  final dynamic patient;
+  const PatientInfo({
+    super.key,
+    required this.isInPatient,
+    required this.isOPD,
+    required this.patient,
+  });
   @override
   State<PatientInfo> createState() => _PatientInfoState();
 }
 
 class _PatientInfoState extends State<PatientInfo> {
-  Widget selectedWidget = const PatientProfilePage();
+  late Widget selectedWidget = PatientProfilePage(patient: widget.patient,);
+
+  late Pair<String, Widget> t1 = Pair('Basic Info', PatientProfilePage(patient: widget.patient,));
+  Pair<String, Widget> t2 = Pair('Reports', const ReportsPage());
+  Pair<String, Widget> t3 = Pair('Medical History', const MedicalHistoryPage());
+  Pair<String, Widget> t4 = Pair('Treatment', const TreatmentPage());
+  Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
+  Pair<String, Widget> t6 = Pair('Tests', const TestPage());
+
   void onChange(Widget value) {
     setState(() {
       selectedWidget = value;

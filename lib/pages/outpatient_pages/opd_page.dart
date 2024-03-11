@@ -89,9 +89,10 @@ class _OPDPageState extends State<OPDPage> {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: ((context) {
-                          return const PatientInfo(
+                          return PatientInfo(
                             isInPatient: false,
                             isOPD: true,
+                            patient: patient,
                           );
                         })));
                       },

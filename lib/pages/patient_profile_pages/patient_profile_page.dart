@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swaasthya/utils/providers/user_provider.dart';
 import 'package:swaasthya/widgets/symptoms_widget.dart';
 import 'package:swaasthya/widgets/patient_page_view.dart';
 import 'package:swaasthya/widgets/vitals_widget.dart';
@@ -10,7 +12,8 @@ List<Map<String, String>> symptoms = [
 ];
 
 class PatientProfilePage extends StatefulWidget {
-  const PatientProfilePage({super.key});
+  final dynamic patient;
+  const PatientProfilePage({super.key, required this.patient});
 
   @override
   State<PatientProfilePage> createState() => _PatientProfilePageState();
@@ -26,26 +29,43 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             MediaQuery.of(context).size.width < 600
-                ? const PatientProfileCard()
-                : const Wrap(
+                ? PatientProfileCard(
+                    patient: widget.patient,
+                  )
+                : Wrap(
                     spacing: 8,
                     runSpacing: 8,
                     children: [
-                      CardOne(),
-                      CardTwo(),
-                      CardThree(),
+                      CardOne(
+                        patient: widget.patient,
+                      ),
+                      CardTwo(
+                        patient: widget.patient,
+                      ),
+                      CardThree(
+                        patient: widget.patient,
+                      ),
                     ],
                   ),
             const SizedBox(
               height: 10,
             ),
-            // symptoms
-            const SymptomsWidget(),
-            // vitals
-            const SizedBox(
-              height: 10,
-            ),
-            const VitalsWidget(),
+            Consumer(builder: ((context, ref, child) {
+              final String? token = ref.read(userProvider)?.token;
+              return Column(
+                children: [
+                  SymptomsWidget(
+                    timelineID: widget.patient['patientTimeLineID'],
+                    token: token,
+                  ),
+                  // vitals
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  const VitalsWidget(),
+                ],
+              );
+            }))
           ],
         ),
       ),

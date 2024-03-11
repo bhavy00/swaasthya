@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:swaasthya/pages/home_page/notification_page.dart';
 import 'package:swaasthya/pages/home_page/user_profile_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
+import 'package:swaasthya/pages/login_page.dart';
 import 'package:swaasthya/utils/classes/user_data_class.dart';
 import 'package:swaasthya/utils/patient_list.dart';
+import 'package:swaasthya/utils/providers/logged_in_provider.dart';
+import 'package:swaasthya/utils/providers/user_provider.dart';
 import 'package:swaasthya/widgets/stats_view_pages.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   final User? user;
   const HomePage({super.key, required this.user});
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     bool tabView = MediaQuery.of(context).size.width >= 600;
     DateTime now = DateTime.now();
     String formattedDate = DateFormat('dd-MM-yyyy').format(now);
@@ -82,9 +86,11 @@ class HomePage extends StatelessWidget {
                 PopupMenuItem<String>(
                   value: 'logout',
                   onTap: () {
+                    ref.read(userProvider.notifier).updateUser(const User());
+                    ref.read(loggedInProvider.notifier).logIn(false);
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return DischargePatientPage(patientList: outPatientList);
+                      return const LoginPage();
                     }));
                   },
                   child: const Text('Logout'),

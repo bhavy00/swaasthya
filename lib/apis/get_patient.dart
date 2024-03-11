@@ -1,5 +1,6 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:swaasthya/apis/urls.dart';
 
 class GetPatient {
   final int? hospitalID;
@@ -19,7 +20,7 @@ class GetPatient {
   Future<Map<String, dynamic>> getPatient() async {
     final response = await http.get(
         Uri.parse(
-            'https:/yantrammedtech.com/api/v1/patient/$hospitalID/patients/$patientStatus?role=$role&userID=$userID'),
+            '$apiUrl/patient/$hospitalID/patients/$patientStatus?role=$role&userID=$userID'),
         headers: {
           'Content-Type': 'application/json',
           'Authorization': token ?? '',

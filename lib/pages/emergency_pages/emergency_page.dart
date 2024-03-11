@@ -90,9 +90,10 @@ class _EmergencyPageState extends State<EmergencyPage> {
                       onTap: () {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: ((context) {
-                          return const PatientInfo(
+                          return PatientInfo(
                             isInPatient: true,
                             isOPD: false,
+                            patient: patient,
                           );
                         })));
                       },

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class PatientProfileCard extends StatefulWidget {
-  const PatientProfileCard({super.key});
+  final dynamic patient;
+  const PatientProfileCard({super.key, required this.patient});
 
   @override
   State<PatientProfileCard> createState() => _PatientProfileCardState();
@@ -10,7 +11,17 @@ class PatientProfileCard extends StatefulWidget {
 class _PatientProfileCardState extends State<PatientProfileCard> {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
-  final List<Widget> _pages = const [CardOne(), CardTwo(), CardThree()];
+  late List<Widget> _pages = [
+    CardOne(
+      patient: widget.patient,
+    ),
+    CardTwo(
+      patient: widget.patient,
+    ),
+    CardThree(
+      patient: widget.patient,
+    ),
+  ];
   // final double height = max(content, b);
   @override
   Widget build(BuildContext context) {
@@ -66,7 +77,8 @@ class _PatientProfileCardState extends State<PatientProfileCard> {
 }
 
 class CardOne extends StatelessWidget {
-  const CardOne({super.key});
+  final dynamic patient;
+  const CardOne({super.key, required this.patient});
 
   @override
   Widget build(BuildContext context) {
@@ -97,24 +109,27 @@ class CardOne extends StatelessWidget {
                         Container(
                           width: 100.0,
                           height: 100.0,
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: NetworkImage(
-                                'https://placekitten.com/80/80', // Replace with your image URL
-                              ),
+                              image: patient['photo'] == null
+                                  ? const NetworkImage(
+                                      'https://placekitten.com/80/80', // Replace with your image URL
+                                    )
+                                  : NetworkImage(patient['photo']),
                             ),
                           ),
                         ),
-                        const Column(
+                        Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Patient\'s Name: Anna Cruise'),
-                            Text('ID: 123456'),
-                            Text('Doctor Name: Dr. John Doe'),
-                            Text('Department: Cardiology'),
-                            Text('Referred By: Dr. Jane Smith'),
+                            Text(
+                                'Patient\'s Name: ${patient['firstName']} ${patient['lastName']}'),
+                            Text('ID: ${patient['pID']}'),
+                            Text('Doctor Name: Dr. ${patient['doctorName']}'),
+                            Text('Department: ${patient['department']}'),
+                            Text('Referred By: ${patient['referredBy'] ?? ''}'),
                           ],
                         ),
                       ],
@@ -131,32 +146,33 @@ class CardOne extends StatelessWidget {
 }
 
 class CardTwo extends StatelessWidget {
-  const CardTwo({super.key});
+  final dynamic patient;
+  const CardTwo({super.key, required this.patient});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width >= 600 ? 350 : 450),
-      child: const Card(
+      child: Card(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Health Information',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8.0),
-              Text('Height: 175 cm'),
-              Text('Weight: 70 kg'),
-              Text('UHID: 987654321'),
-              Text('Gender: Male'),
-              Text('DOB: January 1, 1990'),
+              const SizedBox(height: 8.0),
+              Text('Height: ${patient['height']} cm'),
+              Text('Weight: ${patient['weight']} kg'),
+              Text('UHID: ${patient['pUHID']}'),
+              Text('Gender: ${patient['gender'] == 1 ? 'male' : 'female'}'),
+              Text('DOB: ${patient['dob'].split('T')[0]}'),
             ],
           ),
         ),
@@ -166,44 +182,45 @@ class CardTwo extends StatelessWidget {
 }
 
 class CardThree extends StatelessWidget {
-  const CardThree({super.key});
+  final dynamic patient;
+  const CardThree({super.key, required this.patient});
   @override
   Widget build(BuildContext context) {
     return Container(
       constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width >= 600 ? 350 : 450),
-      child: const Card(
+      child: Card(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'Contact Information',
                 style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 8.0),
-              Text('Email: patient@example.com'),
-              Text('Phone Number: +1234567890'),
+              const SizedBox(height: 8.0),
+              Text('Email: ${patient['email']}'),
+              Text('Phone Number: ${patient['phoneNumber']}'),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Text(
-                  'Address: 123 Main St. ueirvnurefnori fri foirf irojf rwjfr jfqj fpw',
+                  'Address: ${patient['address']}',
                   // maxLines: 2,
                 ),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Text('State: California'),
+                child: Text('State: ${patient['state']}'),
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                child: Text('City: Los Angeles'),
+                child: Text('City: ${patient['city']}'),
               ),
-              Text('Pincode: 90001'),
+              Text('Pincode: ${patient['pincode']}'),
             ],
           ),
         ),
