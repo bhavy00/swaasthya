@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:swaasthya/pages/home_page/notification_page.dart';
 import 'package:swaasthya/pages/home_page/user_profile_page.dart';
+import 'package:swaasthya/pages/hubs_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
 import 'package:swaasthya/pages/login_page.dart';
 import 'package:swaasthya/utils/classes/user_data_class.dart';
@@ -82,6 +83,16 @@ class HomePage extends ConsumerWidget {
                     }));
                   },
                   child: const Text('Billing'),
+                ),
+                PopupMenuItem<String>(
+                  value: 'hubs',
+                  onTap: () {
+                    Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return const HubsPage();
+                    }));
+                  },
+                  child: const Text('Hubs'),
                 ),
                 PopupMenuItem<String>(
                   value: 'logout',

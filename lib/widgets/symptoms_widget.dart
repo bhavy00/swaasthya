@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/apis/get_symptoms.dart';
+import 'package:swaasthya/apis/symptoms_api.dart';
 import 'package:swaasthya/widgets/forms/add_symptom_dialog.dart';
 
 class SymptomsWidget extends StatefulWidget {
@@ -16,7 +16,7 @@ class _SymptomsWidgetState extends State<SymptomsWidget> {
   List<dynamic> symptoms = [];
   void _fetchSymptomList() async {
     try {
-      final data = await GetSymptoms(
+      final data = await Symptoms(
         timelineID: widget.timelineID,
         token: widget.token,
       ).getSymptoms();

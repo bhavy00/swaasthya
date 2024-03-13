@@ -2,10 +2,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:swaasthya/apis/urls.dart';
 
-class GetSymptoms {
+class Symptoms {
   final int? timelineID;
   final String? token;
-  const GetSymptoms({required this.timelineID, required this.token});
+  const Symptoms({required this.timelineID, required this.token});
 
   Future<Map<String, dynamic>> getSymptoms() async {
     final response = await http.get(

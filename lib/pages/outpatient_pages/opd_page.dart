@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/apis/get_patient.dart';
+import 'package:swaasthya/apis/patient_api.dart';
 import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
 import 'package:swaasthya/utils/classes/user_data_class.dart';
@@ -18,7 +18,7 @@ class _OPDPageState extends State<OPDPage> {
   bool hasError = false;
   void _fetchPatientList() async {
     try {
-      final data = await GetPatient(
+      final data = await Patient(
               hospitalID: widget.userData?.hospitalID,
               patientStatus:
                   1, // in backend patientStatus has type of int (i don't know why but they thought it was a good idea, instead of sending string)

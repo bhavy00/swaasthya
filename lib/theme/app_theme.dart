@@ -6,5 +6,7 @@ class AppTheme {
   static ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     colorScheme: lightColorScheme,
+    inputDecorationTheme:
+        const InputDecorationTheme(border: OutlineInputBorder(),),
   );
 }

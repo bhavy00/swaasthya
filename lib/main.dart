@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/pages/hubs_page.dart';
 import 'package:swaasthya/pages/login_page.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
 import 'package:swaasthya/utils/patient_list.dart';

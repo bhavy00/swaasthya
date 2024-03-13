@@ -4,7 +4,7 @@ import 'package:swaasthya/utils/classes/user_data_class.dart';
 class EditUserForm extends StatefulWidget {
   final bool disabled;
   final User? userData;
-  const EditUserForm({this.userData,super.key, required this.disabled});
+  const EditUserForm({this.userData, super.key, required this.disabled});
 
   @override
   State<EditUserForm> createState() => _EditUserFormState();
@@ -36,7 +36,10 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _firstName = value!,
             ),
+            const SizedBox(height: 20),
             TextFormField(
+              controller:
+                  TextEditingController(text: widget.userData?.lastName),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'Last Name'),
               validator: (value) {
@@ -47,7 +50,9 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _lastName = value!,
             ),
+            const SizedBox(height: 20),
             TextFormField(
+              controller: TextEditingController(text: widget.userData?.phoneNo),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'Phone Number'),
               keyboardType: TextInputType.phone,
@@ -59,53 +64,55 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _phoneNumber = int.parse(value!),
             ),
-            AbsorbPointer(
-              absorbing: widget.disabled,
-              child: DropdownButtonFormField<String>(
-                decoration: const InputDecoration(labelText: 'Gender'),
-                items: ['Male', 'Female', 'Other']
-                    .map((gender) => DropdownMenuItem(
-                          value: gender,
-                          child: Text(gender),
-                        ))
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {});
-                },
-                validator: (value) {
-                  if (value == null) {
-                    return 'Please select your gender';
-                  }
-                  return null;
-                },
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              decoration: const InputDecoration(labelText: 'Gender'),
+              value: _gender == 1 ? 'Male' : 'Female',
+              items: ['Male', 'Female']
+                  .map((gender) => DropdownMenuItem(
+                        value: gender,
+                        child: Text(gender),
+                      ))
+                  .toList(),
+              onChanged: widget.disabled
+                  ? null
+                  : (value) {
+                      setState(() {});
+                    },
+              validator: (value) {
+                if (value == null) {
+                  return 'Please select your gender';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            InkWell(
+              onTap: widget.disabled
+                  ? null
+                  : () async {
+                      final selectedDate = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                      );
+                      if (selectedDate != null) {
+                        setState(() {
+                          dob = selectedDate;
+                        });
+                      }
+                    },
+              child: InputDecorator(
+                decoration: const InputDecoration(
+                  labelText: 'Date of Birth',
+                ),
+                child: Text('${dob?.toLocal()}'.split(' ')[0]),
               ),
             ),
             const SizedBox(height: 20),
-            IgnorePointer(
-              ignoring: widget.disabled,
-              child: InkWell(
-                onTap: () async {
-                  final selectedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (selectedDate != null) {
-                    setState(() {
-                      dob = selectedDate;
-                    });
-                  }
-                },
-                child: InputDecorator(
-                  decoration: const InputDecoration(
-                    labelText: 'Date of Birth',
-                  ),
-                  child: Text('${dob?.toLocal()}'.split(' ')[0]),
-                ),
-              ),
-            ),
             TextFormField(
+              controller: TextEditingController(text: widget.userData?.state),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'State'),
               validator: (value) {
@@ -116,7 +123,9 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _state = value!,
             ),
+            const SizedBox(height: 20),
             TextFormField(
+              controller: TextEditingController(text: widget.userData?.city),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'City'),
               validator: (value) {
@@ -127,7 +136,9 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _city = value!,
             ),
+            const SizedBox(height: 20),
             TextFormField(
+              // controller: TextEditingController(text: widget.userData?.pinCode as String?),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'Pincode'),
               keyboardType: TextInputType.number,
@@ -139,7 +150,9 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _pincode = int.parse(value!),
             ),
+            const SizedBox(height: 20),
             TextFormField(
+              controller: TextEditingController(text: widget.userData?.email),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'Email'),
               keyboardType: TextInputType.emailAddress,
@@ -152,7 +165,9 @@ class _EditUserFormState extends State<EditUserForm> {
               },
               // onSaved: (value) => _email = value!,
             ),
+            const SizedBox(height: 20),
             TextFormField(
+              controller: TextEditingController(text: widget.userData?.address),
               enabled: !widget.disabled,
               decoration: const InputDecoration(labelText: 'Home Address'),
               validator: (value) {
@@ -165,19 +180,17 @@ class _EditUserFormState extends State<EditUserForm> {
             ),
             const SizedBox(height: 20),
             Center(
-              child: IgnorePointer(
-                ignoring: widget.disabled,
-                child: ElevatedButton(
-                  // style: ButtonStyle(),
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      // Process registration
-                      // You can access form values here and submit them to a server or save locally
-                    }
-                  },
-                  child: const Text('Submit'),
-                ),
+              child: ElevatedButton(
+                onPressed: widget.disabled
+                    ? null
+                    : () {
+                        if (_formKey.currentState!.validate()) {
+                          _formKey.currentState!.save();
+                          // Process registration
+                          // You can access form values here and submit them to a server or save locally
+                        }
+                      },
+                child: const Text('Submit'),
               ),
             ),
           ],

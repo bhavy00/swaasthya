@@ -2,14 +2,14 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:swaasthya/apis/urls.dart';
 
-class GetPatient {
+class Patient {
   final int? hospitalID;
   final int patientStatus;
   final int? role;
   final int? userID;
   final String? token;
 
-  GetPatient({
+  Patient({
     required this.hospitalID,
     required this.patientStatus,
     required this.role,

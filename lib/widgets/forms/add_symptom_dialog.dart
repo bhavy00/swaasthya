@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/patient_profile_pages/patient_profile_page.dart';
 
 class AddSymptomDialog extends StatefulWidget {
   const AddSymptomDialog({super.key});
@@ -57,9 +56,7 @@ class _AddSymptomDialogState extends State<AddSymptomDialog> {
           onPressed: () {
             if (_formKey.currentState!.validate()) {
               // You can process the form data here
-              symptoms.add({
-                _symptomNameController.text: _symptomDurationController.text
-              });
+
               Navigator.of(context).pop();
             }
           },

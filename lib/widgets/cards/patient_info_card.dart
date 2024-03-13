@@ -5,8 +5,6 @@ class PatientInfoCard extends StatelessWidget {
   const PatientInfoCard({super.key, required this.patient});
   @override
   Widget build(BuildContext context) {
-    //print(patient);
-
     return Card(
       elevation: 0,
       child: Padding(

@@ -157,7 +157,8 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                   });
                 }
               },
-              controller: TextEditingController(text: patient.dob.toString()),
+              controller: TextEditingController(
+                  text: patient.dob.toString().split(' ')[0]),
             ),
             const SizedBox(
               height: 8,
