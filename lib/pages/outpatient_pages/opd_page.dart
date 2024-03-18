@@ -18,14 +18,14 @@ class _OPDPageState extends State<OPDPage> {
   bool hasError = false;
   void _fetchPatientList() async {
     try {
-      final data = await Patient(
+      final data = await PatientApi(
               hospitalID: widget.userData?.hospitalID,
               patientStatus:
                   1, // in backend patientStatus has type of int (i don't know why but they thought it was a good idea, instead of sending string)
               role: widget.userData?.role,
               userID: widget.userData?.id,
               token: widget.userData?.token)
-          .getPatient();
+          .getRecentPatient();
       patientList = data['patients'];
     } catch (e) {
       setState(() {
@@ -93,6 +93,7 @@ class _OPDPageState extends State<OPDPage> {
                             isInPatient: false,
                             isOPD: true,
                             patient: patient,
+                            token: widget.userData?.token,
                           );
                         })));
                       },

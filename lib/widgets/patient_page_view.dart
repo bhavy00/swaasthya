@@ -114,9 +114,7 @@ class CardOne extends StatelessWidget {
                             image: DecorationImage(
                               fit: BoxFit.cover,
                               image: patient['photo'] == null
-                                  ? const NetworkImage(
-                                      'https://placekitten.com/80/80', // Replace with your image URL
-                                    )
+                                  ? const NetworkImage('url')
                                   : NetworkImage(patient['photo']),
                             ),
                           ),

@@ -34,7 +34,7 @@ class PatientInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${patient['firstName']} ${patient['lastName']}',
+                  '${patient['pName']}',
                   style: const TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,

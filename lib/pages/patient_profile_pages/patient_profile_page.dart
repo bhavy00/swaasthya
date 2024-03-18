@@ -5,12 +5,6 @@ import 'package:swaasthya/widgets/symptoms_widget.dart';
 import 'package:swaasthya/widgets/patient_page_view.dart';
 import 'package:swaasthya/widgets/vitals_widget.dart';
 
-List<Map<String, String>> symptoms = [
-  {'name': 'Headache', 'duration': '2 days'},
-  {'name': 'Fever', 'duration': '3 days'},
-  // Add more symptoms as needed
-];
-
 class PatientProfilePage extends StatefulWidget {
   final dynamic patient;
   const PatientProfilePage({super.key, required this.patient});
@@ -22,6 +16,7 @@ class PatientProfilePage extends StatefulWidget {
 class _PatientProfilePageState extends State<PatientProfilePage> {
   @override
   Widget build(BuildContext context) {
+    //print(widget.patient);
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),

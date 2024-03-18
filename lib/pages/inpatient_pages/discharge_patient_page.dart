@@ -46,6 +46,7 @@ class DischargePatientPage extends StatelessWidget {
                   isInPatient: false,
                   isOPD: false,
                   patient: [],
+                  token: '',
                 );
               })));
             },

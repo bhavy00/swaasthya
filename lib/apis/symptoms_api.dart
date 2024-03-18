@@ -21,4 +21,19 @@ class Symptoms {
       throw ArgumentError('Failed to fetch', response.body);
     }
   }
+
+  Future<Map<String, dynamic>> deleteSymptom(int id) async {
+    final response = await http.post(
+      Uri.parse('$apiUrl/symptom/$timelineID/$id'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': token ?? '',
+      },
+    );
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw ArgumentError('Failed to fetch', response.body);
+    }
+  }
 }

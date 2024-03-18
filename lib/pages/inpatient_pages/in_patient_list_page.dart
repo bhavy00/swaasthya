@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/apis/patient_api.dart';
+import 'package:swaasthya/apis/use_auth_fetch.dart';
 import 'package:swaasthya/pages/add_patient_form/add_patient_form.dart';
 import 'package:swaasthya/pages/patient_profile_pages/patient_info_page.dart';
 import 'package:swaasthya/utils/classes/user_data_class.dart';
@@ -18,14 +18,9 @@ class _InPatientListPageState extends State<InPatientListPage> {
   bool hasError = false;
   void _fetchPatientList() async {
     try {
-      final data = await Patient(
-              hospitalID: widget.userData?.hospitalID,
-              patientStatus:
-                  2, // in backend patientStatus has type of int (i don't know why but they thought it was a good idea, instead of sending string)
-              role: widget.userData?.role,
-              userID: widget.userData?.id,
-              token: widget.userData?.token)
-          .getPatient();
+      final data = await authFetch(
+          'patient/${widget.userData?.hospitalID}/patients/recent/2?role=${widget.userData?.role}&userID=${widget.userData?.id}',
+          widget.userData?.token);
       patientList = data['patients'];
     } catch (e) {
       setState(() {
@@ -93,6 +88,7 @@ class _InPatientListPageState extends State<InPatientListPage> {
                             isInPatient: true,
                             isOPD: false,
                             patient: patient,
+                            token: widget.userData?.token
                           );
                         })));
                       },
