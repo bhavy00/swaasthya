@@ -1,16 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class VitalsInfoPage extends StatefulWidget {
-  const VitalsInfoPage({super.key});
+  final List<dynamic>? vitals;
+  const VitalsInfoPage({super.key, this.vitals});
 
   @override
   State<VitalsInfoPage> createState() => _VitalsInfoPageState();
 }
 
 class _VitalsInfoPageState extends State<VitalsInfoPage> {
-  String _selectedVital = 'Heart Rate';
+  String _selectedVital = 'Pulse';
   String _selectedView = 'Logs';
-
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,14 +37,16 @@ class _VitalsInfoPageState extends State<VitalsInfoPage> {
                     onChanged: (String? newValue) {
                       setState(() {
                         _selectedVital = newValue!;
+                        loading = true;
+                      });
+                      Timer(const Duration(seconds: 1), () {
+                        setState(() {
+                          loading = false;
+                        });
                       });
                     },
-                    items: <String>[
-                      'Heart Rate',
-                      'Temperature',
-                      'SpO2',
-                      'Blood Pressure'
-                    ].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>['Pulse', 'Temperature', 'Oxygen', 'BP']
+                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -75,9 +80,13 @@ class _VitalsInfoPageState extends State<VitalsInfoPage> {
               const SizedBox(
                 height: 20,
               ),
-              if (_selectedView == 'Logs') ...[
-                const VitalsTable(),
-              ],
+              loading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : _selectedView == 'Logs'
+                      ? VitalsTable(vitals: widget.vitals, type: _selectedVital)
+                      : const Text('chart')
             ],
           ),
         ),
@@ -87,20 +96,14 @@ class _VitalsInfoPageState extends State<VitalsInfoPage> {
 }
 
 class VitalsTable extends StatefulWidget {
-  const VitalsTable({super.key});
+  final List<dynamic>? vitals;
+  final String type;
+  const VitalsTable({super.key, required this.vitals, required this.type});
   @override
   State<VitalsTable> createState() => _VitalsTableState();
 }
 
 class _VitalsTableState extends State<VitalsTable> {
-  List<Map<String, dynamic>> _vitalsData = [
-    {'reading': '72', 'time': '15:00', 'date': '2024-02-15'},
-    {'reading': '72', 'time': '16:00', 'date': '2024-02-15'},
-    {'reading': '72', 'time': '17:00', 'date': '2024-02-15'},
-    {'reading': '72', 'time': '18:00', 'date': '2024-02-15'},
-    {'reading': '72', 'time': '19:00', 'date': '2024-02-15'},
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -113,20 +116,22 @@ class _VitalsTableState extends State<VitalsTable> {
             DataColumn(label: Text('Time')),
             DataColumn(label: Text('Date')),
           ],
-          rows: _vitalsData.map((data) {
-            return DataRow(cells: [
-              DataCell(Text(data['reading'])),
-              DataCell(Text(data['time'])),
-              DataCell(
-                SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Text(
-                    data['date'],
+          rows: widget.vitals?.map((data) {
+                DateTime date = DateTime.parse(
+                    data['${widget.type.toLowerCase()}Time'] ??
+                        data['addedOn']);
+                return DataRow(cells: [
+                  DataCell(Text('${data[widget.type.toLowerCase()]}')),
+                  DataCell(Text('${date.hour}:${date.minute}:${date.second}')),
+                  DataCell(
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Text('${date.day}-${date.month}-${date.year}'),
+                    ),
                   ),
-                ),
-              ),
-            ]);
-          }).toList(),
+                ]);
+              }).toList() ??
+              [],
         ),
       ],
     );

@@ -20,9 +20,7 @@ class _SymptomsWidgetState extends ConsumerState<SymptomsWidget> {
   bool error = false, loading = true, updated = false;
 
   void _refreshPage() {
-    setState(() {
-      updated = true;
-    });
+    _fetchSymptomList();
   }
 
   void _fetchSymptomList() async {

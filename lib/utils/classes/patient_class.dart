@@ -2,68 +2,93 @@
 import 'dart:convert';
 
 class Patient {
-  String name = '';
-  String id = '';
-  String uhid = '';
-  double height = 0.0;
-  double weight = 0.0;
-  String gender = '';
-  DateTime dob = DateTime.now();
-  String photo = '';
-  String email = '';
-  int phoneNumber = 0;
-  String address = '';
-  String state = '';
-  String city = '';
-  int pincode = 0;
-  String doctorName = '';
-  String referredBy = '';
-  String ward = 'General Ward';
-  String category = 'Adult';
-  
+  String? pName = '';
+  int? userID = 2;
+  String? pID = '1';
+  int? uhid = 1;
+  int? ptype = 2;
+  int? departmentID = 1;
+  int? hospitalID = 1;
+  double? height = 0.0;
+  double? weight = 0.0;
+  int gender = 1;
+  DateTime? dob = DateTime.now();
+  String? photo = '';
+  String? email = '';
+  String? phoneNumber = '';
+  String? address = '';
+  String? state = '';
+  String? city = '';
+  String? pincode = '';
+  String? doctorName = '';
+  String? referredBy = '';
+  int wardID = 1;
+  int category = 3;
+  int insurance = 0;
+  String? insuranceNumber = '';
+  String? insuranceCompany = '';
+
   Patient({
-    required this.name,
-    required this.id,
-    required this.uhid,
-    required this.height,
-    required this.weight,
-    required this.gender,
-    required this.photo,
-    required this.email,
-    required this.phoneNumber,
-    required this.address,
-    required this.state,
-    required this.city,
-    required this.pincode,
-    required this.doctorName,
-    required this.referredBy,
-    required this.ward,
-    required this.category,
+    this.pName,
+    this.userID,
+    this.pID,
+    this.uhid,
+    this.ptype,
+    this.departmentID,
+    this.hospitalID,
+    this.height,
+    this.weight,
+    this.gender = 1,
+    this.photo,
+    this.email,
+    this.phoneNumber,
+    this.address,
+    this.state,
+    this.city,
+    this.pincode,
+    this.doctorName,
+    this.referredBy,
+    this.wardID = 1,
+    this.category = 3,
+    this.insurance = 0,
+    this.insuranceNumber,
+    this.insuranceCompany,
   });
 
   Patient copyWith({
-    String? name,
-    String? id,
-    String? uhid,
+    String? pName,
+    int? userID,
+    String? pID,
+    int? uhid,
+    int? ptype,
+    int? departmentID,
+    int? hospitalID,
     double? height,
     double? weight,
-    String? gender,
+    int? gender,
     String? photo,
     String? email,
-    int? phoneNumber,
+    String? phoneNumber,
     String? address,
     String? state,
     String? city,
-    int? pincode,
+    String? pincode,
     String? doctorName,
     String? referredBy,
-    String? ward,
-    String? category,
+    int? wardID,
+    int? category,
+    int? insurance,
+    String? insuranceNumber,
+    String? insuranceCompany,
   }) {
     return Patient(
-      name: name ?? this.name,
-      id: id ?? this.id,
+      pName: pName ?? this.pName,
+      userID: userID ?? this.userID,
+      pID: pID ?? this.pID,
       uhid: uhid ?? this.uhid,
+      ptype: ptype ?? this.ptype,
+      departmentID: departmentID ?? this.departmentID,
+      hospitalID: hospitalID ?? this.hospitalID,
       height: height ?? this.height,
       weight: weight ?? this.weight,
       gender: gender ?? this.gender,
@@ -76,16 +101,23 @@ class Patient {
       pincode: pincode ?? this.pincode,
       doctorName: doctorName ?? this.doctorName,
       referredBy: referredBy ?? this.referredBy,
-      ward: ward ?? this.ward,
+      wardID: wardID ?? this.wardID,
       category: category ?? this.category,
+      insurance: insurance ?? this.insurance,
+      insuranceNumber: insuranceNumber ?? this.insuranceNumber,
+      insuranceCompany: insuranceCompany ?? this.insuranceCompany,
     );
   }
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'name': name,
-      'id': id,
+      'pName': pName,
+      'userID': userID,
+      'pID': pID,
       'uhid': uhid,
+      'ptype': ptype,
+      'departmentID': departmentID,
+      'hospitalID': hospitalID,
       'height': height,
       'weight': weight,
       'gender': gender,
@@ -98,91 +130,123 @@ class Patient {
       'pincode': pincode,
       'doctorName': doctorName,
       'referredBy': referredBy,
-      'ward': ward,
+      'wardID': wardID,
       'category': category,
+      'insurance': insurance,
+      'insuranceNumber': insuranceNumber,
+      'insuranceCompany': insuranceCompany,
     };
   }
 
   factory Patient.fromMap(Map<String, dynamic> map) {
     return Patient(
-      name: map['name'] as String,
-      id: map['id'] as String,
-      uhid: map['uhid'] as String,
-      height: map['height'] as double,
-      weight: map['weight'] as double,
-      gender: map['gender'] as String,
-      photo: map['photo'] as String,
-      email: map['email'] as String,
-      phoneNumber: map['phoneNumber'] as int,
-      address: map['address'] as String,
-      state: map['state'] as String,
-      city: map['city'] as String,
-      pincode: map['pincode'] as int,
-      doctorName: map['doctorName'] as String,
-      referredBy: map['referredBy'] as String,
-      ward: map['ward'] as String,
-      category: map['category'] as String,
+      pName: map['pName'] != null ? map['pName'] as String : null,
+      userID: map['userID'] != null ? map['userID'] as int : null,
+      pID: map['pID'] != null ? map['pID'] as String : null,
+      uhid: map['uhid'] != null ? map['uhid'] as int : null,
+      ptype: map['ptype'] != null ? map['ptype'] as int : null,
+      departmentID:
+          map['departmentID'] != null ? map['departmentID'] as int : null,
+      hospitalID: map['hospitalID'] != null ? map['hospitalID'] as int : null,
+      height: map['height'] != null ? map['height'] as double : null,
+      weight: map['weight'] != null ? map['weight'] as double : null,
+      gender: map['gender'] as int,
+      photo: map['photo'] != null ? map['photo'] as String : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      phoneNumber:
+          map['phoneNumber'] != null ? map['phoneNumber'] as String : null,
+      address: map['address'] != null ? map['address'] as String : null,
+      state: map['state'] != null ? map['state'] as String : null,
+      city: map['city'] != null ? map['city'] as String : null,
+      pincode: map['pincode'] != null ? map['pincode'] as String : null,
+      doctorName:
+          map['doctorName'] != null ? map['doctorName'] as String : null,
+      referredBy:
+          map['referredBy'] != null ? map['referredBy'] as String : null,
+      wardID: map['wardID'] as int,
+      category: map['category'] as int,
+      insurance: map['insurance'] as int,
+      insuranceNumber: map['insuranceNumber'] != null
+          ? map['insuranceNumber'] as String
+          : null,
+      insuranceCompany: map['insuranceCompany'] != null
+          ? map['insuranceCompany'] as String
+          : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory Patient.fromJson(String source) => Patient.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Patient.fromJson(String source) =>
+      Patient.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Patient(name: $name, id: $id, uhid: $uhid, height: $height, weight: $weight, gender: $gender, photo: $photo, email: $email, phoneNumber: $phoneNumber, address: $address, state: $state, city: $city, pincode: $pincode, doctorName: $doctorName, referredBy: $referredBy, ward: $ward, category: $category)';
+    return 'Patient(pName: $pName, userID: $userID, pID: $pID, uhid: $uhid, ptype: $ptype, departmentID: $departmentID, hospitalID: $hospitalID, height: $height, weight: $weight, gender: $gender, photo: $photo, email: $email, phoneNumber: $phoneNumber, address: $address, state: $state, city: $city, pincode: $pincode, doctorName: $doctorName, referredBy: $referredBy, wardID: $wardID, category: $category, insurance: $insurance, insuranceNumber: $insuranceNumber, insuranceCompany: $insuranceCompany)';
   }
 
   @override
   bool operator ==(covariant Patient other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      other.id == id &&
-      other.uhid == uhid &&
-      other.height == height &&
-      other.weight == weight &&
-      other.gender == gender &&
-      other.photo == photo &&
-      other.email == email &&
-      other.phoneNumber == phoneNumber &&
-      other.address == address &&
-      other.state == state &&
-      other.city == city &&
-      other.pincode == pincode &&
-      other.doctorName == doctorName &&
-      other.referredBy == referredBy &&
-      other.ward == ward &&
-      other.category == category;
+
+    return other.pName == pName &&
+        other.userID == userID &&
+        other.pID == pID &&
+        other.uhid == uhid &&
+        other.ptype == ptype &&
+        other.departmentID == departmentID &&
+        other.hospitalID == hospitalID &&
+        other.height == height &&
+        other.weight == weight &&
+        other.gender == gender &&
+        other.photo == photo &&
+        other.email == email &&
+        other.phoneNumber == phoneNumber &&
+        other.address == address &&
+        other.state == state &&
+        other.city == city &&
+        other.pincode == pincode &&
+        other.doctorName == doctorName &&
+        other.referredBy == referredBy &&
+        other.wardID == wardID &&
+        other.category == category &&
+        other.insurance == insurance &&
+        other.insuranceNumber == insuranceNumber &&
+        other.insuranceCompany == insuranceCompany;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^
-      id.hashCode ^
-      uhid.hashCode ^
-      height.hashCode ^
-      weight.hashCode ^
-      gender.hashCode ^
-      photo.hashCode ^
-      email.hashCode ^
-      phoneNumber.hashCode ^
-      address.hashCode ^
-      state.hashCode ^
-      city.hashCode ^
-      pincode.hashCode ^
-      doctorName.hashCode ^
-      referredBy.hashCode ^
-      ward.hashCode ^
-      category.hashCode;
+    return pName.hashCode ^
+        userID.hashCode ^
+        pID.hashCode ^
+        uhid.hashCode ^
+        ptype.hashCode ^
+        departmentID.hashCode ^
+        hospitalID.hashCode ^
+        height.hashCode ^
+        weight.hashCode ^
+        gender.hashCode ^
+        photo.hashCode ^
+        email.hashCode ^
+        phoneNumber.hashCode ^
+        address.hashCode ^
+        state.hashCode ^
+        city.hashCode ^
+        pincode.hashCode ^
+        doctorName.hashCode ^
+        referredBy.hashCode ^
+        wardID.hashCode ^
+        category.hashCode ^
+        insurance.hashCode ^
+        insuranceNumber.hashCode ^
+        insuranceCompany.hashCode;
   }
 }
 
 void printPatient(Patient data) {
-  print({'name': data.name});
-  print({'id': data.id});
+  print({'pName': data.pName});
+  print({'id': data.userID});
   print({'uhid': data.uhid});
   print({'height': data.height});
   print({'weight': data.weight});
@@ -198,3 +262,9 @@ void printPatient(Patient data) {
   print({'doctorName': data.doctorName});
   print({'referredBy': data.referredBy});
 }
+
+Map<String, int> pCategory = {
+  'Adult': 3,
+  'Neonate': 1,
+  'Child': 2,
+};

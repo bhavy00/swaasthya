@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swaasthya/utils/classes/user_data_class.dart';
 import 'package:swaasthya/utils/providers/user_provider.dart';
 import 'package:swaasthya/widgets/symptoms_widget.dart';
 import 'package:swaasthya/widgets/patient_page_view.dart';
@@ -46,18 +47,23 @@ class _PatientProfilePageState extends State<PatientProfilePage> {
               height: 10,
             ),
             Consumer(builder: ((context, ref, child) {
-              final String? token = ref.read(userProvider)?.token;
+              final User? user = ref.read(userProvider);
               return Column(
                 children: [
                   SymptomsWidget(
                     timelineID: widget.patient['patientTimeLineID'],
-                    token: token,
+                    token: user?.token,
                   ),
                   // vitals
                   const SizedBox(
                     height: 10,
                   ),
-                  const VitalsWidget(),
+                  VitalsWidget(
+                    timelineID: widget.patient['patientTimeLineID'],
+                    token: user?.token,
+                    hospitalID: widget.patient['hospitalID'],
+                    userID: user?.id,
+                  ),
                 ],
               );
             }))

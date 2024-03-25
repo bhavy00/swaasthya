@@ -13,21 +13,23 @@ class PatientInfoCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // Circular Image on the left
-            Container(
-              width: 80.0,
-              height: 80.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: patient['photo'] == null
-                      ? const NetworkImage(
-                          'https://placekitten.com/80/80', // Replace with your image URL
-                        )
-                      : NetworkImage(patient['photo']),
-                ),
-              ),
-            ),
+            patient['photo'] != null
+                ? Container(
+                    width: 80.0,
+                    height: 80.0,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(patient['photo']),
+                      ),
+                    ),
+                  )
+                : const Icon(
+                    Icons.account_circle,
+                    size: 80,
+                    color: Colors.grey,
+                  ),
             const SizedBox(width: 16.0), // Add spacing between image and text
             // Other information on the right
             Column(

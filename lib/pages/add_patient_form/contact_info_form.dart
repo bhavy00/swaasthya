@@ -23,6 +23,14 @@ class ContactInfoForm extends StatelessWidget {
                 if (value!.isEmpty) {
                   return 'Email is required';
                 }
+                final RegExp emailRegex = RegExp(
+                  r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                  caseSensitive: false,
+                  multiLine: false,
+                );
+                if (!emailRegex.hasMatch(value)) {
+                  return 'Valid Email is required';
+                }
                 // Add additional email validation if needed
                 return null;
               },
@@ -33,7 +41,7 @@ class ContactInfoForm extends StatelessWidget {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Phone Number'),
               keyboardType: TextInputType.number,
-              onSaved: (value) => patient.phoneNumber = int.parse(value!),
+              onSaved: (value) => patient.phoneNumber = value!,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Phone Number is required';
@@ -90,7 +98,7 @@ class ContactInfoForm extends StatelessWidget {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Pincode'),
               keyboardType: TextInputType.number,
-              onSaved: (value) => patient.pincode = int.parse(value!),
+              onSaved: (value) => patient.pincode = value!,
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Pincode is required';

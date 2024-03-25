@@ -22,7 +22,6 @@ class _PatientProfileCardState extends State<PatientProfileCard> {
       patient: widget.patient,
     ),
   ];
-  // final double height = max(content, b);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -100,30 +99,33 @@ class CardOne extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 8.0),
-                Center(
-                  child: SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Container(
-                          width: 100.0,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: patient['photo'] == null
-                                  ? const NetworkImage('url')
-                                  : NetworkImage(patient['photo']),
-                            ),
-                          ),
-                        ),
+                        patient['photo'] != null
+                            ? Container(
+                                width: 100.0,
+                                height: 100.0,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    fit: BoxFit.cover,
+                                    image: NetworkImage(patient['photo']),
+                                  ),
+                                ),
+                              )
+                            : const Icon(
+                                Icons.account_circle,
+                                size: 100,
+                                color: Colors.grey,
+                              ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                'Patient\'s Name: ${patient['firstName']} ${patient['lastName']}'),
+                            Text('Patient\'s Name: ${patient['pName']}'),
                             Text('ID: ${patient['pID']}'),
                             Text('Doctor Name: Dr. ${patient['doctorName']}'),
                             Text('Department: ${patient['department']}'),
@@ -133,7 +135,7 @@ class CardOne extends StatelessWidget {
                       ],
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

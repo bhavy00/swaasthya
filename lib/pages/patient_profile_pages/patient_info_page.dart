@@ -30,7 +30,7 @@ class PatientInfo extends StatefulWidget {
 
 class _PatientInfoState extends State<PatientInfo> {
   dynamic patient = 5;
-  late Widget selectedWidget;
+  Widget selectedWidget = const Center(child: CircularProgressIndicator());
   bool error = false;
   void _getPatientData() async {
     try {
@@ -47,7 +47,7 @@ class _PatientInfoState extends State<PatientInfo> {
       //print(patient);
     } catch (e) {
       error = true;
-      print(e);
+      //print(e);
     }
   }
 

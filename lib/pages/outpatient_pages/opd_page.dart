@@ -51,7 +51,13 @@ class _OPDPageState extends State<OPDPage> {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const AddPatientForm();
+                return AddPatientForm(
+                  patientStatus: 1,
+                  userID: widget.userData?.id,
+                  departmentID: widget.userData?.departmentID,
+                  hospitalID: widget.userData?.hospitalID,
+                  token: widget.userData?.token,
+                );
               }));
             },
             icon: const Icon(Icons.add),

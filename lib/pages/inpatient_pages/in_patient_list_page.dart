@@ -46,7 +46,13 @@ class _InPatientListPageState extends State<InPatientListPage> {
           IconButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                return const AddPatientForm();
+                return AddPatientForm(
+                  hospitalID: widget.userData?.hospitalID,
+                  token: widget.userData?.token,
+                  patientStatus: 2,
+                  departmentID: widget.userData?.departmentID,
+                  userID: widget.userData?.id,
+                );
               }));
             },
             icon: const Icon(Icons.add),
@@ -85,11 +91,10 @@ class _InPatientListPageState extends State<InPatientListPage> {
                         Navigator.of(context)
                             .push(MaterialPageRoute(builder: ((context) {
                           return PatientInfo(
-                            isInPatient: true,
-                            isOPD: false,
-                            patient: patient,
-                            token: widget.userData?.token
-                          );
+                              isInPatient: true,
+                              isOPD: false,
+                              patient: patient,
+                              token: widget.userData?.token);
                         })));
                       },
                       child: PatientInfoCard(

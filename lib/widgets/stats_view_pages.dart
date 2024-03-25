@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/utils/classes/user_data_class.dart';
 import 'package:swaasthya/widgets/charts/patient_department_chart.dart';
 import 'package:swaasthya/widgets/charts/patient_month_chart.dart';
 import 'package:swaasthya/widgets/charts/patient_ward_pie_chart.dart';
 
 class StatsViewPages extends StatefulWidget {
-  const StatsViewPages({super.key});
+  final User? user;
+  const StatsViewPages({super.key, this.user});
 
   @override
   State<StatsViewPages> createState() => _StatsViewPagesState();
@@ -13,13 +15,13 @@ class StatsViewPages extends StatefulWidget {
 class _StatsViewPagesState extends State<StatsViewPages> {
   final PageController _pageController = PageController(initialPage: 0);
   int _activePage = 0;
-  final List<Widget> _pages = const [
-    PatientWardPieChart(),
-    PatientVisitsChart(),
-    DepartmentPatientsChart()
-  ];
   @override
   Widget build(BuildContext context) {
+    final List<Widget> _pages = const [
+      PatientWardPieChart(),
+      PatientVisitsChart(),
+      DepartmentPatientsChart()
+    ];
     return Container(
       margin: const EdgeInsets.all(16),
       height: 500,
