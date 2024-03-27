@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'dart:io';
 import 'package:swaasthya/utils/classes/patient_class.dart';
 import 'package:swaasthya/utils/patient_data_holder.dart';
@@ -163,7 +164,7 @@ class _BasicInfoFormState extends State<BasicInfoForm> {
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
                 );
-                if (pickedDate != null && pickedDate != patient.dob) {
+                if (pickedDate != null) {
                   setState(() {
                     patient.dob = pickedDate;
                   });

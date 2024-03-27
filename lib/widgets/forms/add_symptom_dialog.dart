@@ -139,7 +139,7 @@ class _AddSymptomDialogState extends State<AddSymptomDialog> {
               widget.onDialogClosed();
               Navigator.of(context).pop();
             } catch (e) {
-              print(e);
+              //print(e);
               setState(() {
                 error = true;
               });

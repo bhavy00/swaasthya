@@ -1,60 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/use_auth_fetch.dart';
 import 'package:swaasthya/widgets/forms/add_medicine_dialog.dart';
-import 'package:swaasthya/widgets/cards/medicine_card.dart';
+import 'package:swaasthya/widgets/filter_chip_widget.dart';
+import 'package:swaasthya/widgets/futureBuilderWidgets/medicine_list_widget.dart';
+import 'package:swaasthya/widgets/futureBuilderWidgets/medicine_reminder_list_widget.dart';
 
-List<Map<String, dynamic>> treat = [
-  {
-    'medicineName': 'Paracetamol',
-    'duration': '7 days',
-    'numberOfDoses': 3,
-    'medicationTime': 'After meal',
-    'notes': 'Take with water',
-    'progress': 0.7, // 70% progress
-  },
-  {
-    'medicineName': 'Test Medicine 2',
-    'duration': '4 days',
-    'numberOfDoses': 1,
-    'medicationTime': 'Before meal',
-    'notes': 'Take with water',
-    'progress': 0.4, // 70% progress
-  },
-  {
-    'medicineName': 'Test Medicine 3',
-    'duration': '15 days',
-    'numberOfDoses': 3,
-    'medicationTime': 'After meal',
-    'notes': 'Take with water',
-    'progress': 0.0, // 70% progress
-  },
-  {
-    'medicineName': 'Test Medicine 3',
-    'duration': '15 days',
-    'numberOfDoses': 3,
-    'medicationTime': 'After meal',
-    'notes': 'Take with water',
-    'progress': 0.0, // 70% progress
-  },
-  {
-    'medicineName': 'Test Medicine 3',
-    'duration': '15 days',
-    'numberOfDoses': 3,
-    'medicationTime': 'After meal',
-    'notes': 'Take with water',
-    'progress': 0.0, // 70% progress
-  },
-  {
-    'medicineName': 'Test Medicine 3',
-    'duration': '15 days',
-    'numberOfDoses': 3,
-    'medicationTime': 'After meal',
-    'notes': 'Take with water',
-    'progress': 0.0, // 70% progress
-  },
-];
+Map<String, int> medicineCategory = {
+  'Capsules': 1,
+  'Syrups': 2,
+  'Tablets': 3,
+  'Injections': 4,
+  'Iv Line': 5,
+};
 
 class TreatmentPage extends StatefulWidget {
-  const TreatmentPage({super.key});
+  final dynamic patient;
+  final String? token;
+  const TreatmentPage({super.key, this.patient, this.token});
 
   @override
   State<TreatmentPage> createState() => _TreatmentPageState();
@@ -62,6 +24,27 @@ class TreatmentPage extends StatefulWidget {
 
 class _TreatmentPageState extends State<TreatmentPage> {
   bool showFilter = false;
+  bool medicineAdded = false;
+  String view = 'Medicine';
+  void medicineAddedCallback() {
+    setState(() {
+      medicineAdded = true;
+    });
+  }
+
+  Future<List<dynamic>> _getAllMedicines() async {
+    final data = await authFetch(
+        'medicine/${widget.patient['patientTimeLineID']}', widget.token);
+    return data['medicines'];
+  }
+
+  Future<List<dynamic>> _getAllMedicinesReminders() async {
+    final data = await authFetch(
+        'medicine/${widget.patient['patientTimeLineID']}/reminders/all',
+        widget.token);
+    return data['reminders'];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -73,7 +56,24 @@ class _TreatmentPageState extends State<TreatmentPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text('Medicine'),
+                SegmentedButton<String>(
+                  segments: const <ButtonSegment<String>>[
+                    ButtonSegment<String>(
+                      value: 'Medicine',
+                      label: Text('Medicine'),
+                    ),
+                    ButtonSegment<String>(
+                      value: 'Reminder',
+                      label: Text('Reminder'),
+                    ),
+                  ],
+                  selected: <String>{view},
+                  onSelectionChanged: (Set<String> newSelection) {
+                    setState(() {
+                      view = newSelection.first;
+                    });
+                  },
+                ),
                 Row(
                   children: [
                     IconButton(
@@ -89,7 +89,11 @@ class _TreatmentPageState extends State<TreatmentPage> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return const AddMedicineDialog();
+                              return AddMedicineDialog(
+                                patient: widget.patient,
+                                medicineAdded: medicineAddedCallback,
+                                token: widget.token,
+                              );
                             });
                       },
                       icon: const Icon(Icons.add),
@@ -111,72 +115,11 @@ class _TreatmentPageState extends State<TreatmentPage> {
             const SizedBox(
               height: 15,
             ),
-            Stack(
-              children: [
-                Wrap(
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: List.generate(
-                    treat.length,
-                    (index) {
-                      final treatment = treat[index];
-                      return MedicineCard(
-                        medicineName: treatment['medicineName'],
-                        medicationTime: treatment['medicationTime'],
-                        numberOfDoses: treatment['numberOfDoses'],
-                        duration: treatment['duration'],
-                        notes: treatment['notes'],
-                        progress: treatment['progress'],
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
+            view == 'Medicine'
+                ? MedicineListWidget(getAllMedicines: _getAllMedicines)
+                : MedicineRemindersListWidget(getAllMedicineReminders: _getAllMedicinesReminders)
           ],
         ),
-      ),
-    );
-  }
-}
-
-class FilterChipClass extends StatefulWidget {
-  final List<String> filters;
-  const FilterChipClass({super.key, required this.filters});
-
-  @override
-  State<FilterChipClass> createState() => _FilterChipClassState();
-}
-
-class _FilterChipClassState extends State<FilterChipClass> {
-  String selectedFilter = 'All';
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Wrap(
-            spacing: 5.0,
-            runSpacing: 5.0,
-            alignment: WrapAlignment.start,
-            children: widget.filters.map((filter) {
-              return FilterChip(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                label: Text(filter),
-                selected: selectedFilter == filter,
-                onSelected: (bool selected) {
-                  setState(() {
-                    selectedFilter = selected ? filter : '';
-                    // print(selectedFilter);
-                  });
-                },
-              );
-            }).toList(),
-          ),
-        ],
       ),
     );
   }

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MedicineCard extends StatelessWidget {
-  final String medicineName;
-  final String duration;
-  final int numberOfDoses;
-  final String medicationTime;
-  final String notes;
+  final String? medicineName;
+  final int? duration;
+  final int? numberOfDoses;
+  final String? medicationTime;
+  final String? notes;
   final double progress;
 
   const MedicineCard({

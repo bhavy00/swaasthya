@@ -1,7 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/use_auth_post.dart';
+import 'package:swaasthya/pages/welcome_page.dart';
+import 'package:intl/intl.dart';
+
+// utility
+Map<String, int> dischargeType = {
+  'Discharge Success': 1,
+  'DOPR': 2,
+  'Absconded': 3,
+  'Left against medical advice': 4,
+  'Death': 5
+};
 
 class DischargePatientForm extends StatefulWidget {
-  const DischargePatientForm({super.key});
+  final String? token;
+  final int? hospitalID;
+  final int? patientID;
+  const DischargePatientForm(
+      {super.key, this.token, this.hospitalID, this.patientID});
 
   @override
   State<DischargePatientForm> createState() => _DischargePatientFormState();
@@ -16,7 +32,7 @@ class _DischargePatientFormState extends State<DischargePatientForm> {
   String _finalDiagnosis = '';
   String _prescription = '';
   String _followupRequired = 'No';
-  final DateTime _followupDate = DateTime.now();
+  DateTime _followupDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -113,30 +129,74 @@ class _DischargePatientFormState extends State<DischargePatientForm> {
               const SizedBox(height: 12.0),
               TextFormField(
                 enabled: _followupRequired == 'Yes',
-                onChanged: (value) {
-                  // Parse date if needed
-                  // _followupDate = DateTime.parse(value);
+                decoration: const InputDecoration(labelText: 'FollowUp Date'),
+                readOnly: true,
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null) {
+                    setState(() {
+                      _followupDate = pickedDate;
+                    });
+                  }
                 },
-                decoration: const InputDecoration(
-                  labelText: 'Followup Date',
-                  hintText: 'YYYY-MM-DD',
-                ),
+                controller: TextEditingController(
+                    text: _followupDate.toString().split(' ')[0]),
               ),
               const SizedBox(height: 12.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Process the form data
-                    // You can print or save the form data here
-                    print('Reason for Discharge: $_reasonForDischarge');
-                    print('Date: $_selectedDate');
-                    print('Diet: $_diet');
-                    print('Advice on Discharge: $_adviceOnDischarge');
-                    print('Final Diagnosis: $_finalDiagnosis');
-                    print('Prescription: $_prescription');
-                    print('Followup Required: $_followupRequired');
-                    if (_followupRequired == 'Yes') {
-                      print('Followup Date: $_followupDate');
+                    try {
+                      await authPost(
+                        'patient/${widget.hospitalID}/patients/discharge/${widget.patientID}',
+                        widget.token,
+                        {
+                          'dischargeType': dischargeType[_reasonForDischarge],
+                          'advice': _adviceOnDischarge,
+                          'followUpDate': _followupRequired == 'Yes'
+                              ? DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                                  .format(_followupDate)
+                              : "",
+                          'followUp': _followupRequired == 'Yes' ? 1 : 0,
+                          'diet': _diet
+                        },
+                      );
+                      setState(() {
+                        showDialog(
+                          context: context,
+                          builder: (builder) {
+                            return AlertDialog(
+                              title: const Text('Patient Discharge'),
+                              content:
+                                  const Text('Patient Discharged Successfully'),
+                              actions: [
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pushReplacement(
+                                        MaterialPageRoute(builder: ((context) {
+                                      return const WelcomePage();
+                                    })));
+                                  },
+                                  child: const Text('Ok'),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      });
+                    } catch (e) {
+                      setState(() {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Failed to discharge patient'),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ));
+                      });
+                      //print(e);
                     }
                   }
                 },

@@ -120,8 +120,8 @@ class _VitalsWidgetState extends State<VitalsWidget> {
                             children: vitalList.map((item) {
                               return SizedBox(
                                 height: tabView
-                                    ? 250
-                                    : MediaQuery.of(context).size.height * 0.2,
+                                    ? 200
+                                    : MediaQuery.of(context).size.height * 0.25,
                                 width: tabView
                                     ? 180
                                     : MediaQuery.of(context).size.width * 0.45,

@@ -9,9 +9,8 @@ class AppTheme {
     inputDecorationTheme: const InputDecorationTheme(
       border: OutlineInputBorder(),
     ),
-    textTheme: const TextTheme(
-      //displaySmall: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-      //bodyLarge: TextStyle(fontWeight: FontWeight.bold),
+    segmentedButtonTheme: const SegmentedButtonThemeData(
+      style: ButtonStyle(fixedSize: MaterialStatePropertyAll(Size(10, 5))),
     ),
   );
 }

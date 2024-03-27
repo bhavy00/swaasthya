@@ -172,7 +172,8 @@ class CardTwo extends StatelessWidget {
               Text('Weight: ${patient['weight']} kg'),
               Text('UHID: ${patient['pUHID']}'),
               Text('Gender: ${patient['gender'] == 1 ? 'male' : 'female'}'),
-              Text('DOB: ${patient['dob'].split('T')[0]}'),
+              Text(
+                  'DOB: ${patient['dob'] != null ? patient['dob'].split('T')[0] : null}'),
             ],
           ),
         ),

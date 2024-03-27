@@ -26,7 +26,7 @@ class _InPatientListPageState extends State<InPatientListPage> {
       setState(() {
         hasError = true;
       });
-      print(e);
+      //print(e);
     }
   }
 

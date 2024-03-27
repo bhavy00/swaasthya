@@ -73,7 +73,11 @@ class _PatientInfoState extends State<PatientInfo> {
     } else if (value == 'discharge') {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) {
-          return const DischargePatientForm();
+          return DischargePatientForm(
+            hospitalID: widget.patient['hospitalID'],
+            token: widget.token,
+            patientID: widget.patient['id'],
+          );
         }),
       );
     }
@@ -90,7 +94,12 @@ class _PatientInfoState extends State<PatientInfo> {
     Pair<String, Widget> t2 = Pair('Reports', const ReportsPage());
     Pair<String, Widget> t3 =
         Pair('Medical History', const MedicalHistoryPage());
-    Pair<String, Widget> t4 = Pair('Treatment', const TreatmentPage());
+    Pair<String, Widget> t4 = Pair(
+        'Treatment',
+        TreatmentPage(
+          patient: patient,
+          token: widget.token,
+        ));
     Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
     Pair<String, Widget> t6 = Pair('Tests', const TestPage());
     return error
