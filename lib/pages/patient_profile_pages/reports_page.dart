@@ -1,24 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/use_auth_fetch.dart';
+import 'package:swaasthya/utils/types_and_category.dart';
 import 'package:swaasthya/widgets/forms/add_report_form.dart';
 
 List<String> types = ['Pathology', 'Radiology', 'Previous History'];
 
-List<String> reports = [
-  'test_report_1',
-  'test_report_2',
-  'test_report_3',
-  'test report 4 ',
-  'test_report_5',
-  'test_report_6',
-  'test_report_7',
-  'test_report_8',
-  'test_report_9',
-  'test_report_10',
-  'test_report_11',
-];
-
 class ReportsPage extends StatefulWidget {
-  const ReportsPage({super.key});
+  final dynamic patient;
+  final String? token;
+  const ReportsPage({super.key, this.patient, this.token});
 
   @override
   State<ReportsPage> createState() => _ReportsPageState();
@@ -26,10 +16,18 @@ class ReportsPage extends StatefulWidget {
 
 class _ReportsPageState extends State<ReportsPage> {
   String _reportType = 'Pathology';
+
   void _changeReportType(String? value) {
     setState(() {
       _reportType = value!;
     });
+  }
+
+  Future<List<dynamic>> _getAllReports() async {
+    final data = await authFetch(
+        'attachment/${widget.patient['hospitalID']}/all/${widget.patient['patientTimeLineID']}',
+        widget.token);
+    return data['attachments'];
   }
 
   @override
@@ -61,54 +59,75 @@ class _ReportsPageState extends State<ReportsPage> {
             const SizedBox(
               height: 20,
             ),
-            DataTable(
-              columnSpacing: MediaQuery.of(context).size.width * 0.15,
-              columns: const [
-                DataColumn(
-                  label: Text(
-                    'Report Name',
-                  ),
-                ),
-                DataColumn(
-                  label: Expanded(
-                      child: Text(
-                    'Download Report',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  )),
-                ),
-                DataColumn(label: Text('Delete')),
-              ],
-              rows: List.generate(reports.length, (index) {
-                return DataRow(cells: [
-                  DataCell(
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Text(
-                        reports[index],
-                      ),
-                    ),
-                  ),
-                  DataCell(
-                    IconButton(
-                      icon: const Icon(Icons.download),
-                      onPressed: () {
-
-                      },
-                    ),
-                  ),
-                  DataCell(
-                    IconButton(
-                      icon: const Icon(Icons.delete),
-                      onPressed: () {
-                        setState(() {
-                          reports.removeAt(index);
-                        });
-                      },
-                    ),
-                  ),
-                ]);
-              }),
+            FutureBuilder(
+              future: _getAllReports(),
+              builder: (builder, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                } else if (snapshot.hasError) {
+                  //print('error ${snapshot.error}');
+                  return const Text('An error occured');
+                } else {
+                  List<dynamic>? data = snapshot.data;
+                  List<dynamic>? reports = data
+                      ?.where((element) =>
+                          int.parse(element['category']) ==
+                          reportType[_reportType])
+                      .toList();
+                  //print(reportType[_reportType]);
+                  return reports?.length == 0
+                      ? const Text('No reports yet')
+                      : DataTable(
+                          columnSpacing:
+                              MediaQuery.of(context).size.width * 0.15,
+                          columns: const [
+                            DataColumn(
+                              label: Text(
+                                'Report Name',
+                              ),
+                            ),
+                            DataColumn(
+                              label: Expanded(
+                                  child: Text(
+                                'Download Report',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              )),
+                            ),
+                            DataColumn(label: Text('Delete')),
+                          ],
+                          rows: reports?.map((item) {
+                                return DataRow(cells: [
+                                  DataCell(
+                                    SingleChildScrollView(
+                                      scrollDirection: Axis.horizontal,
+                                      child: Text(
+                                        item['fileName'],
+                                      ),
+                                    ),
+                                  ),
+                                  DataCell(
+                                    IconButton(
+                                      icon: const Icon(Icons.download),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                  DataCell(
+                                    IconButton(
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        setState(() {
+                                          //reports.removeAt(index);
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                ]);
+                              }).toList() ??
+                              [],
+                        );
+                }
+              },
             ),
             Stack(
               children: [
@@ -121,9 +140,12 @@ class _ReportsPageState extends State<ReportsPage> {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return const AlertDialog(
-                                title: Text('Upload report'),
-                                content: AddReportForm(),
+                              return AlertDialog(
+                                title: const Text('Upload report'),
+                                content: AddReportForm(
+                                  patient: widget.patient,
+                                  token: widget.token,
+                                ),
                               );
                             });
                       },

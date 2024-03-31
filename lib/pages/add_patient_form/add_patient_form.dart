@@ -37,15 +37,17 @@ class _AddPatientFormState extends State<AddPatientForm> {
   );
   int _currentStep = 0;
   bool err = false, load = false, added = false;
+
   void _addPatient(Patient body) async {
     try {
       await authPost(
           'patient/${widget.hospitalID}/patients', widget.token, body.toMap());
     } catch (e) {
+      // TODO: this thing doesn't work
       setState(() {
         err = true;
       });
-      print('$err cdsva $e ');
+      //print('$err cdsva $e ');
     }
   }
 
@@ -86,9 +88,9 @@ class _AddPatientFormState extends State<AddPatientForm> {
               if (_currentStep < 2) {
                 _currentStep++;
               } else {
-                printPatient(patient);
+                //printPatient(patient);
                 _addPatient(patient);
-                print(err);
+                //print(err);
                 err
                     ? ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
@@ -104,6 +106,7 @@ class _AddPatientFormState extends State<AddPatientForm> {
                             title: const Text('Patient added'),
                             content: const Text('Patient added successfully'),
                             actions: [
+                              // TODO: this stuff doesn't lead to anywhere
                               ElevatedButton(
                                   onPressed: () {},
                                   child: const Text('Add Medical History')),

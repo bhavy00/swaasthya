@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/apis/use_auth_post.dart';
-import 'package:swaasthya/pages/patient_profile_pages/treatment_page.dart';
+import 'package:swaasthya/utils/types_and_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swaasthya/utils/providers/user_provider.dart';
 

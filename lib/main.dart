@@ -21,6 +21,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final loggedIn = ref.read(loggedInProvider);
+    //print(loggedIn);
     return MaterialApp(
       title: 'Swaasthya',
       debugShowCheckedModeBanner: false,

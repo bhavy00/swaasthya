@@ -5,14 +5,6 @@ import 'package:swaasthya/widgets/filter_chip_widget.dart';
 import 'package:swaasthya/widgets/futureBuilderWidgets/medicine_list_widget.dart';
 import 'package:swaasthya/widgets/futureBuilderWidgets/medicine_reminder_list_widget.dart';
 
-Map<String, int> medicineCategory = {
-  'Capsules': 1,
-  'Syrups': 2,
-  'Tablets': 3,
-  'Injections': 4,
-  'Iv Line': 5,
-};
-
 class TreatmentPage extends StatefulWidget {
   final dynamic patient;
   final String? token;
@@ -117,7 +109,8 @@ class _TreatmentPageState extends State<TreatmentPage> {
             ),
             view == 'Medicine'
                 ? MedicineListWidget(getAllMedicines: _getAllMedicines)
-                : MedicineRemindersListWidget(getAllMedicineReminders: _getAllMedicinesReminders)
+                : MedicineRemindersListWidget(
+                    getAllMedicineReminders: _getAllMedicinesReminders)
           ],
         ),
       ),

@@ -66,23 +66,25 @@ class _LoginFormState extends ConsumerState<LoginForm> {
         // user.forEach((key, value) {
         //   print('$key: ${value.runtimeType}');
         // });
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) {
-              return const WelcomePage();
-            },
-          ),
-        );
+        setState(() {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) {
+                return const WelcomePage();
+              },
+            ),
+          );
+        });
       } catch (e) {
         setState(() {
           isLoading = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Login failed. Please try again. $e'),
+              backgroundColor: Theme.of(context).colorScheme.secondary,
+            ),
+          );
         });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('Login failed. Please try again. $e'),
-            backgroundColor: Theme.of(context).colorScheme.secondary,
-          ),
-        );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(

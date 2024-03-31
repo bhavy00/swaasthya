@@ -51,7 +51,7 @@ class _PatientAllergyFormState extends State<PatientAllergyForm> {
             TextFormField(
               decoration: const InputDecoration(labelText: 'Medicines'),
               keyboardType: TextInputType.multiline,
-              onSaved: (value) => history.foodAllergyList = value!,
+              onSaved: (value) => history.medicineAllergyList = value!,
             )
           ],
           CheckboxListTile(

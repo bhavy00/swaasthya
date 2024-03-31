@@ -91,9 +91,18 @@ class _PatientInfoState extends State<PatientInfo> {
         patient: patient,
       ),
     );
-    Pair<String, Widget> t2 = Pair('Reports', const ReportsPage());
-    Pair<String, Widget> t3 =
-        Pair('Medical History', const MedicalHistoryPage());
+    Pair<String, Widget> t2 = Pair(
+        'Reports',
+        ReportsPage(
+          patient: patient,
+          token: widget.token,
+        ));
+    Pair<String, Widget> t3 = Pair(
+        'Medical History',
+        MedicalHistoryPage(
+          patient: patient,
+          token: widget.token,
+        ));
     Pair<String, Widget> t4 = Pair(
         'Treatment',
         TreatmentPage(

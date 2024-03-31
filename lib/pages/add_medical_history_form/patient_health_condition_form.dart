@@ -33,6 +33,20 @@ class _PatientHealthConditionFormState
               });
             },
           ),
+          const SizedBox(
+            height: 8,
+          ),
+          if (history.heart) ...[
+            TextFormField(
+              decoration:
+                  const InputDecoration(labelText: 'Heart Disease Name'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.heartDiseases = value!,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+          ],
           CheckboxListTile(
             title: const Text('Mental'),
             value: history.mental,
@@ -42,6 +56,27 @@ class _PatientHealthConditionFormState
               });
             },
           ),
+          const SizedBox(
+            height: 8,
+          ),
+          if (history.mental) ...[
+            TextFormField(
+              decoration:
+                  const InputDecoration(labelText: 'Mental health condition'),
+              keyboardType: TextInputType.multiline,
+              onSaved: (value) => history.mentalHealth = value!,
+            ),
+            const SizedBox(
+              height: 8,
+            ),
+          ],
+          TextFormField(
+            decoration:
+                const InputDecoration(labelText: 'Neurological Disorder'),
+            keyboardType: TextInputType.multiline,
+            onSaved: (value) => history.neurologicalDisorder,
+          ),
+          const SizedBox(height: 8),
           CheckboxListTile(
             title: const Text('Chest'),
             value: history.chest,

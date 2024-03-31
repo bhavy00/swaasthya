@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swaasthya/apis/use_auth_post.dart';
 import 'package:swaasthya/pages/add_medical_history_form/basic_information_patient_form.dart';
 import 'package:swaasthya/pages/add_medical_history_form/history_provider_details_form.dart';
 import 'package:swaasthya/pages/add_medical_history_form/misc_info_patient_form.dart';
@@ -8,15 +10,19 @@ import 'package:swaasthya/pages/add_medical_history_form/patient_health_conditio
 import 'package:swaasthya/pages/add_medical_history_form/patient_medication_form.dart';
 import 'package:swaasthya/utils/classes/medical_history_class.dart';
 import 'package:swaasthya/utils/medical_history_data_holder.dart';
+import 'package:swaasthya/utils/providers/user_provider.dart';
 
-class AddMedicalHistoryForm extends StatefulWidget {
-  const AddMedicalHistoryForm({super.key});
+class AddMedicalHistoryForm extends ConsumerStatefulWidget {
+  final dynamic patient;
+  final String? token;
+  const AddMedicalHistoryForm({super.key, this.patient, this.token});
 
   @override
-  State<AddMedicalHistoryForm> createState() => _AddMedicalHistoryFormState();
+  ConsumerState<AddMedicalHistoryForm> createState() =>
+      _AddMedicalHistoryFormState();
 }
 
-class _AddMedicalHistoryFormState extends State<AddMedicalHistoryForm> {
+class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
   int _currentStep = 0;
   final _formKey1 = GlobalKey<FormState>();
   final _formKey2 = GlobalKey<FormState>();
@@ -27,6 +33,64 @@ class _AddMedicalHistoryFormState extends State<AddMedicalHistoryForm> {
   final _formKey7 = GlobalKey<FormState>();
 
   final MedicalHistory history = MedicalHistory();
+  String drugs = '', infection = '', disease = '';
+
+  void _addMedicalHistory() async {
+    try {
+      await authPost(
+        'history/${widget.patient['hospitalID']}/patient/${widget.patient['id']}',
+        widget.token,
+        {
+          'patientID': widget.patient['id'],
+          'userID': ref.read(userProvider)?.id,
+          'givenName': history.givenName,
+          'givenPhone': history.givenPhone,
+          'givenRelation': history.givenRelation,
+          'bloodGroup': history.bloodGroup,
+          'bloodPressure': history.highBp
+              ? 'Yes'
+              : history.lowBp
+                  ? 'Yes'
+                  : '',
+          'disease': disease,
+          'foodAllergy': history.foodAllergyList,
+          'medicineAllergy': history.medicineAllergyList,
+          'anaesthesia': history.anesthesiaAllergy ? 'Yes' : '',
+          'meds': history.prescribedMedicineList,
+          'selfMeds': history.selfMedicineList,
+          'chestCondition': history.chestCondition,
+          'neurologicalDisorder': history.neurologicalDisorder,
+          'heartProblems': history.heartDiseases,
+          'infections': infection,
+          'mentalHealth': history.mentalHealth,
+          'drugs': drugs,
+          'pregnant': history.pregnant ? 'Yes' : '',
+          'hereditaryDisease': history.geneticDiseasesList,
+          'lumps': history.lumps ? 'Yes' : '',
+          'cancer': history.cancer ? 'Yes' : '',
+        },
+      );
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Medical History added successfully'),
+            backgroundColor: Colors.lightGreen,
+          ),
+        );
+      });
+    } catch (e) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text('Failed to add medical history, please try again later'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      });
+      print(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,33 +153,20 @@ class _AddMedicalHistoryFormState extends State<AddMedicalHistoryForm> {
                 _currentStep++;
               } else {
                 history.printAllValues();
-                showDialog(
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: const Text('Add Patient Medical History'),
-                        content: const Text(
-                            'Are you sure you want to add the patient\'s medical history?'),
-                        actions: [
-                          TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: const Text(
-                              'Edit',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Yes',
-                              style: TextStyle(color: Colors.blue),
-                            ),
-                          ),
-                        ],
-                      );
-                    });
+                history.alcohol ? drugs += 'alcohol' : '';
+                history.tobacco ? drugs += 'tobacco' : '';
+                history.drugs ? drugs += 'drugs' : '';
+                history.diabetes ? disease += 'diabetes' : '';
+                history.lipidameia
+                    ? disease += 'Hyper Lipidaemia / Dyslipidaemia'
+                    : '';
+                history.surgery ? disease += 'Been through any Surgery' : '';
+                history.epilepsy ? disease += 'Epilepsy' : '';
+                history.bone ? disease += 'bone/joint' : '';
+                history.hiv ? infection += 'HIV' : '';
+                history.hepatitisB ? infection += 'Hepatitis B' : '';
+                history.hepatitisC ? infection += 'Hepatitis C' : '';
+                _addMedicalHistory();
               }
             });
           }

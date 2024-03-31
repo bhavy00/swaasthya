@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:swaasthya/pages/patient_profile_pages/treatment_page.dart';
+import 'package:swaasthya/utils/types_and_category.dart';
 
 class MedicineRemindersListWidget extends StatefulWidget {
   final Future<List<dynamic>> Function() getAllMedicineReminders;
