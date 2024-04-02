@@ -36,6 +36,7 @@ class _PatientMedicationFormState extends State<PatientMedicationForm> {
               decoration: const InputDecoration(labelText: 'Medicine'),
               keyboardType: TextInputType.multiline,
               onSaved: (value) => history.prescribedMedicineList = value!,
+              initialValue: history.prescribedMedicineList,
             )
           ],
           CheckboxListTile(
@@ -52,6 +53,7 @@ class _PatientMedicationFormState extends State<PatientMedicationForm> {
               decoration: const InputDecoration(labelText: 'Medicine'),
               keyboardType: TextInputType.multiline,
               onSaved: (value) => history.selfMedicineList = value!,
+              initialValue: history.selfMedicineList,
             )
           ],
         ],

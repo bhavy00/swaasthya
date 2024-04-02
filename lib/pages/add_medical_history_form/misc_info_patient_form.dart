@@ -37,6 +37,7 @@ class _MiscInfoPatientState extends State<MiscInfoPatient> {
                 decoration: const InputDecoration(labelText: 'Disease Name'),
                 keyboardType: TextInputType.multiline,
                 onSaved: (value) => history.geneticDiseasesList = value!,
+                initialValue: history.geneticDiseasesList,
               ),
               const SizedBox(
                 height: 8,

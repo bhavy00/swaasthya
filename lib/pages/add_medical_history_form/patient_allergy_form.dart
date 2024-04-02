@@ -30,12 +30,14 @@ class _PatientAllergyFormState extends State<PatientAllergyForm> {
                 history.foodAllergy = value!;
               });
             },
+            
           ),
           if (history.foodAllergy) ...[
             TextFormField(
               decoration: const InputDecoration(labelText: 'Food Items'),
               keyboardType: TextInputType.multiline,
               onSaved: (value) => history.foodAllergyList = value!,
+              initialValue: history.foodAllergyList,
             )
           ],
           CheckboxListTile(
@@ -52,6 +54,7 @@ class _PatientAllergyFormState extends State<PatientAllergyForm> {
               decoration: const InputDecoration(labelText: 'Medicines'),
               keyboardType: TextInputType.multiline,
               onSaved: (value) => history.medicineAllergyList = value!,
+              initialValue: history.medicineAllergyList,
             )
           ],
           CheckboxListTile(

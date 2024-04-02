@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/use_auth_fetch.dart';
 import 'package:swaasthya/apis/use_auth_post.dart';
 import 'package:swaasthya/utils/types_and_category.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,34 +22,38 @@ class AddMedicineDialog extends ConsumerStatefulWidget {
 
 class _AddMedicineDialogState extends ConsumerState<AddMedicineDialog> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _medicineNameController;
   late TextEditingController _durationController;
-  //late TextEditingController _numberOfDosesController;
-  //late TextEditingController _notesController;
   String type = 'Capsules';
   String time = 'Before Meal';
+  String medicineName = '';
   int numberOfDose = 0;
-  final List<TimeOfDay> _doseTimings = [];
+  final List<String> _doseTimings = [];
   final List<String> notes = [];
+  List<String> allMedicinesName = [];
   TimeOfDay timeOfDose = TimeOfDay.now();
   List<Map<String, dynamic>> medicineList = [];
-  bool error = false;
+  bool error = false, load = true;
+
+  Future<void> _getAllMedicinesName() async {
+    final data = await authFetch('data/medicines', widget.token);
+    setState(() {
+      allMedicinesName =
+          List<String>.from(data['medicines'].map((item) => item));
+      medicineName = allMedicinesName.first;
+      load = false;
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    _medicineNameController = TextEditingController();
     _durationController = TextEditingController();
-    // _numberOfDosesController = TextEditingController();
-    //_notesController = TextEditingController();
+    _getAllMedicinesName();
   }
 
   @override
   void dispose() {
-    _medicineNameController.dispose();
     _durationController.dispose();
-    // _numberOfDosesController.dispose();
-    //_notesController.dispose();
     super.dispose();
   }
 
@@ -59,218 +64,239 @@ class _AddMedicineDialogState extends ConsumerState<AddMedicineDialog> {
           title: const Text('Add Medicine Treatment'),
           centerTitle: true,
         ),
-        body: error
-            ? const Center(child: Text('An Error Occured'))
-            : Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        DropdownButtonFormField<String>(
-                          items: <String>[
-                            'Capsules',
-                            'Syrups',
-                            'Tablets',
-                            'Injections',
-                            'IV Line'
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              type = value!;
-                            });
-                          },
-                          decoration: const InputDecoration(
-                            label: Text('Type'),
-                            border: OutlineInputBorder(),
-                          ),
-                          value: type,
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          controller: _medicineNameController,
-                          decoration:
-                              const InputDecoration(labelText: 'Medicine Name'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter medicine name';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        TextFormField(
-                          controller: _durationController,
-                          decoration: const InputDecoration(
-                              labelText: 'Duration',
-                              hintText: 'number of days',
-                              suffixText: 'Days'),
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter duration';
-                            }
-                            return null;
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
+        body: load
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : error
+                ? const Center(child: Text('An Error Occured'))
+                : Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Form(
+                      key: _formKey,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text('Number of Doses: '),
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    numberOfDose += 1;
-                                    _doseTimings.add(TimeOfDay.now());
-                                    notes.add('');
-                                  });
-                                },
-                                icon: const Icon(Icons.add)),
-                            Text('$numberOfDose'),
-                            IconButton(
-                                onPressed: () {
-                                  setState(() {
-                                    numberOfDose -= 1;
-                                    _doseTimings.removeLast();
-                                    notes.removeLast();
-                                  });
-                                },
-                                icon: const Icon(Icons.remove))
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        DropdownButtonFormField<String>(
-                          items: <String>[
-                            'Before Meal',
-                            'After Meal',
-                          ].map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }).toList(),
-                          onChanged: (String? value) {
-                            setState(() {
-                              time = value!;
-                            });
-                          },
-                          decoration: const InputDecoration(
-                            label: Text('Medication Time'),
-                            border: OutlineInputBorder(),
-                          ),
-                          value: time,
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
-                          children: List.generate(
-                            numberOfDose,
-                            (index) {
-                              return Column(
-                                children: [
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                        labelText:
-                                            'Select Dose ${index + 1} Time'),
-                                    readOnly: true,
-                                    onTap: () async {
-                                      TimeOfDay? pickedTime =
-                                          await showTimePicker(
-                                              context: context,
-                                              initialTime: timeOfDose);
-                                      if (pickedTime != null) {
-                                        setState(() {
-                                          _doseTimings[index] = pickedTime;
-                                        });
-                                      }
-                                    },
-                                    controller: TextEditingController(
-                                        text:
-                                            '${timeOfDose.hour}:${timeOfDose.minute}'),
+                            DropdownButtonFormField<String>(
+                              items: <String>[
+                                'Capsules',
+                                'Syrups',
+                                'Tablets',
+                                'Injections',
+                                'IV Line'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  type = value!;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                label: Text('Type'),
+                                border: OutlineInputBorder(),
+                              ),
+                              value: type,
+                            ),
+                            const SizedBox(height: 8),
+                            DropdownButtonFormField<String>(
+                              items: allMedicinesName
+                                  .map<DropdownMenuItem<String>>(
+                                      (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Text(
+                                      value,
+                                    ),
                                   ),
-                                  const SizedBox(height: 8),
-                                  TextFormField(
-                                    keyboardType: TextInputType.multiline,
-                                    onChanged: (value) {
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  medicineName = value!;
+                                });
+                              },
+                              decoration: const InputDecoration(
+                                label: Text('Medicine Name'),
+                                border: OutlineInputBorder(),
+                              ),
+                              value: medicineName,
+                            ),
+                            const SizedBox(height: 8),
+                            TextFormField(
+                              controller: _durationController,
+                              decoration: const InputDecoration(
+                                  labelText: 'Duration',
+                                  hintText: 'number of days',
+                                  suffixText: 'Days'),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter duration';
+                                }
+                                return null;
+                              },
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              children: [
+                                const Text('Number of Doses: '),
+                                IconButton(
+                                    onPressed: () {
                                       setState(() {
-                                        notes[index] = value;
+                                        numberOfDose += 1;
+                                        _doseTimings.add('');
+                                        notes.add('');
                                       });
                                     },
-                                    decoration: InputDecoration(
-                                        labelText: 'Dose ${index + 1} Notes'),
-                                  ),
-                                ],
-                              );
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 8,
-                        ),
-                        TextButton.icon(
-                          onPressed: () {
-                            setState(() {
-                              if (_formKey.currentState!.validate()) {
-                                medicineList.add({
-                                  'timeLineID':
-                                      widget.patient['patientTimeLineID'],
-                                  'userID': ref.read(userProvider)?.id,
-                                  'medicineType': medicineCategory[type],
-                                  'medicineName':
-                                      _medicineNameController.text.trim(),
-                                  'daysCount': int.parse(
-                                      _durationController.text.trim()),
-                                  'doseCount': numberOfDose,
-                                  'medicationTime': time,
-                                  'doseTimings': _doseTimings.join(', '),
-                                  'notes': notes.join(','),
+                                    icon: const Icon(Icons.add)),
+                                Text('$numberOfDose'),
+                                IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        numberOfDose -= 1;
+                                        _doseTimings.removeLast();
+                                        notes.removeLast();
+                                      });
+                                    },
+                                    icon: const Icon(Icons.remove))
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            DropdownButtonFormField<String>(
+                              items: <String>[
+                                'Before Meal',
+                                'After Meal',
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  time = value!;
                                 });
-                                _durationController.text = '';
-                                _medicineNameController.text = '';
-                                numberOfDose = 0;
-                              }
-                            });
-                          },
-                          label: const Text('Add'),
-                          icon: const Icon(Icons.add),
-                        ),
-                        const SizedBox(height: 8),
-                        Wrap(
-                          alignment: WrapAlignment.start,
-                          spacing: 5,
-                          children: List<Widget>.generate(
-                            medicineList.length,
-                            (index) {
-                              return InputChip(
-                                label:
-                                    Text(medicineList[index]['medicineName']!),
-                                onDeleted: () {
-                                  setState(() {
-                                    medicineList.removeAt(index);
-                                  });
+                              },
+                              decoration: const InputDecoration(
+                                label: Text('Medication Time'),
+                                border: OutlineInputBorder(),
+                              ),
+                              value: time,
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            Wrap(
+                              spacing: 8,
+                              runSpacing: 8,
+                              children: List.generate(
+                                numberOfDose,
+                                (index) {
+                                  return Column(
+                                    children: [
+                                      TextFormField(
+                                        decoration: InputDecoration(
+                                            labelText:
+                                                'Select Dose ${index + 1} Time'),
+                                        readOnly: true,
+                                        onTap: () async {
+                                          TimeOfDay? pickedTime =
+                                              await showTimePicker(
+                                                  context: context,
+                                                  initialTime: timeOfDose);
+                                          if (pickedTime != null) {
+                                            setState(() {
+                                              _doseTimings[index] =
+                                                  '${pickedTime.hour}:${pickedTime.minute}';
+                                              timeOfDose = pickedTime;
+                                            });
+                                          }
+                                        },
+                                        controller: TextEditingController(
+                                            text:
+                                                '${timeOfDose.hour}:${timeOfDose.minute}'),
+                                      ),
+                                      const SizedBox(height: 8),
+                                      TextFormField(
+                                        keyboardType: TextInputType.multiline,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            notes[index] = value;
+                                          });
+                                        },
+                                        decoration: InputDecoration(
+                                            labelText:
+                                                'Dose ${index + 1} Notes'),
+                                      ),
+                                    ],
+                                  );
                                 },
-                                backgroundColor:
-                                    Theme.of(context).colorScheme.background,
-                              );
-                            },
-                          ),
-                        )
-                      ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 8,
+                            ),
+                            TextButton.icon(
+                              onPressed: () {
+                                setState(() {
+                                  if (_formKey.currentState!.validate()) {
+                                    medicineList.add({
+                                      'timeLineID':
+                                          widget.patient['patientTimeLineID'],
+                                      'userID': ref.read(userProvider)?.id,
+                                      'medicineType': medicineCategory[type],
+                                      'medicineName': medicineName,
+                                      'daysCount': int.parse(
+                                          _durationController.text.trim()),
+                                      'doseCount': numberOfDose,
+                                      'medicationTime': time,
+                                      'doseTimings': _doseTimings.join(', '),
+                                      'notes': notes.join(','),
+                                    });
+                                    _durationController.text = '';
+                                    //_medicineNameController.text = '';
+                                    numberOfDose = 0;
+                                  }
+                                });
+                              },
+                              label: const Text('Add'),
+                              icon: const Icon(Icons.add),
+                            ),
+                            const SizedBox(height: 8),
+                            Wrap(
+                              alignment: WrapAlignment.start,
+                              spacing: 5,
+                              children: List<Widget>.generate(
+                                medicineList.length,
+                                (index) {
+                                  return InputChip(
+                                    label: Text(
+                                        medicineList[index]['medicineName']!),
+                                    onDeleted: () {
+                                      setState(() {
+                                        medicineList.removeAt(index);
+                                      });
+                                    },
+                                    backgroundColor: Theme.of(context)
+                                        .colorScheme
+                                        .background,
+                                  );
+                                },
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
         bottomSheet: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -297,7 +323,7 @@ class _AddMedicineDialogState extends ConsumerState<AddMedicineDialog> {
                         setState(() {
                           error = true;
                         });
-                        //print(e);
+                        print(e);
                       }
                     },
               child: const Text('Add'),

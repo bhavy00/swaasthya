@@ -110,7 +110,7 @@ class _PatientInfoState extends State<PatientInfo> {
           token: widget.token,
         ));
     Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
-    Pair<String, Widget> t6 = Pair('Tests', const TestPage());
+    Pair<String, Widget> t6 = Pair('Tests', TestPage(token: widget.token, patient: patient,));
     return error
         ? const Scaffold(
             body: Center(

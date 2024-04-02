@@ -42,6 +42,7 @@ class _PatientHealthConditionFormState
                   const InputDecoration(labelText: 'Heart Disease Name'),
               keyboardType: TextInputType.multiline,
               onSaved: (value) => history.heartDiseases = value!,
+              initialValue: history.heartDiseases,
             ),
             const SizedBox(
               height: 8,
@@ -65,6 +66,7 @@ class _PatientHealthConditionFormState
                   const InputDecoration(labelText: 'Mental health condition'),
               keyboardType: TextInputType.multiline,
               onSaved: (value) => history.mentalHealth = value!,
+              initialValue: history.mentalHealth,
             ),
             const SizedBox(
               height: 8,
@@ -75,6 +77,7 @@ class _PatientHealthConditionFormState
                 const InputDecoration(labelText: 'Neurological Disorder'),
             keyboardType: TextInputType.multiline,
             onSaved: (value) => history.neurologicalDisorder,
+            initialValue: history.neurologicalDisorder,
           ),
           const SizedBox(height: 8),
           CheckboxListTile(

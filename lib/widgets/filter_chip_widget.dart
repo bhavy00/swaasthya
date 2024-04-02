@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class FilterChipClass extends StatefulWidget {
   final List<String> filters;
-  const FilterChipClass({super.key, required this.filters});
+  final Function(String) filterChange;
+  const FilterChipClass(
+      {super.key, required this.filters, required this.filterChange});
 
   @override
   State<FilterChipClass> createState() => _FilterChipClassState();
@@ -32,6 +34,9 @@ class _FilterChipClassState extends State<FilterChipClass> {
                     selectedFilter = selected ? filter : '';
                     // print(selectedFilter);
                   });
+                  if (selected) {
+                    widget.filterChange(filter);
+                  }
                 },
               );
             }).toList(),

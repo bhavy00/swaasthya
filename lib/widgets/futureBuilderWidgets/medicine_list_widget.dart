@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/utils/types_and_category.dart';
 import 'package:swaasthya/widgets/cards/medicine_card.dart';
 
 class MedicineListWidget extends StatefulWidget {
   final Future<List<dynamic>> Function() getAllMedicines;
-  const MedicineListWidget({super.key, required this.getAllMedicines});
+  final String filter;
+  const MedicineListWidget({
+    super.key,
+    required this.getAllMedicines,
+    required this.filter,
+  });
 
   @override
   State<MedicineListWidget> createState() => _MedicineListWidgetState();
@@ -21,9 +27,16 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
           //print('error ${snapshot.error}');
           return const Text('An error occured');
         } else {
-          List<dynamic>? treat = snapshot.data;
+          List<dynamic>? data = snapshot.data;
+          List<dynamic>? treat = widget.filter != 'All'
+              ? data
+                  ?.where((item) =>
+                      item['medicineType'] == medicineCategory[widget.filter])
+                  .toList()
+              : data;
           return treat?.length == 0
-              ? const Text('No medicines yet')
+              ? Text(
+                  'No ${widget.filter != 'All' ? widget.filter : 'Medicines'} yet')
               : Wrap(
                   spacing: 8,
                   runSpacing: 8,
@@ -37,7 +50,6 @@ class _MedicineListWidgetState extends State<MedicineListWidget> {
                         numberOfDoses: treatment['doseCount'],
                         duration: treatment['daysCount'],
                         notes: treatment['notes'],
-                        progress: 0,
                       );
                     },
                   ),

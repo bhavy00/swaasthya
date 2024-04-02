@@ -78,8 +78,6 @@ class _ReportsPageState extends State<ReportsPage> {
                   return reports?.length == 0
                       ? const Text('No reports yet')
                       : DataTable(
-                          columnSpacing:
-                              MediaQuery.of(context).size.width * 0.15,
                           columns: const [
                             DataColumn(
                               label: Text(

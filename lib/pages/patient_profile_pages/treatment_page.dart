@@ -15,12 +15,18 @@ class TreatmentPage extends StatefulWidget {
 }
 
 class _TreatmentPageState extends State<TreatmentPage> {
-  bool showFilter = false;
-  bool medicineAdded = false;
-  String view = 'Medicine';
+  bool showFilter = false, medicineAdded = false;
+  String view = 'Medicine', filterName = 'All';
+
   void medicineAddedCallback() {
     setState(() {
       medicineAdded = true;
+    });
+  }
+
+  void filterChangeCallBack(String value) {
+    setState(() {
+      filterName = value;
     });
   }
 
@@ -95,22 +101,27 @@ class _TreatmentPageState extends State<TreatmentPage> {
               ],
             ),
             if (showFilter) ...[
-              const FilterChipClass(filters: [
-                'All',
-                'Capsules',
-                'Syrups',
-                'Tablets',
-                'Injections',
-                'IV Line'
-              ])
+              FilterChipClass(
+                filters: const [
+                  'All',
+                  'Capsules',
+                  'Syrups',
+                  'Tablets',
+                  'Injections',
+                  'IV Line'
+                ],
+                filterChange: filterChangeCallBack,
+              )
             ],
             const SizedBox(
               height: 15,
             ),
             view == 'Medicine'
-                ? MedicineListWidget(getAllMedicines: _getAllMedicines)
+                ? MedicineListWidget(getAllMedicines: _getAllMedicines, filter: filterName,)
                 : MedicineRemindersListWidget(
-                    getAllMedicineReminders: _getAllMedicinesReminders)
+                    getAllMedicineReminders: _getAllMedicinesReminders,
+                    token: widget.token,
+                  )
           ],
         ),
       ),

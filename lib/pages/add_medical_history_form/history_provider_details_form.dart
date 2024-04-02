@@ -32,6 +32,7 @@ class _HistoryProviderDetailsFormState
                 return null;
               },
               onSaved: (newValue) => history.givenName = newValue!,
+              initialValue: history.givenName,
             ),
             const SizedBox(
               height: 8,
@@ -46,6 +47,7 @@ class _HistoryProviderDetailsFormState
                 return null;
               },
               onSaved: (newValue) => history.givenPhone = newValue!,
+              initialValue: history.givenPhone,
             ),
             const SizedBox(
               height: 8,
@@ -60,6 +62,7 @@ class _HistoryProviderDetailsFormState
                 return null;
               },
               onSaved: (newValue) => history.givenRelation = newValue!,
+              initialValue: history.givenRelation,
             ),
           ],
         ),

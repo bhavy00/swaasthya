@@ -1,18 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart';
+import 'package:swaasthya/apis/use_auth_patch.dart';
+import 'package:swaasthya/utils/providers/user_provider.dart';
 import 'package:swaasthya/utils/types_and_category.dart';
 
-class MedicineRemindersListWidget extends StatefulWidget {
+class MedicineRemindersListWidget extends ConsumerStatefulWidget {
   final Future<List<dynamic>> Function() getAllMedicineReminders;
-  const MedicineRemindersListWidget(
-      {super.key, required this.getAllMedicineReminders});
+  final String? token;
+  const MedicineRemindersListWidget({
+    super.key,
+    required this.getAllMedicineReminders,
+    this.token,
+  });
 
   @override
-  State<MedicineRemindersListWidget> createState() =>
+  ConsumerState<MedicineRemindersListWidget> createState() =>
       _MedicineRemindersListWidgetState();
 }
 
 class _MedicineRemindersListWidgetState
-    extends State<MedicineRemindersListWidget> {
+    extends ConsumerState<MedicineRemindersListWidget> {
+  bool updated = false;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -31,36 +40,74 @@ class _MedicineRemindersListWidgetState
                   spacing: 8,
                   runSpacing: 8,
                   children: List.generate(reminders?.length ?? 0, (index) {
-                    return Card(
-                      elevation: 4,
-                      margin: const EdgeInsets.all(8),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Medicine Name: ${reminders?[index]['medicineName']}',
-                              style: const TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold,),
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 12),
+                      child: Card(
+                        child: ListTile(
+                          title: Text(
+                            'Medicine Name: ${reminders?[index]['medicineName']}',
+                            style: const TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'Type: ${medicineCategory[reminders?[index]['medicineType']]}',
-                              style: const TextStyle(fontSize: 14),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Type: ${medicineCategoryByNo[reminders?[index]['medicineType']]}',
+                                style: const TextStyle(fontSize: 14),
+                              ),
+                              if (reminders?[index]['doseStatus'] == 0) ...[
+                                Text(
+                                  'Dosage Time: ${reminders?[index]['dosageTime'] != null ? DateFormat('MMM d, hh:mm a').format(DateTime.parse(reminders?[index]['dosageTime'])) : 'No time found'}',
+                                  style: const TextStyle(fontSize: 14),
+                                )
+                              ] else ...[
+                                Text(
+                                    'Given Time: ${reminders?[index]['givenTime'] != null ? DateFormat('MMM d, hh:mm a').format(DateTime.parse(reminders?[index]['givenTime'])) : 'No time found'}'),
+                                Text(
+                                    'Given By: ${reminders?[index]['firstName'] ?? ''} ${reminders?[index]['lastName'] ?? ''}')
+                              ],
+                            ],
+                          ),
+                          trailing: IconButton(
+                            onPressed: reminders?[index]['doseStatus'] == 1
+                                ? null
+                                : () async {
+                                    try {
+                                      await authPatch(
+                                        'medicineReminder/${reminders?[index]['id']}',
+                                        widget.token,
+                                        {
+                                          'userID': ref.read(userProvider)?.id,
+                                          'doseStatus': 1,
+                                        },
+                                      );
+                                      setState(() {
+                                        updated = !updated;
+                                      });
+                                    } catch (e) {
+                                      setState(() {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: const Text(
+                                              'Failed to update reminder, please try again later'),
+                                          backgroundColor: Theme.of(context)
+                                              .colorScheme
+                                              .error,
+                                        ));
+                                      });
+                                    }
+                                  },
+                            icon: Icon(
+                              Icons.check_circle,
+                              color: reminders?[index]['doseStatus'] == 1
+                                  ? Colors.green
+                                  : Colors.grey,
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '',
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              '',
-                              style: const TextStyle(fontSize: 14),
-                            ),
-                            
-                          ],
+                          ),
                         ),
                       ),
                     );

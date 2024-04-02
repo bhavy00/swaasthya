@@ -17,9 +17,9 @@ class _StatsViewPagesState extends State<StatsViewPages> {
   int _activePage = 0;
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _pages = const [
+    final List<Widget> _pages = [
       PatientWardPieChart(),
-      PatientVisitsChart(),
+      PatientVisitsChart(user: widget.user,),
       DepartmentPatientsChart()
     ];
     return Container(

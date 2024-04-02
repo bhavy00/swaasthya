@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:swaasthya/apis/use_auth_patch.dart';
 import 'package:swaasthya/apis/use_auth_post.dart';
 import 'package:swaasthya/pages/add_medical_history_form/basic_information_patient_form.dart';
 import 'package:swaasthya/pages/add_medical_history_form/history_provider_details_form.dart';
@@ -15,7 +16,15 @@ import 'package:swaasthya/utils/providers/user_provider.dart';
 class AddMedicalHistoryForm extends ConsumerStatefulWidget {
   final dynamic patient;
   final String? token;
-  const AddMedicalHistoryForm({super.key, this.patient, this.token});
+  final bool isEdit;
+  final MedicalHistory? editData;
+  const AddMedicalHistoryForm({
+    super.key,
+    this.patient,
+    this.token,
+    required this.isEdit,
+    this.editData,
+  });
 
   @override
   ConsumerState<AddMedicalHistoryForm> createState() =>
@@ -51,7 +60,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
               ? 'Yes'
               : history.lowBp
                   ? 'Yes'
-                  : '',
+                  : 'No',
           'disease': disease,
           'foodAllergy': history.foodAllergyList,
           'medicineAllergy': history.medicineAllergyList,
@@ -84,6 +93,64 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           const SnackBar(
             content:
                 Text('Failed to add medical history, please try again later'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      });
+      print(e);
+    }
+  }
+
+  void _editMedicalHistory() async {
+    try {
+      final userID = ref.read(userProvider)?.id;
+      await authPatch(
+        'history/${widget.patient['hospitalID']}/patient/${widget.patient['id']}/$userID}',
+        widget.token,
+        {
+          'patientID': widget.patient['id'],
+          'userID': userID,
+          'givenName': widget.editData?.givenName,
+          'givenPhone': widget.editData?.givenPhone,
+          'givenRelation': widget.editData?.givenRelation,
+          'bloodGroup': widget.editData?.bloodGroup,
+          'bloodPressure': widget.editData!.highBp
+              ? 'Yes'
+              : widget.editData!.lowBp
+                  ? 'Yes'
+                  : 'No',
+          'disease': disease,
+          'foodAllergy': widget.editData?.foodAllergyList,
+          'medicineAllergy': widget.editData?.medicineAllergyList,
+          'anaesthesia': widget.editData!.anesthesiaAllergy ? 'Yes' : '',
+          'meds': widget.editData?.prescribedMedicineList,
+          'selfMeds': widget.editData?.selfMedicineList,
+          'chestCondition': widget.editData?.chestCondition,
+          'neurologicalDisorder': widget.editData?.neurologicalDisorder,
+          'heartProblems': widget.editData?.heartDiseases,
+          'infections': infection,
+          'mentalHealth': widget.editData?.mentalHealth,
+          'drugs': drugs,
+          'pregnant': widget.editData!.pregnant ? 'Yes' : '',
+          'hereditaryDisease': widget.editData?.geneticDiseasesList,
+          'lumps': widget.editData!.lumps ? 'Yes' : '',
+          'cancer': widget.editData!.cancer ? 'Yes' : '',
+        },
+      );
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Medical History updated successfully'),
+            backgroundColor: Colors.lightGreen,
+          ),
+        );
+      });
+    } catch (e) {
+      setState(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                'Failed to update medical history, please try again later'),
             backgroundColor: Colors.red,
           ),
         );
@@ -152,21 +219,39 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
               if (_currentStep < 6) {
                 _currentStep++;
               } else {
-                history.printAllValues();
-                history.alcohol ? drugs += 'alcohol' : '';
-                history.tobacco ? drugs += 'tobacco' : '';
-                history.drugs ? drugs += 'drugs' : '';
-                history.diabetes ? disease += 'diabetes' : '';
-                history.lipidameia
-                    ? disease += 'Hyper Lipidaemia / Dyslipidaemia'
-                    : '';
-                history.surgery ? disease += 'Been through any Surgery' : '';
-                history.epilepsy ? disease += 'Epilepsy' : '';
-                history.bone ? disease += 'bone/joint' : '';
-                history.hiv ? infection += 'HIV' : '';
-                history.hepatitisB ? infection += 'Hepatitis B' : '';
-                history.hepatitisC ? infection += 'Hepatitis C' : '';
-                _addMedicalHistory();
+                if (widget.isEdit) {
+                  widget.editData!.alcohol ? drugs += 'alcohol' : '';
+                  widget.editData!.tobacco ? drugs += 'tobacco' : '';
+                  widget.editData!.drugs ? drugs += 'drugs' : '';
+                  widget.editData!.diabetes ? disease += 'diabetes' : '';
+                  widget.editData!.lipidameia
+                      ? disease += 'Hyper Lipidaemia / Dyslipidaemia'
+                      : '';
+                  widget.editData!.surgery
+                      ? disease += 'Been through any Surgery'
+                      : '';
+                  widget.editData!.epilepsy ? disease += 'Epilepsy' : '';
+                  widget.editData!.bone ? disease += 'bone/joint' : '';
+                  widget.editData!.hiv ? infection += 'HIV' : '';
+                  widget.editData!.hepatitisB ? infection += 'Hepatitis B' : '';
+                  widget.editData!.hepatitisC ? infection += 'Hepatitis C' : '';
+                  _editMedicalHistory();
+                } else {
+                  history.alcohol ? drugs += 'alcohol' : '';
+                  history.tobacco ? drugs += 'tobacco' : '';
+                  history.drugs ? drugs += 'drugs' : '';
+                  history.diabetes ? disease += 'diabetes' : '';
+                  history.lipidameia
+                      ? disease += 'Hyper Lipidaemia / Dyslipidaemia'
+                      : '';
+                  history.surgery ? disease += 'Been through any Surgery' : '';
+                  history.epilepsy ? disease += 'Epilepsy' : '';
+                  history.bone ? disease += 'bone/joint' : '';
+                  history.hiv ? infection += 'HIV' : '';
+                  history.hepatitisB ? infection += 'Hepatitis B' : '';
+                  history.hepatitisC ? infection += 'Hepatitis C' : '';
+                  _addMedicalHistory();
+                }
               }
             });
           }
@@ -182,7 +267,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Information provider details'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: HistoryProviderDetailsForm(
                 formkey: _formKey1,
               ),
@@ -193,7 +278,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Basic information about patient'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: BasicInformationPatientForm(
                 formKey: _formKey2,
               ),
@@ -204,7 +289,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Patient\'s Allergies'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: PatientAllergyForm(
                 formKey: _formKey3,
               ),
@@ -215,7 +300,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Patient\'s medication history'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: PatientMedicationForm(
                 formKey: _formKey4,
               ),
@@ -226,7 +311,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Patient\'s health conditions'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: PatientHealthConditionForm(
                 formKey: _formKey5,
               ),
@@ -237,7 +322,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Patient\'s addictions and infections'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: PatientAddictionInfectionForm(
                 formKey: _formKey6,
               ),
@@ -248,7 +333,7 @@ class _AddMedicalHistoryFormState extends ConsumerState<AddMedicalHistoryForm> {
           Step(
             title: const Text('Miscellaneous'),
             content: MedicalHistoryDataHolder(
-              history: history,
+              history: widget.isEdit ? widget.editData! : history,
               child: MiscInfoPatient(
                 formKey: _formKey7,
               ),
