@@ -20,3 +20,25 @@ Map<int, String> medicineCategoryByNo = {
   5: 'Iv Line',
 };
 
+Map<int, String> dischargeReasonByNo = {
+  1: 'Success',
+  2: 'DOPR',
+  3: 'Abscond',
+  4: 'Left',
+  5: 'Death',
+};
+
+Map<String, int> dischargeType = {
+  'Discharge Success': 1,
+  'DOPR': 2,
+  'Absconded': 3,
+  'Left against medical advice': 4,
+  'Death': 5
+};
+
+Map<String, int> transferType = {
+    'Internal': 1,
+  'External': 2,
+  'Emergency': 3,
+  'Non-Emergency': 4,
+};

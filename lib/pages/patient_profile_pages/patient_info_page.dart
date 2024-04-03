@@ -47,7 +47,7 @@ class _PatientInfoState extends State<PatientInfo> {
       //print(patient);
     } catch (e) {
       error = true;
-      //print(e);
+      print(e);
     }
   }
 
@@ -67,7 +67,10 @@ class _PatientInfoState extends State<PatientInfo> {
     if (value == 'transfer') {
       Navigator.of(context).push(
         MaterialPageRoute(builder: (context) {
-          return const TransferPatientForm();
+          return TransferPatientForm(
+            token: widget.token,
+            patient: patient,
+          );
         }),
       );
     } else if (value == 'discharge') {
@@ -110,7 +113,12 @@ class _PatientInfoState extends State<PatientInfo> {
           token: widget.token,
         ));
     Pair<String, Widget> t5 = Pair('Prescriptions', const PrescriptionPage());
-    Pair<String, Widget> t6 = Pair('Tests', TestPage(token: widget.token, patient: patient,));
+    Pair<String, Widget> t6 = Pair(
+        'Tests',
+        TestPage(
+          token: widget.token,
+          patient: patient,
+        ));
     return error
         ? const Scaffold(
             body: Center(

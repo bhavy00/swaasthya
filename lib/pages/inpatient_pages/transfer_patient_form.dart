@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:swaasthya/apis/use_auth_fetch.dart';
+import 'package:swaasthya/apis/use_auth_patch.dart';
+import 'package:swaasthya/utils/types_and_category.dart';
 
 class TransferPatientForm extends StatefulWidget {
-  const TransferPatientForm({super.key});
+  final String? token;
+  final dynamic patient;
+  const TransferPatientForm({
+    super.key,
+    this.token,
+    this.patient,
+  });
 
   @override
   State<TransferPatientForm> createState() => _TransferPatientFormState();
@@ -10,16 +19,45 @@ class TransferPatientForm extends StatefulWidget {
 class _TransferPatientFormState extends State<TransferPatientForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String _transferType = 'External';
-  String _hospitalName = '';
-  String _reason = '';
-  int _oxygen = 0;
-  double _temperature = 0.0;
-  int _pulse = 0;
-  int _bloodPressureHigh = 0;
-  int _bloodPressureLow = 0;
-  String _relativeName = '';
-  String _ward = '';
-  String _doctorName = '';
+  String? _hospitalName = '';
+  String? _reason = '';
+  int? _oxygen = 0;
+  double? _temperature = 0.0;
+  int? _pulse = 0;
+  int? _bloodPressureHigh = 0;
+  int? _bloodPressureLow = 0;
+  String? _relativeName = '';
+  int? wardID = 0;
+  String? _doctorName = '';
+  int? departmentID = 1;
+  bool load = false;
+  List<dynamic> doctors = [];
+  List<dynamic> wards = [];
+
+  Future<void> _getAllDoctors() async {
+    final data = await authFetch(
+        'user/${widget.patient['hospitalID']}/list/4001', widget.token);
+    setState(() {
+      doctors = data['users'];
+      departmentID = doctors[0]['departmentID'];
+    });
+  }
+
+  Future<void> _getAllWards() async {
+    final data =
+        await authFetch('ward/${widget.patient['hospitalID']}', widget.token);
+    setState(() {
+      wards = data['wards'];
+      wardID = wards[0]['id'];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getAllDoctors();
+    _getAllWards();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,30 +102,56 @@ class _TransferPatientFormState extends State<TransferPatientForm> {
               const SizedBox(height: 12.0),
               if (_transferType == 'Internal') ...[
                 const SizedBox(height: 12.0),
-                TextFormField(
+                DropdownButtonFormField<Map<String, dynamic>>(
+                  items:
+                      wards.map<DropdownMenuItem<Map<String, dynamic>>>((item) {
+                    return DropdownMenuItem<Map<String, dynamic>>(
+                      value: item,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          '${item['name']}',
+                        ),
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    _ward = value;
+                    setState(() {
+                      wardID = value?['id'];
+                    });
                   },
-                  decoration: const InputDecoration(labelText: 'Ward'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter ward';
-                    }
-                    return null;
-                  },
+                  decoration: const InputDecoration(
+                    label: Text('Ward'),
+                    border: OutlineInputBorder(),
+                  ),
+                  value: wards[0],
                 ),
                 const SizedBox(height: 12.0),
-                TextFormField(
+                DropdownButtonFormField<Map<String, dynamic>>(
+                  items: doctors
+                      .map<DropdownMenuItem<Map<String, dynamic>>>((item) {
+                    return DropdownMenuItem<Map<String, dynamic>>(
+                      value: item,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Text(
+                          '${item['firstName']} ${item['lastName']}',
+                        ),
+                      ),
+                    );
+                  }).toList(),
                   onChanged: (value) {
-                    _doctorName = value;
+                    setState(() {
+                      _doctorName =
+                          '${value?['firstName']} ${value?['lastName']}';
+                      departmentID = value?['departmentID'];
+                    });
                   },
-                  decoration: const InputDecoration(labelText: 'Doctor Name'),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter doctor name';
-                    }
-                    return null;
-                  },
+                  decoration: const InputDecoration(
+                    label: Text('Doctor\'s Name'),
+                    border: OutlineInputBorder(),
+                  ),
+                  value: doctors[0],
                 ),
               ],
               if (_transferType != 'Internal') ...[
@@ -207,26 +271,47 @@ class _TransferPatientFormState extends State<TransferPatientForm> {
               ),
               const SizedBox(height: 12.0),
               ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   if (_formKey.currentState!.validate()) {
-                    // Process the form data
-                    // You can print or save the form data here
-                    print('Transfer Type: $_transferType');
-                    print('Hospital Name: $_hospitalName');
-                    print('Reason: $_reason');
-                    print('Oxygen: $_oxygen');
-                    print('Temperature: $_temperature');
-                    print('Pulse: $_pulse');
-                    print('Blood Pressure High: $_bloodPressureHigh');
-                    print('Blood Pressure Low: $_bloodPressureLow');
-                    print('Relative Name: $_relativeName');
-                    if (_transferType == 'Internal') {
-                      print('Ward: $_ward');
-                      print('Doctor Name: $_doctorName');
+                    try {
+                      await authPatch(
+                        'patient/${widget.patient['hospitalID']}/patients/${widget.patient['id']}/transfer',
+                        widget.token,
+                        {
+                          'wardID': wardID,
+                          'transferType': transferType[_transferType],
+                          'bp': '$_bloodPressureHigh/$_bloodPressureLow',
+                          'temp': _temperature,
+                          'oxygen': _oxygen,
+                          'pulse': _pulse,
+                          'hospitalName': _hospitalName,
+                          'reason': _reason,
+                          'relativeName': _relativeName,
+                          'departmentID': departmentID,
+                          'userID': widget.patient['userID'],
+                        },
+                      );
+                      setState(() {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(
+                          content: Text('Successfully transfered patient'),
+                          backgroundColor: Colors.lightGreen,
+                        ));
+                      });
+                    } catch (e) {
+                      setState(() {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: const Text('Failed to transfer patient'),
+                          backgroundColor: Theme.of(context).colorScheme.error,
+                        ));
+                      });
+                      print(e);
                     }
                   }
                 },
-                child: Text('Submit'),
+                child: load
+                    ? const CircularProgressIndicator()
+                    : const Text('Submit'),
               ),
             ],
           ),

@@ -3,9 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swaasthya/pages/emergency_pages/emergency_page.dart';
 import 'package:swaasthya/pages/home_page/home_page.dart';
 import 'package:swaasthya/pages/inpatient_pages/in_patient_list_page.dart';
-import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
+import 'package:swaasthya/pages/ot_page.dart';
 import 'package:swaasthya/pages/outpatient_pages/opd_page.dart';
-import 'package:swaasthya/utils/patient_list.dart';
 import 'package:swaasthya/utils/providers/user_provider.dart';
 
 class WelcomePage extends ConsumerStatefulWidget {
@@ -27,9 +26,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       InPatientListPage(
         userData: userData,
       ),
-      DischargePatientPage(
-        patientList: outPatientList,
-      ),
+      const OTPage(),
       OPDPage(userData: userData,),
       EmergencyPage(
         userData: userData,
@@ -62,7 +59,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.outbox),
-              label: 'Discharged',
+              label: 'OT',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.outbond),

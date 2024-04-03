@@ -5,10 +5,9 @@ import 'package:swaasthya/apis/use_auth_fetch.dart';
 import 'package:swaasthya/pages/home_page/notification_page.dart';
 import 'package:swaasthya/pages/home_page/user_profile_page.dart';
 import 'package:swaasthya/pages/hubs_page.dart';
-import 'package:swaasthya/pages/inpatient_pages/discharge_patient_page.dart';
+import 'package:swaasthya/pages/discharge_pages/discharge_patient_page.dart';
 import 'package:swaasthya/pages/login_page.dart';
 import 'package:swaasthya/utils/classes/user_data_class.dart';
-import 'package:swaasthya/utils/patient_list.dart';
 import 'package:swaasthya/utils/providers/logged_in_provider.dart';
 import 'package:swaasthya/utils/providers/user_provider.dart';
 import 'package:swaasthya/widgets/stats_view_pages.dart';
@@ -94,7 +93,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return DischargePatientPage(patientList: outPatientList);
+                      return DischargePatientPage(userData: widget.user,);
                     }));
                   },
                   child: const Text('Discharged Patient'),
@@ -104,7 +103,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   onTap: () {
                     Navigator.of(context)
                         .push(MaterialPageRoute(builder: (context) {
-                      return DischargePatientPage(patientList: outPatientList);
+                      return DischargePatientPage();
                     }));
                   },
                   child: const Text('Billing'),

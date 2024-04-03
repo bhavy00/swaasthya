@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/apis/use_auth_post.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
+import 'package:swaasthya/utils/types_and_category.dart';
 import 'package:intl/intl.dart';
-
-// utility
-Map<String, int> dischargeType = {
-  'Discharge Success': 1,
-  'DOPR': 2,
-  'Absconded': 3,
-  'Left against medical advice': 4,
-  'Death': 5
-};
 
 class DischargePatientForm extends StatefulWidget {
   final String? token;
