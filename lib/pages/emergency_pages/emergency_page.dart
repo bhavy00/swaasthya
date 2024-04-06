@@ -19,14 +19,14 @@ class _EmergencyPageState extends State<EmergencyPage> {
   void _fetchPatientList() async {
     try {
       final data = await authFetch(
-          'patient/${widget.userData?.hospitalID}/patients/recent/2?role=${widget.userData?.role}&userID=${widget.userData?.id}',
+          'patient/${widget.userData?.hospitalID}/patients/recent/3?role=${widget.userData?.role}&userID=${widget.userData?.id}',
           widget.userData?.token);
       patientList = data['patients'];
     } catch (e) {
       setState(() {
         hasError = true;
       });
-      print(e);
+      //print(e);
     }
   }
 

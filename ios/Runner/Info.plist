@@ -35,7 +35,10 @@
 <string>To allow user to capture profile photo</string>
 <key>NSDocumentPickerUsageDescription</key>
 <string>To allow user to upload documents</string>
-
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowedArbitraryLoads</key> <true/>
+	</dict>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>

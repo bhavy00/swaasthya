@@ -19,14 +19,14 @@ class _OPDPageState extends State<OPDPage> {
   void _fetchPatientList() async {
     try {
       final data = await authFetch(
-          'patient/${widget.userData?.hospitalID}/patients/recent/2?role=${widget.userData?.role}&userID=${widget.userData?.id}',
+          'patient/${widget.userData?.hospitalID}/patients/recent/1?role=${widget.userData?.role}&userID=${widget.userData?.id}',
           widget.userData?.token);
       patientList = data['patients'];
     } catch (e) {
       setState(() {
         hasError = true;
       });
-      print(e);
+      //print(e);
     }
   }
 
