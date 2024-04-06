@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:swaasthya/pages/login_page.dart';
 import 'package:swaasthya/pages/welcome_page.dart';
-import 'package:swaasthya/utils/patient_list.dart';
 import 'package:swaasthya/theme/app_theme.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swaasthya/utils/providers/logged_in_provider.dart';
 
 void main() {
-  fillPatient();
-  fillOutPatient();
   runApp(
     const ProviderScope(
       child: MyApp(),
